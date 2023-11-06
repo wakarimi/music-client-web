@@ -1,193 +1,159 @@
 <template>
-  <div class="playback" ref="playbackContainer">
-
-    <div class="cover-and-info">
-      <div class="album-cover">
-        <img :src="coverImage" alt="Обложка">
-      </div>
-      <div class="track-info" :style="{ fontSize: computedFontSize + 'px' }">
-        <h2>Ultraviolet Stream</h2>
-        <h4>Bobstor</h4>
+  <div class="container">
+    <div class="column column-tabs">
+      <!-- Компоненты вкладок - вертикальный список кнопок -->
+      <ul class="tabs-list">
+        <li>
+          <GroupGategory buttonText="Сейчас играет">
+              <template #image>
+                <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
+              </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Последние">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
+            </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Альбомы">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
+            </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Исполнители">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения">
+            </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Жанры">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения">
+            </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Дорожки">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения">
+            </template>
+          </GroupGategory>
+          <GroupGategory buttonText="Файлы">
+            <template #image>
+              <img src="@/assets/cover.png" alt="Описание изображения">
+            </template>
+          </GroupGategory>
+        </li>
+      </ul>
+    </div>
+    <div class="column column-content">
+      <!-- Компоненты сетки - сетка кнопок -->
+      <div class="grid">
+        <button type="button">Обложка 1</button>
+        <button type="button">Обложка 2</button>
+        <button type="button">Обложка 3</button>
+        <button type="button">Обложка 1</button>
+        <button type="button">Обложка 2</button>
+        <button type="button">Обложка 3</button>
+        <button type="button">Обложка 1</button>
+        <button type="button">Обложка 2</button>
+        <button type="button">Обложка 3</button>
+        <button type="button">Обложка 1</button>
+        <button type="button">Обложка 2</button>
+        <button type="button">Обложка 3</button>
+        <!-- ... Добавьте больше кнопок, они автоматически выстроятся в сетку -->
       </div>
     </div>
-
-    <div class="control-panel-background">
-      <div class="playback-control-panel">
-        <button @click="togglePlay">
-          <img :src="isPlaying ? pauseIcon : playIcon" :alt="isPlaying ? 'Play' : 'Pause'">
-        </button>
-        <button @click="nextTrack">
-          <img :src="nextIcon" alt="nextTrack">
-        </button>
-
-        <span class="current-time">00:00</span>
-        <input type="range" class="track-slider" min="0" max="100">
-        <span class="total-time">04:20</span>
-        <input type="range" class="volume-slider" min="0" max="100">
-        <button @click="togglePlaybackMode">
-          <img :src="playIcon" alt="togglePlaybackMode">
-        </button>
-        <button class="bth-toggle-control-panel" @click="toggleControlPanel">
-          <img :src="playIcon" alt="toggleControlPanel">
-        </button>
-      </div>
+    <div class="column column-custom">
+      <!-- Кастомные компоненты - вертикальный список кнопок -->
+      <ul class="custom-list">
+        <li><button type="button">Пользовательская кнопка 1</button></li>
+        <li><button type="button">Пользовательская кнопка 2</button></li>
+        <li><button type="button">Пользовательская кнопка 3</button></li>
+        <!-- ... Добавьте больше кнопок по мере необходимости -->
+      </ul>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref} from 'vue';
-import playIcon from "@/assets/play-icon.svg";
-import pauseIcon from "@/assets/pause-icon.svg";
-import nextIcon from "@/assets/next-icon.svg";
-import coverImage from "@/assets/cover.png";
-
-const isPlaying = ref(false);
-
-const togglePlay = () => {
-  isPlaying.value = !isPlaying.value;
-};
-
-const nextTrack = () => {
-
-};
-
-const togglePlaybackMode = () => {
-
-};
-
-const emit = defineEmits(['toggleVisibility']);
-const toggleControlPanel = () => {
-  // Эмитируем событие, когда функция вызывается
-  emit('toggleVisibility');
-};
-
-const computedFontSize = ref<number>(16);
-const playbackContainer = ref<HTMLElement | null>(null);
-
-const calculateFontSize = () => {
-  if (playbackContainer.value) {
-    const containerHeight = playbackContainer.value.clientHeight;
-    const scaleFactor = 20; // Масштабный коэффициент
-    computedFontSize.value = containerHeight / scaleFactor;
-  }
-};
-
-let resizeObserver: ResizeObserver | null = null;
-
-onMounted(() => {
-  playbackContainer.value = document.querySelector('.playback');
-  if (playbackContainer.value) {
-    calculateFontSize();
-    resizeObserver = new ResizeObserver(calculateFontSize);
-    resizeObserver.observe(playbackContainer.value);
-  }
-});
-
-onUnmounted(() => {
-  if (resizeObserver && playbackContainer.value) {
-    resizeObserver.unobserve(playbackContainer.value);
-  }
-});
+// Здесь TypeScript логика, если она вам понадобится
+import GroupGategory from "@/components/GroupGategory.vue";
 </script>
 
 <style scoped>
-
-.playback {
+.container {
   display: flex;
-  box-sizing: border-box;
-  flex-direction: column;
-  position: relative;
-  justify-content: space-between;
+  height: 100%; /* Задаем высоту */
 }
 
-.cover-and-info {
+.column {
+  padding: 10px; /* Отступы внутри каждого столбца */
+  overflow: auto; /* Прокрутка при переполнении */
+}
+
+.column-tabs,
+.column-custom {
   display: flex;
-  justify-content: space-between;
-  height: 96%; /* Высота родительского элемента должна быть определена */
+  flex-direction: column; /* Для вертикального списка кнопок */
 }
 
-.album-cover {
-  width: 50%;
-  height: 60%;
-  margin-right: auto; /* Отодвигаем вправо */
-  display: flex;
-  justify-content: flex-end; /* Выравниваем изображение по правому краю своей половины */
-  align-items: center;
-  align-self: center; /* Центрируем блок по вертикали */
+.tabs-list,
+.custom-list {
+  list-style: none; /* Убираем маркеры списка */
+  padding: 0; /* Убираем внутренние отступы */
 }
 
-.album-cover img {
-  border-radius: 1vh;
-  max-width: 100%; /* Изображение займет всю ширину блока .album-cover */
-  max-height: 100%; /* Теперь высота изображения будет ограничена высотой .album-cover */
-  height: auto; /* Высота будет масштабироваться автоматически */
-  object-fit: contain; /* Изображение сохранит свои пропорции */
+.tabs-list li,
+.custom-list li {
+  margin-bottom: 5px; /* Отступ между кнопками */
 }
 
-.track-info {
-  width: 50%;
-  margin-left: auto; /* Отодвигаем влево */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Центрируем содержимое по вертикали */
-  padding-left: 2ex; /* Отступ слева, чтобы текст не прилипал к краю */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Сетка с авто-заполнением и минимальной шириной для кнопок */
+  grid-gap: 10px; /* Отступы между кнопками в сетке */
 }
 
-h2, h4 {
-  margin: 0; /* Убрать стандартные отступы для заголовков */
-  padding: 0; /* Убрать стандартные отступы для заголовков */
+.button {
+  text-align: center; /* Выравнивание текста внутри кнопки */
+  padding: 5px; /* Отступ внутри кнопки */
+  border: 1px solid #ccc; /* Рамка вокруг кнопки */
+  background-color: #f8f8f8; /* Фон кнопки */
+  cursor: pointer; /* Курсор в виде руки при наведении */
 }
 
-.control-panel-background {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4vh; /* Высоту можно подстроить под ваш дизайн */
-  background-color: rgba(0, 0, 0, 0.2); /* Полупрозрачный черный фон */
+.button:hover {
+  background-color: #e8e8e8; /* Фон кнопки при наведении */
 }
 
-.playback-control-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  align-self: stretch; /* Растянуть на всю ширину родителя */
-  margin-top: auto; /* Прижать к низу */
+.column-tabs {
+  width: 15%; /* Ширина для столбца вкладок */
 }
 
-.track-slider {
-  flex-grow: 1; /* Позволяет ползунку растянуться на доступное пространство */
+.column-content {
+  width: 55%; /* Ширина для столбца с контентом */
 }
 
-.volume-slider {
-  width: 100px; /* Задаем фиксированную ширину для ползунка громкости */
+.column-custom {
+  width: 30%; /* Ширина для кастомного столбца */
 }
 
-.current-time,
-.total-time {
-  white-space: nowrap; /* Не даем тексту переноситься на следующую строку */
+.grid button {
+  position: relative; /* Для позиционирования псевдоэлемента */
+  width: calc(300% / 3); /* 2 раза шире, делённое на количество кнопок в ряду */
+  padding: 0; /* Убираем стандартные отступы кнопки */
+  overflow: hidden; /* Обрезаем содержимое, если выйдет за рамки */
 }
 
-.playback-control-panel button {
-  background: none; /* Убрать фон кнопки */
-  border: none; /* Убрать границы кнопки */
-  padding: 0; /* Убрать внутренние отступы */
-  margin: 0;
-  cursor: pointer; /* Изменить курсор на указатель */
-  height: 100%; /* Растягиваем кнопку на всю высоту контейнера */
-  aspect-ratio: 1; /* Соотношение ширины к высоте кнопки, 1 означает квадрат */
-}
-
-/* Так как кнопка теперь может быть больше по размеру, изображению внутри необходимо указать максимальные размеры */
-.playback-control-panel button img {
+.grid button::before {
+  content: '';
   display: block;
-  padding: 0; /* Убрать внутренние отступы */
-  margin: 0;
-  max-width: 100%; /* Изображение будет занимать максимум 100% ширины кнопки */
-  max-height: 100%; /* Изображение будет занимать максимум 100% высоты кнопки */
-  object-fit: contain; /* Убедитесь, что изображение сохраняет свои пропорции */
+  padding-top: 100%; /* Соотношение сторон 1:1 для высоты */
 }
+
+.grid button > span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Ваш текст или содержимое будет здесь */
+}
+
 </style>
