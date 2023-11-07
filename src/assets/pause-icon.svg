@@ -30,7 +30,7 @@
      showguides="true"
      inkscape:lockguides="false"
      inkscape:zoom="1"
-     inkscape:cx="319.5"
+     inkscape:cx="316.5"
      inkscape:cy="267"
      inkscape:window-width="1920"
      inkscape:window-height="1056"
@@ -104,11 +104,10 @@
          style="stop-color:#8cd2f2;stop-opacity:1;"
          offset="0"
          id="stop30937" /></linearGradient></defs><path
-     style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:16.9333;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-     d="m 45.772916,40.216666 v 55.033333 l 4.233333,0 V 40.216666 Z"
+     d="M 52.513496,41.09862 V 94.368044 M 82.953168,41.09862 v 53.269424"
+     stroke="#000000"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
      id="path1"
-     sodipodi:nodetypes="ccccc" /><path
-     style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:16.9333;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-     d="M 89.693749,40.216666 V 95.249999 H 85.460416 V 40.216666 Z"
-     id="path2"
-     sodipodi:nodetypes="ccccc" /></svg>
+     style="fill:none;stroke:#ffffff;stroke-width:8.81946;stroke-dasharray:none;stroke-opacity:1" /></svg>

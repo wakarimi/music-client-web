@@ -1,80 +1,49 @@
 <template>
   <div class="container">
     <div class="column column-tabs">
-      <!-- Компоненты вкладок - вертикальный список кнопок -->
-      <ul class="tabs-list">
-        <li>
-          <GroupGategory buttonText="Сейчас играет">
-              <template #image>
-                <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
-              </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Последние">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
-            </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Альбомы">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения" class="slot-image">
-            </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Исполнители">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения">
-            </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Жанры">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения">
-            </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Дорожки">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения">
-            </template>
-          </GroupGategory>
-          <GroupGategory buttonText="Файлы">
-            <template #image>
-              <img src="@/assets/cover.png" alt="Описание изображения">
-            </template>
-          </GroupGategory>
-        </li>
-      </ul>
+      <!-- Слушаем событие change-panel и вызываем метод changePanel -->
+      <CategoryPanel @change-panel="changePanel" />
     </div>
     <div class="column column-content">
-      <!-- Компоненты сетки - сетка кнопок -->
-      <div class="grid">
-        <button type="button">Обложка 1</button>
-        <button type="button">Обложка 2</button>
-        <button type="button">Обложка 3</button>
-        <button type="button">Обложка 1</button>
-        <button type="button">Обложка 2</button>
-        <button type="button">Обложка 3</button>
-        <button type="button">Обложка 1</button>
-        <button type="button">Обложка 2</button>
-        <button type="button">Обложка 3</button>
-        <button type="button">Обложка 1</button>
-        <button type="button">Обложка 2</button>
-        <button type="button">Обложка 3</button>
-        <!-- ... Добавьте больше кнопок, они автоматически выстроятся в сетку -->
-      </div>
+      <!-- Динамически изменяемый компонент -->
+      <component :is="currentPanel" />
     </div>
     <div class="column column-custom">
-      <!-- Кастомные компоненты - вертикальный список кнопок -->
-      <ul class="custom-list">
-        <li><button type="button">Пользовательская кнопка 1</button></li>
-        <li><button type="button">Пользовательская кнопка 2</button></li>
-        <li><button type="button">Пользовательская кнопка 3</button></li>
-        <!-- ... Добавьте больше кнопок по мере необходимости -->
-      </ul>
+      <PlaybackPanel />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Здесь TypeScript логика, если она вам понадобится
-import GroupGategory from "@/components/GroupGategory.vue";
+import CategoryPanel from "@/components/CategoryPanel.vue";
+import AlbumPanel from "@/components/AlbumPanel.vue";
+import ArtistPanel from "@/components/ArtistPanel.vue";
+import PlaybackPanel from "@/components/PlaybackPanel.vue";
+import {defineComponent, ref} from "vue";
+
+// Определите тип для сопоставления имен с компонентами
+type PanelComponents = {
+  [key: string]: ReturnType<typeof defineComponent>;
+};
+
+// Создайте объект сопоставления с явным типом
+const panels: PanelComponents = {
+  'Исполнители': ArtistPanel, // Предполагаем, что ArtistPanel это компонент, определенный через defineComponent
+  'Альбомы': AlbumPanel, // и так далее для других компонентов
+  // ... остальные компоненты ...
+};
+
+const currentPanel = ref<ReturnType<typeof defineComponent>>(AlbumPanel);
+
+function changePanel(panelName: string) {
+  // Проверка, что panelName действительно существует в объекте panels
+  if (panelName in panels) {
+    currentPanel.value = panels[panelName];
+  } else {
+    throw new Error(`Panel ${panelName} is not defined`);
+  }
+}
+
 </script>
 
 <style scoped>
@@ -105,12 +74,6 @@ import GroupGategory from "@/components/GroupGategory.vue";
   margin-bottom: 5px; /* Отступ между кнопками */
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Сетка с авто-заполнением и минимальной шириной для кнопок */
-  grid-gap: 10px; /* Отступы между кнопками в сетке */
-}
-
 .button {
   text-align: center; /* Выравнивание текста внутри кнопки */
   padding: 5px; /* Отступ внутри кнопки */
@@ -128,11 +91,11 @@ import GroupGategory from "@/components/GroupGategory.vue";
 }
 
 .column-content {
-  width: 55%; /* Ширина для столбца с контентом */
+  width: 60%; /* Ширина для столбца с контентом */
 }
 
 .column-custom {
-  width: 30%; /* Ширина для кастомного столбца */
+  width: 25%; /* Ширина для кастомного столбца */
 }
 
 .grid button {
@@ -156,4 +119,7 @@ import GroupGategory from "@/components/GroupGategory.vue";
   /* Ваш текст или содержимое будет здесь */
 }
 
+.column:not(:last-child) {
+  border-right: 2px solid #F5F1ED; /* Добавляет линию справа от каждого столбца, кроме последнего */
+}
 </style>

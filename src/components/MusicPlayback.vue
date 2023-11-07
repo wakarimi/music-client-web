@@ -28,7 +28,7 @@
           <img :src="replayIcon" alt="togglePlaybackMode">
         </button>
         <button class="btn-toggle-control-panel" @click="toggleControlPanel">
-          <img :src="toggleControlIcon" alt="toggleControlPanel" :class="{ 'rotated': isVisible }">
+          <img :src="isVisible ? maximizeIcon : minimizeIcon" alt="toggleControlPanel">
         </button>
       </div>
     </div>
@@ -42,7 +42,8 @@ import playIcon from "@/assets/play-icon.svg";
 import pauseIcon from "@/assets/pause-icon.svg";
 import nextIcon from "@/assets/next-icon.svg";
 import replayIcon from "@/assets/replay-icon.svg";
-import toggleControlIcon from "@/assets/toggle-control-icon.svg";
+import maximizeIcon from "@/assets/maximize-icon.svg"
+import minimizeIcon from "@/assets/minimize-icon.svg"
 import coverImage from "@/assets/cover.png";
 
 const isPlaying = ref(false);
