@@ -6,7 +6,6 @@
         :button-text="album.title"
         class="tab-item"
     >
-      {{ console.log("+") }}
       <template #image>
         <img :src="getCover(album)" :alt="album.title">
       </template>
@@ -40,7 +39,7 @@ const getCover = (album: AlbumGetAll): string => {
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(20vh, 1fr));
   grid-gap: 2vh;
 }
 </style>
