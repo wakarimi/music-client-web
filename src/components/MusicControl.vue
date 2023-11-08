@@ -20,6 +20,7 @@ import AlbumPanel from "@/components/AlbumPanel.vue";
 import ArtistPanel from "@/components/ArtistPanel.vue";
 import PlaybackPanel from "@/components/PlaybackPanel.vue";
 import {defineComponent, ref} from "vue";
+import DirectoryMain from "@/components/directories/DirectoryMain.vue";
 
 // Определите тип для сопоставления имен с компонентами
 type PanelComponents = {
@@ -30,6 +31,7 @@ type PanelComponents = {
 const panels: PanelComponents = {
   'Исполнители': ArtistPanel, // Предполагаем, что ArtistPanel это компонент, определенный через defineComponent
   'Альбомы': AlbumPanel, // и так далее для других компонентов
+  "Файлы": DirectoryMain,
   // ... остальные компоненты ...
 };
 
@@ -53,7 +55,6 @@ function changePanel(panelName: string) {
 }
 
 .column {
-  padding: 10px; /* Отступы внутри каждого столбца */
   overflow: auto; /* Прокрутка при переполнении */
 }
 
