@@ -1,11 +1,23 @@
 <template>
-  <button class="path-item-button">
+  <button class="path-item-button" @click="emitDirectory(attachedDirId)">
     <slot name="name"></slot>
   </button>
 </template>
 
 <script setup lang="ts">
+defineProps({
+  buttonText: String,
+  attachedDirId: {
+    type: Number,
+    required: true
+  },
+});
 
+const emit = defineEmits(['change-directory']);
+
+function emitDirectory(dirId: number) {
+  emit('change-directory', dirId);
+}
 </script>
 
 <style scoped>

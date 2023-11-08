@@ -10,7 +10,13 @@ export interface RootDirsGetAll {
 }
 
 export interface DirectoryContent {
-    dirs: Directory[]
+    dirs: Directory[];
+}
+
+export interface DirectoryOne {
+    dirId: number;
+    name: string;
+    absolutePath: string;
 }
 
 const apiClient = axios.create({
@@ -18,6 +24,10 @@ const apiClient = axios.create({
 });
 
 export const DirService = {
+    async getDir(dirId: number): Promise<DirectoryOne> {
+        const response = await apiClient.get('/dirs/' + dirId);
+        return response.data as DirectoryOne;
+    },
     async getRootDirs(): Promise<RootDirsGetAll> {
         const response = await apiClient.get('/roots');
         return response.data as RootDirsGetAll;

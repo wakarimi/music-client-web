@@ -1,33 +1,13 @@
 <template>
   <div class="directory-header">
-    <DirectoryPanelPathItem>
+    <DirectoryPanelPathItem
+      v-for="pathItem in pathItems"
+      :key="pathItem.dirId"
+      :attached-dir-id="pathItem.dirId"
+      @change-directory="emitDirectory"
+    >
       <template #name>
-        Файлы
-      </template>
-    </DirectoryPanelPathItem>
-    <div class="path-item-separator">
-      /
-    </div>
-    <DirectoryPanelPathItem>
-      <template #name>
-        Music
-      </template>
-    </DirectoryPanelPathItem>
-    <div class="path-item-separator">
-      /
-    </div>
-    <DirectoryPanelPathItem>
-      <template #name>
-        Аниме
-      </template>
-    </DirectoryPanelPathItem>
-
-    <div class="path-item-separator">
-      /
-    </div>
-    <DirectoryPanelPathItem>
-      <template #name>
-        Berserk
+        {{ pathItem.name }}
       </template>
     </DirectoryPanelPathItem>
     <div class="control-buttons">
@@ -43,9 +23,27 @@
 
 <script setup lang="ts">
 import DirectoryPanelPathItem from "@/components/directories/DirectoryHeaderPathItem.vue";
-
 import addIcon from "@/assets/control/add.svg"
 import playIcon from "@/assets/control/play.svg"
+import type {PropType} from "vue";
+
+type PathItem = {
+  name: string;
+  dirId: number;
+};
+
+defineProps({
+  pathItems: {
+    type: Array as PropType<PathItem[]>,
+    required: true
+  },
+});
+
+const emit = defineEmits(['change-directory']);
+
+function emitDirectory(dirId: number) {
+  emit('change-directory', dirId);
+}
 </script>
 
 <style scoped>
@@ -57,8 +55,9 @@ import playIcon from "@/assets/control/play.svg"
   gap: 4px;
   height: 30px;
   background-color: #FAF8F6;
-  border-color: #FF0000;
-  border-width: 5px;
+  border-color: #EBE3DB;
+  border-width: 1px;
+  border-style: solid;
   padding: 10px;
 }
 

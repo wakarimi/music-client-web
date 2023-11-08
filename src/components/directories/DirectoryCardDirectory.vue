@@ -19,7 +19,10 @@ import directoryIcon from "@/assets/default/directory.svg"
 
 defineProps({
   buttonText: String,
-  attachedDirId: Number,
+  attachedDirId: {
+    type: Number,
+    required: true
+  },
 });
 
 const emit = defineEmits(['change-directory']);

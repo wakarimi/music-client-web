@@ -1,7 +1,8 @@
 <template>
   <div class="container">
 
-    <DirectoryHeader>
+    <DirectoryHeader :pathItems="pathItems"
+                     @changeDirectory="changeDirectory">
     </DirectoryHeader>
 
     <div class="panel">
@@ -32,6 +33,10 @@ let currentDirId = ref<number | null>(null);
 let rootDirs = ref<Directory[]>([]);
 let currentDirs = ref<Directory[]>([]);
 
+const pathItems = ref([
+  { name: 'Файлы', dirId: 0 },
+]);
+
 onMounted(async () => {
   await dirStore.fetchRootDirs();
 });
@@ -47,7 +52,35 @@ watch(() => dirStore.rootDirs, (newDirs) => {
 });
 
 async function changeDirectory(dirId: number) {
-  currentDirId.value = dirId
+  if (dirId == 0) {
+    currentDirId.value = null
+    pathItems.value.splice(1);
+    return
+  }
+
+  if (alreadyInList(dirId)) {
+    for (let i = 0; i < pathItems.value.length; ++i) {
+      if (dirId == pathItems.value[i].dirId) {
+        pathItems.value.splice(i + 1);
+      }
+    }
+  } else {
+    if (!dirStore.dir.has(dirId)) {
+      await dirStore.fetchDir(dirId)
+    }
+
+    const dir = dirStore.dir.get(dirId);
+    if (dir) {
+      if (currentDirId.value == null) {
+        pathItems.value.push({ name: getLastPartOfAbsolutePath(dir.name), dirId: dirId });
+      } else {
+        pathItems.value.push({ name: dir.name, dirId: dirId });
+      }
+    } else {
+      pathItems.value.push({ name: '???', dirId: dirId });
+    }
+  }
+
   if (!dirStore.dirContent.has(dirId)) {
     await dirStore.fetchDirContent(dirId)
   }
@@ -57,6 +90,16 @@ async function changeDirectory(dirId: number) {
   } else {
     currentDirs.value = [];
   }
+  currentDirId.value = dirId
+}
+
+function alreadyInList(dirId: number): boolean {
+  for (let i = 0; i < pathItems.value.length; ++i) {
+    if (dirId == pathItems.value[i].dirId) {
+      return true
+    }
+  }
+  return false
 }
 
 function getLastPartOfAbsolutePath(path: string): string {
