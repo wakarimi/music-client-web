@@ -29,12 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import DirectoryCardDirectory from "@/components/directories/DirectoryCardDirectory.vue";
-import DirectoryHeader from "@/components/directories/DirectoryHeader.vue";
+import DirectoryCardDirectory from "@/components/panels/directories/DirectoryCardDirectory.vue";
+import DirectoryHeader from "@/components/panels/directories/DirectoryHeader.vue";
 import {useDirsStore} from "@/stores/useDirStore";
 import {onMounted, ref, watch} from "vue";
 import type {AudioFile, Directory} from "@/services/DirService";
-import DirectoryCardAudioFile from "@/components/directories/DirectoryCardAudioFile.vue";
+import DirectoryCardAudioFile from "@/components/panels/directories/DirectoryCardAudioFile.vue";
 
 const dirStore = useDirsStore();
 

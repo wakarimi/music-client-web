@@ -66,7 +66,6 @@ const toggleMusicControlVisibility = () => {
 }
 
 * {
-  font-family: 'Roboto', sans-serif;
 }
 
 </style>

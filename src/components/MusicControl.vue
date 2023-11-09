@@ -1,11 +1,9 @@
 <template>
   <div class="container">
     <div class="column column-tabs">
-      <!-- Слушаем событие change-panel и вызываем метод changePanel -->
-      <CategoryPanel @change-panel="changePanel" />
+      <CategoryPanel @change-category="changeCategory" />
     </div>
     <div class="column column-content">
-      <!-- Динамически изменяемый компонент -->
       <component :is="currentPanel" />
     </div>
     <div class="column column-custom">
@@ -15,30 +13,31 @@
 </template>
 
 <script setup lang="ts">
-import CategoryPanel from "@/components/CategoryPanel.vue";
+import CategoryPanel from "@/components/panels/CategoryPanel.vue";
 import AlbumPanel from "@/components/AlbumPanel.vue";
 import ArtistPanel from "@/components/ArtistPanel.vue";
 import PlaybackPanel from "@/components/PlaybackPanel.vue";
 import {defineComponent, ref} from "vue";
-import DirectoryMain from "@/components/directories/DirectoryMain.vue";
+import DirectoryPanel from "@/components/panels/DirectoryPanel.vue";
 
-// Определите тип для сопоставления имен с компонентами
 type PanelComponents = {
   [key: string]: ReturnType<typeof defineComponent>;
 };
 
-// Создайте объект сопоставления с явным типом
 const panels: PanelComponents = {
-  'Исполнители': ArtistPanel, // Предполагаем, что ArtistPanel это компонент, определенный через defineComponent
-  'Альбомы': AlbumPanel, // и так далее для других компонентов
-  "Файлы": DirectoryMain,
-  // ... остальные компоненты ...
+  'controlNow': DirectoryPanel,
+  'controlLast': DirectoryPanel,
+  "controlAlbums": AlbumPanel,
+  "controlArtists": ArtistPanel,
+  "controlGenres": DirectoryPanel,
+  "controlPlaylist": DirectoryPanel,
+  "controlSongs": DirectoryPanel,
+  "controlFiles": DirectoryPanel,
 };
 
 const currentPanel = ref<ReturnType<typeof defineComponent>>(AlbumPanel);
 
-function changePanel(panelName: string) {
-  // Проверка, что panelName действительно существует в объекте panels
+function changeCategory(panelName: string) {
   if (panelName in panels) {
     currentPanel.value = panels[panelName];
   } else {

@@ -24,7 +24,7 @@
 
 
 <script setup lang="ts">
-import DirectoryPanelPathItem from "@/components/directories/DirectoryHeaderPathItem.vue";
+import DirectoryPanelPathItem from "@/components/panels/directories/DirectoryHeaderPathItem.vue";
 import addIcon from "@/assets/control/add.svg"
 import playIcon from "@/assets/control/play.svg"
 import type {PropType} from "vue";

@@ -11,8 +11,9 @@
 </script>
 
 <style >
-html, body {
+* {
   margin: 0;
   padding: 0;
+  font-family: 'Helvetica', sans-serif;
 }
 </style>
