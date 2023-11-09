@@ -2,11 +2,11 @@
   <div class="album-container">
     <button class="album-item">
       <div class="button-image">
-        <button class="extra-button play">
-          <img :src="playIcon" alt="Воспроизвести" />
-        </button>
         <button class="extra-button add">
           <img :src="addIcon" alt="Добавить в плейлист" />
+        </button>
+        <button class="extra-button play">
+          <img :src="playIcon" alt="Воспроизвести" />
         </button>
         <slot name="image"></slot>
       </div>
@@ -93,47 +93,36 @@ defineProps({
 }
 
 .album-container {
-  position: relative; /* Это позволит позиционировать дополнительные кнопки относительно этого контейнера */
+  position: relative;
 }
 
 .extra-button {
   position: absolute;
-  bottom: 10px; /* Располагаем кнопки внизу картинки */
-  right: 50px; /* С отступом справа */
-  width: 30px; /* Установите желаемый размер кнопок */
+  bottom: 10px;
+  right: 50px;
+  width: 30px;
   height: 30px;
-  background-color: rgba(255, 255, 255, 0); /* Полупрозрачный фон */
+  background-color: rgba(255, 255, 255, 0);
   border: none;
-  border-radius: 0vh; /* Можно сделать кнопки круглыми */
-  opacity: 0; /* Изначально кнопки скрыты */
-  transition: opacity 0.3s ease; /* Плавное изменение прозрачности */
-  z-index: 10; /* Убедитесь, что кнопки находятся над другими элементами */
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 10;
 }
 
 .extra-button img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Гарантируем, что изображения подгоняются по размеру кнопки */
+  object-fit: contain;
 }
 
 .album-container:hover .extra-button {
-  opacity: 1; /* При наведении на контейнер кнопки становятся видными */
+  opacity: 1;
 }
 
 .play {
   bottom: 10px;
-  right: 10px; /* Расположение кнопки "Воспроизвести" слева от кнопки "Добавить в плейлист" */
-}
-
-.add {
-  /* Кнопка "Добавить в плейлист" будет в правом нижнем углу */
-}
-
-/* Стили для изображений внутри кнопок */
-.extra-button img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Убедитесь, что изображения подгоняются по размеру кнопки */
+  right: 10px;
 }
 
 </style>

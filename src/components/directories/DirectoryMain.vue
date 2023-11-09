@@ -9,12 +9,20 @@
       <DirectoryCardDirectory
         v-for="dir in currentDirId == null ? rootDirs : currentDirs"
         :key="dir.dirId"
-        :button-text="getLastPartOfAbsolutePath(dir.name)"
+        :button-text="currentDirId == null ? getLastPartOfAbsolutePath(dir.name) : dir.name"
         :attachedDirId="dir.dirId"
         @changeDirectory="changeDirectory"
       >
 
       </DirectoryCardDirectory>
+      <DirectoryCardAudioFile
+          v-for="audioFile in currentAudioFiles"
+          :key="audioFile.audioFileId"
+          :button-text="audioFile.filename"
+          :attached-audio-file-id="audioFile.audioFileId"
+      >
+
+      </DirectoryCardAudioFile>
     </div>
 
   </div>
@@ -25,13 +33,15 @@ import DirectoryCardDirectory from "@/components/directories/DirectoryCardDirect
 import DirectoryHeader from "@/components/directories/DirectoryHeader.vue";
 import {useDirsStore} from "@/stores/useDirStore";
 import {onMounted, ref, watch} from "vue";
-import type {Directory} from "@/services/DirService";
+import type {AudioFile, Directory} from "@/services/DirService";
+import DirectoryCardAudioFile from "@/components/directories/DirectoryCardAudioFile.vue";
 
 const dirStore = useDirsStore();
 
 let currentDirId = ref<number | null>(null);
 let rootDirs = ref<Directory[]>([]);
 let currentDirs = ref<Directory[]>([]);
+let currentAudioFiles = ref<AudioFile[]>([]);
 
 const pathItems = ref([
   { name: 'Файлы', dirId: 0 },
@@ -54,6 +64,7 @@ watch(() => dirStore.rootDirs, (newDirs) => {
 async function changeDirectory(dirId: number) {
   if (dirId == 0) {
     currentDirId.value = null
+    currentAudioFiles.value = [];
     pathItems.value.splice(1);
     return
   }
@@ -87,8 +98,10 @@ async function changeDirectory(dirId: number) {
   const dirContent = dirStore.dirContent.get(dirId);
   if (dirContent) {
     currentDirs.value = dirContent.dirs;
+    currentAudioFiles.value = dirContent.audioFiles;
   } else {
     currentDirs.value = [];
+    currentAudioFiles.value = [];
   }
   currentDirId.value = dirId
 }

@@ -4,6 +4,13 @@
 
       <div class="button-image">
         <img :src="directoryIcon" alt="directoryIcon">
+
+        <button class="extra-button add">
+          <img :src="addIcon" alt="Добавить в плейлист" />
+        </button>
+        <button class="extra-button play">
+          <img :src="playIcon" alt="Воспроизвести" />
+        </button>
       </div>
 
       <span class="button-text">
@@ -16,6 +23,8 @@
 
 <script setup lang="ts">
 import directoryIcon from "@/assets/default/directory.svg"
+import addIcon from "@/assets/control/add.svg";
+import playIcon from "@/assets/control/play.svg";
 
 defineProps({
   buttonText: String,
@@ -85,15 +94,57 @@ function emitDirectory(dirId: number) {
 }
 
 .button-text {
-  margin: 4px;
+  padding: 1px;
+  margin: 3px;
   font-size: 14px;
   text-align: center;
   display: block;
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: hidden;
-  height: 24px;
-  line-height: 12px;
+  height: 28px;
+  line-height: 14px;
+}
+
+.extra-button {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  width: 30px;
+  height: 30px;
+  background-color: #F5F1ED;
+  border: none;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+
+.extra-button img {
+  height: 50%;
+  width: 50%;
+  padding: 5px;
+  background-color: #F5F1ED;
+  border-radius: 10px;
+  border-color: #F0EAE4;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.button-image:hover .extra-button {
+  opacity: 0.8;
+}
+
+.play {
+  bottom: 10px;
+  right: 10px;
 }
 
 </style>

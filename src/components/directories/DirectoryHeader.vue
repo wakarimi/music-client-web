@@ -1,15 +1,16 @@
 <template>
   <div class="directory-header">
-    <DirectoryPanelPathItem
-      v-for="pathItem in pathItems"
-      :key="pathItem.dirId"
-      :attached-dir-id="pathItem.dirId"
-      @change-directory="emitDirectory"
-    >
-      <template #name>
-        {{ pathItem.name }}
-      </template>
-    </DirectoryPanelPathItem>
+    <template v-for="(pathItem, index) in pathItems" :key="pathItem.dirId">
+      <DirectoryPanelPathItem
+          :attached-dir-id="pathItem.dirId"
+          @change-directory="emitDirectory"
+      >
+        <template #name>
+          {{ pathItem.name }}
+        </template>
+      </DirectoryPanelPathItem>
+      <span v-if="index < pathItems.length - 1" class="path-item-separator">/</span>
+    </template>
     <div class="control-buttons">
       <button class="control-button">
         <img :src="addIcon" alt="Add" />
@@ -20,6 +21,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import DirectoryPanelPathItem from "@/components/directories/DirectoryHeaderPathItem.vue";
@@ -52,7 +54,7 @@ function emitDirectory(dirId: number) {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   height: 30px;
   background-color: #FAF8F6;
   border-color: #EBE3DB;
