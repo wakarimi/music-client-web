@@ -17,8 +17,8 @@
 
 <script setup lang="ts">
 import BaseButton from "@/components/base/BaseButton.vue";
-import now from "@/assets/categories/now-playing.svg"
-import last from "@/assets/categories/last.svg"
+import nowPlaying from "@/assets/categories/now-playing.svg"
+import lastSongs from "@/assets/categories/last.svg"
 import albums from "@/assets/categories/albums.svg"
 import artists from "@/assets/categories/artists.svg"
 import genres from "@/assets/categories/genres.svg"
@@ -27,8 +27,8 @@ import tracks from "@/assets/categories/tracks.svg"
 import files from "@/assets/categories/files.svg"
 
 const controlButtons = [
-  {text: "Текущее", type: "controlNow", image: now},
-  {text: "Последние", type: "controlLast", image: last},
+  {text: "Текущее", type: "controlNow", image: nowPlaying},
+  {text: "Недавние", type: "controlLast", image: lastSongs},
   {text: "Альбомы", type: "controlAlbums", image: albums},
   {text: "Исполнители", type: "controlArtists", image: artists},
   {text: "Жанры", type: "controlGenres", image: genres},

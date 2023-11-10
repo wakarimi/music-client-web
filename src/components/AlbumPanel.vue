@@ -31,7 +31,7 @@ const getCover = (album: AlbumGetAll): string => {
   if ((album.bestCovers == null) || (album.bestCovers?.length == 0)) {
     return cover
   } else {
-    return 'http://localhost:8022/api/covers/' + album.bestCovers[0] + '/download'
+    return 'http://localhost:8022/api/covers/' + album.bestCovers[0] + '/image'
   }
 };
 </script>

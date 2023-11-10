@@ -18,24 +18,29 @@ import AlbumPanel from "@/components/AlbumPanel.vue";
 import ArtistPanel from "@/components/ArtistPanel.vue";
 import PlaybackPanel from "@/components/PlaybackPanel.vue";
 import {defineComponent, ref} from "vue";
-import DirectoryPanel from "@/components/panels/DirectoryPanel.vue";
+import SongPanel from "@/components/panels/SongsPanel.vue";
+import NowPlayingPanel from "@/components/panels/NowPlayingPanel.vue";
+import LastSongsPanel from "@/components/panels/LastSongsPanel.vue";
+import GenresPanel from "@/components/panels/GenresPanel.vue";
+import FilesPanel from "@/components/panels/FilesPanel.vue";
+import PlaylistsPanel from "@/components/panels/PlaylistsPanel.vue";
 
 type PanelComponents = {
   [key: string]: ReturnType<typeof defineComponent>;
 };
 
 const panels: PanelComponents = {
-  'controlNow': DirectoryPanel,
-  'controlLast': DirectoryPanel,
+  'controlNow': NowPlayingPanel,
+  'controlLast': LastSongsPanel,
   "controlAlbums": AlbumPanel,
   "controlArtists": ArtistPanel,
-  "controlGenres": DirectoryPanel,
-  "controlPlaylist": DirectoryPanel,
-  "controlSongs": DirectoryPanel,
-  "controlFiles": DirectoryPanel,
+  "controlGenres": GenresPanel,
+  "controlPlaylist": PlaylistsPanel,
+  "controlSongs": SongPanel,
+  "controlFiles": FilesPanel,
 };
 
-const currentPanel = ref<ReturnType<typeof defineComponent>>(AlbumPanel);
+const currentPanel = ref<ReturnType<typeof defineComponent>>(SongPanel);
 
 function changeCategory(panelName: string) {
   if (panelName in panels) {

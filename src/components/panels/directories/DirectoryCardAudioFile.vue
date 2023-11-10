@@ -49,11 +49,10 @@ const getCover = async (audioFile: number): Promise<void> => {
     await dirStore.fetchBestCoverForAudioFile(audioFile)
   }
   const cover = dirStore.bestCoverForAudioFile.get(audioFile)
-  console.log("cover " + cover)
   if (!cover) {
     currentCover.value = coverIcon
   } else {
-    currentCover.value = 'http://localhost:8022/api/covers/' + cover + '/download'
+    currentCover.value = 'http://localhost:8022/api/covers/' + cover + '/image'
   }
 };
 </script>

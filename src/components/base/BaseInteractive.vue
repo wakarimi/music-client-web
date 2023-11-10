@@ -112,6 +112,7 @@ function emitInteractiveClick() {
   height: 100%;
   border-radius: 10px;
   border-style: solid;
+  border-width: 2px;
   cursor: pointer;
   transition:
       transform 0.15s ease,
