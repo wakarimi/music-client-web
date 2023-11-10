@@ -45,6 +45,7 @@ function handleInput(event: Event) {
 
   font-size: 18px;
   color: #252323;
+  user-select: none;
 
   background-color: #FFFFFF;
   border-color: #EBE3DB;

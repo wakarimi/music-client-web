@@ -186,6 +186,8 @@ function handleClick() {
   padding: 10px;
   box-sizing: border-box;
 
+  user-select: none;
+
   background-color: #FFFFFF;
   border-color: #EBE3DB;
   border-radius: 10px;
