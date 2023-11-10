@@ -30,5 +30,6 @@ defineProps({
 .title {
   text-align: center;
   font-size: 24px;
+  padding-bottom: 10px;
 }
 </style>

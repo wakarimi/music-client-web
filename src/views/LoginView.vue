@@ -1,6 +1,6 @@
 <template>
   <div class="login-view">
-    <EmptyForm
+    <CustomForm
         class="login-container"
         titleText="Вход"
     >
@@ -11,33 +11,34 @@
       <CustomTextField
           class="form-element"
           placeholder-text="Пароль"
+          type="password"
       />
-      <CentralTextButton
-          class="submit-button form-element submit"
-          button-type="submit"
+      <CustomButton
+          class="form-element last-form-element"
           button-text="Войти"
-          custom-background-color="#AEAEEA"
-          custom-background-color-hover="#7171DB"
-          custom-background-color-active="#7171DB"
-          custom-border-color="#7171DB"
-          custom-border-color-hover="#2929A3"
-          custom-border-color-active="#2929A3"
+          background-color="#AEAEEA"
+          background-color-hover="#7171DB"
+          background-color-active="#7171DB"
+          border-color="#7171DB"
+          border-color-hover="#2929A3"
+          border-color-active="#2929A3"
+          text-color="#FAF8F6"
+          text-color-hover="#F5F1ED"
+          text-color-active="#F5F1ED"
       />
-      <div class="register-link form-element">
+      <div class="register-link">
         Или
         <router-link to="/register">зарегистрироваться</router-link>
       </div>
-    </EmptyForm>
+    </CustomForm>
   </div>
 </template>
 
 <script setup lang="ts">
 import {ref} from 'vue';
-import EmptyForm from "@/components/base/form/EmptyForm.vue";
-import BaseButton from "@/components/base/interactive/button/ImageTextButton.vue";
-import CentralTextButton from "@/components/base/interactive/button/CentralTextButton.vue";
-import BaseInteractive from "@/components/base/interactive/BaseInteractive.vue";
+import CustomForm from "@/components/base/CustomForm.vue";
 import CustomTextField from "@/components/base/CustomTextField.vue";
+import CustomButton from "@/components/base/CustomButton.vue";
 
 const credentials = ref({
   username: '',
@@ -45,7 +46,6 @@ const credentials = ref({
 });
 
 function login() {
-  // Логика входа
   console.log(credentials.value);
 }
 </script>
@@ -68,14 +68,25 @@ function login() {
 .form-element {
   width: 400px;
   height: 50px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.form-element:last-child {
-  margin-bottom: 0;
+.last-form-element {
+  margin-bottom: 00px;
 }
 
-.submit-button {
-  height: auto;
+.register-link {
+  text-align: center;
+  padding-top: 10px;
+}
+
+.register-link a {
+  color: #69A6E3;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  color: #2066AC;
+  text-decoration: underline;
 }
 </style>

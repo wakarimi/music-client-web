@@ -1,5 +1,5 @@
 <template>
-  <div class="base-text-field">
+  <div class="custom-text-field">
     <input
         class="input"
         :value="modelValue"
@@ -40,8 +40,7 @@ function handleInput(event: Event) {
 .input {
   width: 100%;
   height: 100%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   box-sizing: border-box;
 
   font-size: 18px;
@@ -53,6 +52,7 @@ function handleInput(event: Event) {
   border-style: solid;
   border-width: 2px;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  outline: none;
 
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
@@ -60,7 +60,6 @@ function handleInput(event: Event) {
 .input:focus,
 .input:hover,
 .input:active {
-  outline: none;
   border-color: #EBE3DB;
 
   transform: scale(1.015);

@@ -23,4 +23,8 @@ defineProps({
 .empty-form {
 
 }
+
+.base-form {
+
+}
 </style>
