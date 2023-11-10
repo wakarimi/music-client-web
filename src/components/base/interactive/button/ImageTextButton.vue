@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseInteractive from "@/components/base/BaseInteractive.vue";
+import BaseInteractive from "@/components/base/interactive/BaseInteractive.vue";
 import type {PropType} from "vue";
 
 defineProps({
@@ -40,8 +40,9 @@ defineProps({
 })
 
 const emit = defineEmits(["button-click"]);
+
 function emitButtonClick() {
-  emit("button-click", );
+  emit("button-click",);
 }
 </script>
 

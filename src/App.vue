@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <MusicPlayer>
+    <router-view>
 
-    </MusicPlayer>
+    </router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-  import MusicPlayer from "./views/MusicPlayer.vue"
+
 </script>
 
 <style >

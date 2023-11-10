@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from "@/components/base/BaseButton.vue";
+import BaseButton from "@/components/base/interactive/button/ImageTextButton.vue";
 import coverIcon from "@/assets/default/cover.svg";
 import {onUnmounted, ref} from "vue";
 import {onMounted} from "vue";

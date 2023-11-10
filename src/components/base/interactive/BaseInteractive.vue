@@ -46,7 +46,7 @@ const props = defineProps({
   sizeChangePercent: {
     type: Number,
     default: 2,
-  }
+  },
 })
 
 const isHovering = ref(false);
@@ -76,8 +76,8 @@ const hoverIn = () => {
     ...buttonStyle.value,
     transform: `scale(${scaleUp})`,
     boxShadow: "1px 1px 4px #25232377",
-    backgroundColor: "#F0EAE4",
-    borderColor: "#EBE3DB",
+    backgroundColor: props.customBackgroundColorHover,
+    borderColor: props.customBorderColorHover,
   };
 };
 
@@ -87,8 +87,8 @@ const activeIn = () => {
     ...buttonStyle.value,
     transform: `scale(${scaleDown})`,
     boxShadow: "0.5px 0.5px 2px #25232377",
-    backgroundColor: "#F0EAE4",
-    borderColor: "#EBE3DB",
+    backgroundColor: props.customBackgroundColorActive,
+    borderColor: props.customBorderColorActive,
   };
 };
 
@@ -101,6 +101,7 @@ const mouseUpHandler = () => {
 };
 
 const emit = defineEmits(["interactive-click"]);
+
 function emitInteractiveClick() {
   emit("interactive-click");
 }
@@ -114,11 +115,10 @@ function emitInteractiveClick() {
   border-style: solid;
   border-width: 2px;
   cursor: pointer;
-  transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease,
-      border-color 0.15s ease,
-      background-color 0.15s ease;
+  transition: transform 0.15s ease,
+  box-shadow 0.15s ease,
+  border-color 0.15s ease,
+  background-color 0.15s ease;
 }
 
 </style>

@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 
-import BaseInteractive from "@/components/base/BaseInteractive.vue";
+import BaseInteractive from "@/components/base/interactive/BaseInteractive.vue";
 </script>
 
 <style scoped>

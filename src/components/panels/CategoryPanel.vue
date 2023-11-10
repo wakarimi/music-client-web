@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from "@/components/base/BaseButton.vue";
+import BaseButton from "@/components/base/interactive/button/ImageTextButton.vue";
 import nowPlaying from "@/assets/categories/now-playing.svg"
 import lastSongs from "@/assets/categories/last.svg"
 import albums from "@/assets/categories/albums.svg"
