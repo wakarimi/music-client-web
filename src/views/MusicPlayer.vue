@@ -1,39 +1,39 @@
 <template>
   <div class="player">
     <MusicPlayback
-        class="music-playback"
-        @toggleVisibility="toggleMusicControlVisibility"
-        :isVisible="isMusicControlVisible"
-        :style="{height: musicPlaybackHeight}"
+      class="music-playback"
+      @toggleVisibility="toggleMusicControlVisibility"
+      :isVisible="isMusicControlVisible"
+      :style="{ height: musicPlaybackHeight }"
     />
 
     <MusicControl
-        class="music-control"
-        :style="{height: musicControlHeight, opacity: musicControlOpacity}"
+      class="music-control"
+      :style="{ height: musicControlHeight, opacity: musicControlOpacity }"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
-import MusicPlayback from "@/components/MusicPlayback.vue";
-import MusicControl from "@/components/MusicControl.vue";
+import { ref } from 'vue'
+import MusicPlayback from '@/components/MusicPlayback.vue'
+import MusicControl from '@/components/MusicControl.vue'
 
 const isMusicControlVisible = ref(true)
-const musicPlaybackHeight = ref("30%")
-const musicControlHeight = ref("70%")
-const musicControlOpacity = ref("100%")
+const musicPlaybackHeight = ref('30%')
+const musicControlHeight = ref('70%')
+const musicControlOpacity = ref('100%')
 
 const toggleMusicControlVisibility = () => {
-  isMusicControlVisible.value = !isMusicControlVisible.value;
+  isMusicControlVisible.value = !isMusicControlVisible.value
   if (isMusicControlVisible.value) {
-    musicPlaybackHeight.value = "30%"
-    musicControlHeight.value = "70%"
-    musicControlOpacity.value = "100%"
+    musicPlaybackHeight.value = '30%'
+    musicControlHeight.value = '70%'
+    musicControlOpacity.value = '100%'
   } else {
-    musicPlaybackHeight.value = "100%"
-    musicControlHeight.value = "0%"
-    musicControlOpacity.value = "0%"
+    musicPlaybackHeight.value = '100%'
+    musicControlHeight.value = '0%'
+    musicControlOpacity.value = '0%'
   }
 }
 </script>
@@ -52,9 +52,12 @@ const toggleMusicControlVisibility = () => {
   margin: 0; /* Убедитесь, что внешние отступы не влияют на высоту */
 }
 
-.music-playback, .music-control {
+.music-playback,
+.music-control {
   /* Анимируем изменения высоты и прозрачности в течение 0.5 секунды */
-  transition: height 0.3s ease, opacity 0.15s ease;
+  transition:
+    height 0.3s ease,
+    opacity 0.15s ease;
 }
 
 .music-playback {
@@ -67,5 +70,4 @@ const toggleMusicControlVisibility = () => {
 
 * {
 }
-
 </style>
