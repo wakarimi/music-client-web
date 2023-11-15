@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-
-    <DirectoryHeader :pathItems="pathItems"
-                     @changeDirectory="changeDirectory">
-    </DirectoryHeader>
+    <DirectoryHeader :pathItems="pathItems" @changeDirectory="changeDirectory"> </DirectoryHeader>
 
     <div class="panel">
       <DirectoryCardDirectory
@@ -13,66 +10,65 @@
         :attachedDirId="dir.dirId"
         @changeDirectory="changeDirectory"
       >
-
       </DirectoryCardDirectory>
       <DirectoryCardAudioFile
-          v-for="audioFile in currentAudioFiles"
-          :key="audioFile.audioFileId"
-          :button-text="audioFile.filename"
-          :attached-audio-file-id="audioFile.audioFileId"
+        v-for="audioFile in currentAudioFiles"
+        :key="audioFile.audioFileId"
+        :button-text="audioFile.filename"
+        :attached-audio-file-id="audioFile.audioFileId"
       >
-
       </DirectoryCardAudioFile>
     </div>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import DirectoryCardDirectory from "@/components/panels/directories/DirectoryCardDirectory.vue";
-import DirectoryHeader from "@/components/panels/directories/DirectoryHeader.vue";
-import {useDirsStore} from "@/stores/useDirStore";
-import {onMounted, ref, watch} from "vue";
-import type {AudioFile, Directory} from "@/services/DirService";
-import DirectoryCardAudioFile from "@/components/panels/directories/DirectoryCardAudioFile.vue";
+import DirectoryCardDirectory from '@/components/panels/directories/DirectoryCardDirectory.vue'
+import DirectoryHeader from '@/components/panels/directories/DirectoryHeader.vue'
+import { useDirsStore } from '@/stores/useDirsStore'
+import { onMounted, ref, watch } from 'vue'
+import type { AudioFile, Directory } from '@/services/DirService'
+import DirectoryCardAudioFile from '@/components/panels/directories/DirectoryCardAudioFile.vue'
 
-const dirStore = useDirsStore();
+const dirStore = useDirsStore()
 
-let currentDirId = ref<number | null>(null);
-let rootDirs = ref<Directory[]>([]);
-let currentDirs = ref<Directory[]>([]);
-let currentAudioFiles = ref<AudioFile[]>([]);
+let currentDirId = ref<number | null>(null)
+let rootDirs = ref<Directory[]>([])
+let currentDirs = ref<Directory[]>([])
+let currentAudioFiles = ref<AudioFile[]>([])
 
-const pathItems = ref([
-  { name: 'Файлы', dirId: 0 },
-]);
+const pathItems = ref([{ name: 'Файлы', dirId: 0 }])
 
 onMounted(async () => {
-  await dirStore.fetchRootDirs();
-});
+  await dirStore.fetchRootDirs()
+})
 
-watch(() => dirStore.rootDirs, (newDirs) => {
-  if (newDirs) {
-    rootDirs.value = newDirs;
-  } else {
-    rootDirs.value = [];
+watch(
+  () => dirStore.rootDirs,
+  (newDirs) => {
+    if (newDirs) {
+      rootDirs.value = newDirs
+    } else {
+      rootDirs.value = []
+    }
+  },
+  {
+    immediate: true
   }
-}, {
-  immediate: true
-});
+)
 
 async function changeDirectory(dirId: number) {
   if (dirId == 0) {
     currentDirId.value = null
-    currentAudioFiles.value = [];
-    pathItems.value.splice(1);
+    currentAudioFiles.value = []
+    pathItems.value.splice(1)
     return
   }
 
   if (alreadyInList(dirId)) {
     for (let i = 0; i < pathItems.value.length; ++i) {
       if (dirId == pathItems.value[i].dirId) {
-        pathItems.value.splice(i + 1);
+        pathItems.value.splice(i + 1)
       }
     }
   } else {
@@ -80,28 +76,28 @@ async function changeDirectory(dirId: number) {
       await dirStore.fetchDir(dirId)
     }
 
-    const dir = dirStore.dir.get(dirId);
+    const dir = dirStore.dir.get(dirId)
     if (dir) {
       if (currentDirId.value == null) {
-        pathItems.value.push({ name: getLastPartOfAbsolutePath(dir.name), dirId: dirId });
+        pathItems.value.push({ name: getLastPartOfAbsolutePath(dir.name), dirId: dirId })
       } else {
-        pathItems.value.push({ name: dir.name, dirId: dirId });
+        pathItems.value.push({ name: dir.name, dirId: dirId })
       }
     } else {
-      pathItems.value.push({ name: '???', dirId: dirId });
+      pathItems.value.push({ name: '???', dirId: dirId })
     }
   }
 
   if (!dirStore.dirContent.has(dirId)) {
     await dirStore.fetchDirContent(dirId)
   }
-  const dirContent = dirStore.dirContent.get(dirId);
+  const dirContent = dirStore.dirContent.get(dirId)
   if (dirContent) {
-    currentDirs.value = dirContent.dirs;
-    currentAudioFiles.value = dirContent.audioFiles;
+    currentDirs.value = dirContent.dirs
+    currentAudioFiles.value = dirContent.audioFiles
   } else {
-    currentDirs.value = [];
-    currentAudioFiles.value = [];
+    currentDirs.value = []
+    currentAudioFiles.value = []
   }
   currentDirId.value = dirId
 }
@@ -116,14 +112,12 @@ function alreadyInList(dirId: number): boolean {
 }
 
 function getLastPartOfAbsolutePath(path: string): string {
-  const parts = path.split('/');
-  return parts[parts.length - 1] || path;
+  const parts = path.split('/')
+  return parts[parts.length - 1] || path
 }
-
 </script>
 
 <style scoped>
-
 * {
   margin: 0;
   padding: 0;
@@ -147,3 +141,4 @@ function getLastPartOfAbsolutePath(path: string): string {
   grid-gap: 20px;
 }
 </style>
+

@@ -46,9 +46,9 @@ import CustomForm from '@/components/base/CustomForm.vue'
 import CustomTextField from '@/components/base/CustomTextField.vue'
 import CustomButton from '@/components/base/CustomButton.vue'
 import { AccountService } from '@/services/AccountService'
-import {useRouter} from "vue-router";
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
 const credentials = ref({
   username: '',
@@ -68,7 +68,9 @@ const register = async () => {
       password: credentials.value.password
     })
     await router.push('/login')
-  } catch (error) { /* empty */ }
+  } catch (error) {
+    /* empty */
+  }
 }
 </script>
 

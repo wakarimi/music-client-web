@@ -23,14 +23,14 @@
 
 <script setup lang="ts">
 import coverIcon from "@/assets/default/cover.svg";
-import {useDirsStore} from "@/stores/useDirStore";
+import {useDirsStore} from "@/stores/useDirsStore";
 import {ref} from "vue";
 import {onMounted} from "vue";
 import addIcon from "@/assets/control/add.svg";
 import playIcon from "@/assets/control/play.svg";
 
 let currentCover = ref(coverIcon)
-const dirStore = useDirsStore();
+const dirsStore = useDirsStore();
 
 const props = defineProps({
   buttonText: String,
@@ -45,10 +45,10 @@ onMounted(async () => {
 });
 
 const getCover = async (audioFile: number): Promise<void> => {
-  if (!dirStore.bestCoverForAudioFile.has(audioFile)) {
-    await dirStore.fetchBestCoverForAudioFile(audioFile)
+  if (!dirsStore.bestCoverForAudioFile.has(audioFile)) {
+    await dirsStore.fetchBestCoverForAudioFile(audioFile)
   }
-  const cover = dirStore.bestCoverForAudioFile.get(audioFile)
+  const cover = dirsStore.bestCoverForAudioFile.get(audioFile)
   if (!cover) {
     currentCover.value = coverIcon
   } else {

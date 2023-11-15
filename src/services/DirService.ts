@@ -57,4 +57,3 @@ export const DirService = {
     return response.data as DirectoryContent
   }
 }
-

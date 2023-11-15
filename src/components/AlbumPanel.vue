@@ -1,39 +1,39 @@
 <template>
   <div class="grid">
     <AlbumItem
-        v-for="album in toRaw(albumStore.albums)"
-        :key="album.albumId"
-        :button-text="album.title"
-        class="tab-item"
+      v-for="album in toRaw(albumStore.albums)"
+      :key="album.albumId"
+      :button-text="album.title"
+      class="tab-item"
     >
       <template #image>
-        <img :src="getCover(album)" :alt="album.title">
+        <img :src="getCover(album)" :alt="album.title" />
       </template>
     </AlbumItem>
   </div>
 </template>
 
 <script setup lang="ts">
-import AlbumItem from "@/components/AlbumItem.vue";
-import cover from "@/assets/cover.png"
-import coverAce from "@/assets/cover-ace.png"
-import {nextTick, onMounted, toRaw} from "vue";
-import {useAlbumsStore} from "@/stores/useAlbumStore";
-import type {AlbumGetAll} from "@/services/AlbumService";
+import AlbumItem from '@/components/AlbumItem.vue'
+import cover from '@/assets/cover.png'
+import coverAce from '@/assets/cover-ace.png'
+import { nextTick, onMounted, toRaw } from 'vue'
+import { useAlbumsStore } from '@/stores/useAlbumsStore'
+import type { AlbumGetAll } from '@/services/AlbumService'
 
-const albumStore = useAlbumsStore();
+const albumStore = useAlbumsStore()
 
 onMounted(async () => {
-  await albumStore.fetchAlbums();
-});
+  await albumStore.fetchAlbums()
+})
 
 const getCover = (album: AlbumGetAll): string => {
-  if ((album.bestCovers == null) || (album.bestCovers?.length == 0)) {
+  if (album.bestCovers == null || album.bestCovers?.length == 0) {
     return cover
   } else {
     return 'http://localhost:8022/api/covers/' + album.bestCovers[0] + '/image'
   }
-};
+}
 </script>
 
 <style scoped>
@@ -43,3 +43,4 @@ const getCover = (album: AlbumGetAll): string => {
   grid-gap: 2vh;
 }
 </style>
+

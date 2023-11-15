@@ -19,7 +19,7 @@ import BaseButton from "@/components/base/interactive/button/ImageTextButton.vue
 import coverIcon from "@/assets/default/cover.svg";
 import {onUnmounted, ref} from "vue";
 import {onMounted} from "vue";
-import {useDirsStore} from "@/stores/useDirStore";
+import {useDirsStore} from "@/stores/useDirsStore";
 
 const props = defineProps({
   songId: {
@@ -36,13 +36,13 @@ const props = defineProps({
 })
 
 let currentCover = ref(coverIcon)
-const dirStore = useDirsStore();
+const dirsStore = useDirsStore();
 
 const getCover = async (audioFileId: number): Promise<void> => {
-  if (!dirStore.bestCoverForAudioFile.has(audioFileId)) {
-    await dirStore.fetchBestCoverForAudioFile(audioFileId)
+  if (!dirsStore.bestCoverForAudioFile.has(audioFileId)) {
+    await dirsStore.fetchBestCoverForAudioFile(audioFileId)
   }
-  const cover = dirStore.bestCoverForAudioFile.get(audioFileId)
+  const cover = dirsStore.bestCoverForAudioFile.get(audioFileId)
   if (!cover) {
     currentCover.value = coverIcon
   } else {

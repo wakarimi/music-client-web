@@ -25,15 +25,15 @@ import BaseHeader from "@/components/base/BaseHeader.vue";
 import SongRow from "@/components/panels/songs/SongRow.vue";
 import type {SongGetAllItem} from "@/services/SongService";
 import {onMounted, ref} from "vue";
-import {useSongStore} from "@/stores/useSongStore";
+import {useSongsStore} from "@/stores/useSongsStore";
 
-const songStore = useSongStore()
+const songsStore = useSongsStore()
 
 let songs = ref<SongGetAllItem[]>([])
 
 onMounted(async () => {
-  await songStore.fetchSongs()
-  songs.value = songStore.songs
+  await songsStore.fetchSongs()
+  songs.value = songsStore.songs
 })
 
 </script>
