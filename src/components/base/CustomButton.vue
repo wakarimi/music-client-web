@@ -14,7 +14,7 @@
     >
       <div class="content" :class="contentPositionClass">
         <img class="button-icon" v-if="buttonIcon" :src="buttonIcon" alt="buttonIcon" />
-        <span class="button-text" v-if="buttonText">
+        <span class="button-text" v-if="buttonText" :style="{ fontSize: textSize }">
           {{ buttonText }}
         </span>
       </div>
@@ -60,6 +60,10 @@ const props = defineProps({
   borderColorActive: {
     type: String,
     default: '#EBE3DB'
+  },
+  textSize: {
+    type: String,
+    default: "18px",
   },
   textColor: {
     type: String,
@@ -201,7 +205,6 @@ function handleClick() {
 }
 
 .button-text {
-  font-size: 18px;
   padding-left: 5px;
 }
 </style>

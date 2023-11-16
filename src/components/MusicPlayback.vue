@@ -84,7 +84,7 @@ const calculateFontSize = () => {
 let resizeObserver: ResizeObserver | null = null;
 
 onMounted(() => {
-  playbackContainer.value = document.querySelector('.playback');
+  playbackContainer.value = document.querySelector('.current-state');
   if (playbackContainer.value) {
     calculateFontSize();
     resizeObserver = new ResizeObserver(calculateFontSize);

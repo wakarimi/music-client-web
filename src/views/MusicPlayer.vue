@@ -61,7 +61,7 @@ const toggleMusicControlVisibility = () => {
 }
 
 .music-playback {
-  z-index: 1; /* Убедитесь, что music-playback всегда сверху, когда активен */
+  z-index: 1; /* Убедитесь, что music-current-state всегда сверху, когда активен */
 }
 
 .music-control {
