@@ -86,7 +86,7 @@ const activeIn = () => {
   buttonStyle.value = {
     ...buttonStyle.value,
     transform: `scale(${scaleDown})`,
-    boxShadow: "0.5px 0.5px 2px #25232377",
+    boxShadow: "1px 1px 2px #25232377",
     backgroundColor: props.customBackgroundColorActive,
     borderColor: props.customBorderColorActive,
   };

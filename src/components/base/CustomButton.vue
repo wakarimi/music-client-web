@@ -7,9 +7,6 @@
       @mouseleave="defaultState"
       @mousedown="activeIn"
       @mouseup="mouseUpHandler"
-      @focusin="hoverIn"
-      @focus="hoverIn"
-      @focusout="defaultState"
       @click="handleClick"
     >
       <div class="content" :class="contentPositionClass">
@@ -100,7 +97,7 @@ const defaultState = () => {
     backgroundColor: props.backgroundColor,
     borderColor: props.borderColor,
     color: props.textColor,
-    transform: 'scale(0.99)',
+    transform: 'scale(1.0)',
     boxShadow: ''
   }
 }
@@ -126,7 +123,7 @@ const activeIn = () => {
     borderColor: props.borderColorActive,
     color: props.textColorActive,
     transform: `scale(${scaleDown})`,
-    boxShadow: '0.5px 0.5px 2px #25232377'
+    boxShadow: '1px 1px 2px #25232377'
   }
 }
 
@@ -179,7 +176,7 @@ function handleClick() {
 .button {
   width: 100%;
   height: 100%;
-  padding: 10px;
+  padding: 6px;
   box-sizing: border-box;
 
   user-select: none;
@@ -201,7 +198,6 @@ function handleClick() {
 .button-icon {
   width: auto;
   height: 100%;
-  padding-right: 5px;
 }
 
 .button-text {
