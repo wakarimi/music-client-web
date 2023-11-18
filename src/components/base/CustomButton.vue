@@ -2,7 +2,7 @@
   <div class="custom-button">
     <button
       class="button"
-      :style="buttonStyle"
+      :style="[buttonStyle, { padding: buttonPadding }]"
       @mouseover="hoverIn"
       @mouseleave="defaultState"
       @mousedown="activeIn"
@@ -10,8 +10,8 @@
       @click="handleClick"
     >
       <div class="content" :class="contentPositionClass">
-        <img class="button-icon" v-if="buttonIcon" :src="buttonIcon" alt="buttonIcon" />
-        <span class="button-text" v-if="buttonText" :style="{ fontSize: textSize }">
+        <img class="button-icon" v-if="buttonIcon" :src="buttonIcon" alt="buttonIcon"/>
+        <span class="button-text" v-if="buttonText" :style="[{fontSize: textSize}, {paddingLeft: doubledButtonPadding}]">
           {{ buttonText }}
         </span>
       </div>
@@ -29,6 +29,10 @@ const props = defineProps({
   },
   buttonIcon: {
     type: String
+  },
+  buttonPadding: {
+    type: String,
+    default: "0px",
   },
   contentPosition: {
     type: String,
@@ -77,8 +81,14 @@ const props = defineProps({
   sizeChangePercent: {
     type: Number,
     default: 2
-  }
+  },
 })
+
+const doubledButtonPadding = computed(() => {
+  const paddingValue = parseInt(props.buttonPadding, 10) * 1.5;
+  return `${paddingValue}px`;
+});
+
 
 const isHovering = ref(false)
 
@@ -176,7 +186,6 @@ function handleClick() {
 .button {
   width: 100%;
   height: 100%;
-  padding: 6px;
   box-sizing: border-box;
 
   user-select: none;

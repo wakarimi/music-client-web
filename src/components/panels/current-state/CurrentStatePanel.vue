@@ -7,23 +7,26 @@
         <CustomButton
             class="header-rooms"
             button-text="Комнаты"
-            :button-icon="door"
             text-size="16px"
+            button-padding="5px"
+            :button-icon="door"
             @click="openRoomsTab()"
         />
         <CustomButton
             class="header-queue"
-            :button-icon="items"
             text-size="16px"
+            button-padding="5px"
+            :button-icon="items"
             @click="openQueueTab()"
         />
       </template>
       <template #right>
         <CustomButton
             class="header-account"
+            text-size="16px"
+            button-padding="5px"
             :button-text="currentUsername"
             :button-icon="person"
-            text-size="16px"
             @click="openAccountTab()"
         />
       </template>

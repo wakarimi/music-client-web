@@ -1,40 +1,40 @@
 <template>
   <div class="tab-list">
-    <BaseButton
-        class="tab-item"
-        v-for="controlButton in controlButtons"
-        :key="controlButton.type"
-        :button-text="controlButton.text"
-        :button-type="controlButton.type"
-        @buttonClick="emitCategory(controlButton.type)"
-    >
-      <template #image>
-        <img :src="controlButton.image" :alt="controlButton.text">
-      </template>
-    </BaseButton>
+    <CustomButton
+      class="tab-item"
+      v-for="controlButton in controlButtons"
+      contentPosition="left"
+      text-size="16px"
+      button-padding="10px"
+      :key="controlButton.type"
+      :button-type="controlButton.type"
+      :button-text="controlButton.text"
+      :button-icon="controlButton.icon"
+      @click="emitCategory(controlButton.type)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import BaseButton from "@/components/base/interactive/button/ImageTextButton.vue";
-import nowPlaying from "@/assets/categories/now-playing.svg"
-import lastSongs from "@/assets/categories/last.svg"
-import albums from "@/assets/categories/albums.svg"
-import artists from "@/assets/categories/artists.svg"
-import genres from "@/assets/categories/genres.svg"
-import playlists from "@/assets/categories/genres.svg"
-import tracks from "@/assets/categories/tracks.svg"
-import files from "@/assets/categories/files.svg"
+import categoryNow from "@/assets/icons/category/category-now.svg"
+import categoryLast from "@/assets/icons/category/category-last.svg"
+import categoryAlbums from "@/assets/icons/category/category-albums.svg"
+import categoryArtists from "@/assets/icons/category/category-artists.svg"
+import categoryGenres from "@/assets/icons/category/category-genres.svg"
+import categoryPlaylists from "@/assets/icons/category/category-playlists.svg"
+import categorySongs from "@/assets/icons/category/category-songs.svg"
+import categoryDirectories from "@/assets/icons/category/category-directories.svg"
+import CustomButton from "@/components/base/CustomButton.vue";
 
 const controlButtons = [
-  {text: "Текущее", type: "controlNow", image: nowPlaying},
-  {text: "Недавние", type: "controlLast", image: lastSongs},
-  {text: "Альбомы", type: "controlAlbums", image: albums},
-  {text: "Исполнители", type: "controlArtists", image: artists},
-  {text: "Жанры", type: "controlGenres", image: genres},
-  {text: "Плеилисты", type: "controlPlaylist", image: playlists},
-  {text: "Дорожки", type: "controlSongs", image: tracks},
-  {text: "Файлы", type: "controlFiles", image: files},
+  {text: "Текущее", type: "controlNow", icon: categoryNow},
+  {text: "Недавние", type: "controlLast", icon: categoryLast},
+  {text: "Альбомы", type: "controlAlbums", icon: categoryAlbums},
+  {text: "Исполнители", type: "controlArtists", icon: categoryArtists},
+  {text: "Жанры", type: "controlGenres", icon: categoryGenres},
+  {text: "Плейлисты", type: "controlPlaylist", icon: categoryPlaylists},
+  {text: "Дорожки", type: "controlSongs", icon: categorySongs},
+  {text: "Файлы", type: "controlFiles", icon: categoryDirectories},
 ]
 
 const emit = defineEmits(['change-category']);

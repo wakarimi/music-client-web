@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="category-genres.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.83625"
+     inkscape:cx="400"
+     inkscape:cy="399.40209"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <g
+     id="g3"
+     transform="matrix(1.2666666,0,0,1.2666666,-3.1999992,-3.2000297)"
+     style="stroke-width:0;stroke-dasharray:none">
+    <path
+       d="m 8,10 4,-7 4,7 z"
+       stroke="#000000"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path1"
+       style="stroke-width:0.947368;stroke-dasharray:none" />
+    <path
+       d="M 10,17.5 C 10,19.433 8.433,21 6.5,21 4.567,21 3,19.433 3,17.5 3,15.567 4.567,14 6.5,14 8.433,14 10,15.567 10,17.5 Z"
+       stroke="#000000"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path2"
+       style="stroke-width:0.947368;stroke-dasharray:none" />
+    <path
+       d="m 14,14 h 7 v 7 h -7 z"
+       stroke="#000000"
+       stroke-width="2"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path3"
+       style="stroke-width:0.947368;stroke-dasharray:none" />
+  </g>
+</svg>

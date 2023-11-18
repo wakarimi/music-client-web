@@ -92,15 +92,15 @@ function changeCategory(panelName: string) {
 }
 
 .column-tabs {
-  width: 15%; /* Ширина для столбца вкладок */
+  width: 12%; /* Ширина для столбца вкладок */
 }
 
 .column-content {
-  width: 60%; /* Ширина для столбца с контентом */
+  width: 65%; /* Ширина для столбца с контентом */
 }
 
 .column-custom {
-  width: 25%; /* Ширина для кастомного столбца */
+  width: 23%; /* Ширина для кастомного столбца */
 }
 
 .grid button {
