@@ -1,19 +1,19 @@
 <template>
-  <div class="albums-panel">
+  <div class="artists-panel">
     <BaseHeader
-        titleText="Альбомы"
+        titleText="Исполнители"
     >
     </BaseHeader>
 
-    <div class="album-grid">
+    <div class="artist-grid">
       <CustomCard
           class="grid-item"
-          v-for="album in toRaw(albumStore.allAlbums.albums)"
-          content-type="album"
-          :key="album.albumId"
-          :button-text="album.title"
-          :card-text="album.title"
-          :content-id="album.albumId"
+          v-for="artist in toRaw(artistStore.allArtists.artists)"
+          content-type="artist"
+          :key="artist.artistId"
+          :button-text="artist.name"
+          :card-text="artist.name"
+          :content-id="artist.artistId"
       >
       </CustomCard>
     </div>
@@ -21,29 +21,29 @@
 </template>
 
 <script setup lang="ts">
-import {useAlbumsStore} from "@/stores/useAlbumsStore";
+import {useArtistsStore} from "@/stores/useArtistsStore";
 import {nextTick, onMounted, toRaw} from "vue";
 import BaseHeader from "@/components/base/BaseHeader.vue";
 import CustomCard from "@/components/base/CustomCard.vue";
 
-const albumStore = useAlbumsStore()
+const artistStore = useArtistsStore()
 
 onMounted(async () => {
   await nextTick();
-  if (albumStore.allAlbums.albums.length === 0) {
-    await albumStore.fetchAllAlbums()
+  if (artistStore.allArtists.artists.length === 0) {
+    await artistStore.fetchAllArtists()
   }
 })
 </script>
 
 <style scoped>
-.albums-panel {
+.artists-panel {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.album-grid {
+.artist-grid {
   flex-grow: 1;
   overflow-y: auto;
 

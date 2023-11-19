@@ -41,12 +41,32 @@ let cardImage = ref(defaultCardImage)
 const coversStore = useCoversStore();
 
 onMounted(async () => {
+  await nextTick();
   if (props.contentType === 'album') {
-    await nextTick();
     if (!coversStore.coverByAlbumId.has(props.contentId)) {
       await coversStore.fetchAlbumCovers(props.contentId);
     }
     let covers = coversStore.coverByAlbumId.get(props.contentId)
+    if (covers) {
+      if (covers.length > 0) {
+        cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'
+      }
+    }
+  } else if (props.contentType === 'artist') {
+    if (!coversStore.coverByArtistId.has(props.contentId)) {
+      await coversStore.fetchArtistCovers(props.contentId);
+    }
+    let covers = coversStore.coverByArtistId.get(props.contentId)
+    if (covers) {
+      if (covers.length > 0) {
+        cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'
+      }
+    }
+  } else if (props.contentType === 'genre') {
+    if (!coversStore.coverByGenreId.has(props.contentId)) {
+      await coversStore.fetchGenreCovers(props.contentId);
+    }
+    let covers = coversStore.coverByGenreId.get(props.contentId)
     if (covers) {
       if (covers.length > 0) {
         cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'

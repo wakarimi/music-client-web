@@ -1,10 +1,19 @@
 import axios, { AxiosError } from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
-import type { ErrorResponse } from './responses/ErrorResponse'
+import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
-export interface AlbumCoverGet {
-  albumId: number
-  covers: number[]
+export interface GenreGetAllItem {
+  genreId: number
+  name: string
+}
+
+export interface GenreGetAll {
+  genres: GenreGetAllItem[]
+}
+
+export interface GenreGet {
+  genreId: number
+  name: string
 }
 
 const apiClient = axios.create({
@@ -26,20 +35,20 @@ apiClient.interceptors.response.use(
     }
 );
 
-export const CoverService = {
-  async getAlbumCovers(albumId: number): Promise<number[]> {
+export const GenreService = {
+  async getGenres(): Promise<GenreGetAll> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/albums/${albumId}/covers`, {
+      const response = await apiClient.get('/metadata/genres', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
-      return response.data.covers
+      return response.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError
@@ -47,7 +56,7 @@ export const CoverService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе обложки альбома')
+          console.error('Ошибка при запросе жанров')
         }
       } else {
         console.error('Непредвиденная ошибка')
@@ -55,19 +64,19 @@ export const CoverService = {
       throw error
     }
   },
-  async getArtistCovers(artistId: number): Promise<number[]> {
+  async getGenre(genreId: number): Promise<GenreGet> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/artists/${artistId}/covers`, {
+      const response = await apiClient.get(`/metadata/genres/${genreId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
-      return response.data.covers
+      return response.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError
@@ -75,35 +84,7 @@ export const CoverService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе обложки альбома')
-        }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
-  async getGenreCovers(genreId: number): Promise<number[]> {
-    const tokenStore = useTokensStore()
-    if (tokenStore.accessToken == null) {
-      await tokenStore.refresh()
-    }
-    const accessToken = tokenStore.accessToken
-    try {
-      const response = await apiClient.get(`/metadata/genres/${genreId}/covers`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      return response.data.covers
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          console.error(data)
-        } else {
-          console.error('Ошибка при запросе обложки альбома')
+          console.error('Ошибка при запросе жанра')
         }
       } else {
         console.error('Непредвиденная ошибка')

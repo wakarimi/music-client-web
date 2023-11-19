@@ -4,7 +4,7 @@ import type { AlbumGetAll, AlbumGet } from '@/services/AlbumService'
 
 export const useAlbumsStore = defineStore('albums', {
   state: () => ({
-    allAlbums: [] as AlbumGetAll[],
+    allAlbums: { albums: [] } as AlbumGetAll,
     albumByAlbumId: new Map<number, AlbumGet>(),
   }),
   actions: {

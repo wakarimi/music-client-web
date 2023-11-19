@@ -14,16 +14,16 @@
 
 <script setup lang="ts">
 import CategoryPanel from "@/components/panels/CategoryPanel.vue";
-import ArtistPanel from "@/components/ArtistPanel.vue";
 import PlaybackPanel from "@/components/panels/current-state/CurrentStatePanel.vue";
 import {defineComponent, ref} from "vue";
 import SongPanel from "@/components/panels/SongsPanel.vue";
 import NowPlayingPanel from "@/components/panels/NowPlayingPanel.vue";
 import LastSongsPanel from "@/components/panels/LastSongsPanel.vue";
-import GenresPanel from "@/components/panels/GenresPanel.vue";
 import FilesPanel from "@/components/panels/FilesPanel.vue";
 import PlaylistsPanel from "@/components/panels/PlaylistsPanel.vue";
 import AlbumsPanel from "@/components/panels/albums/AlbumsPanel.vue";
+import GenresPanel from "@/components/panels/genres/GenresPanel.vue";
+import ArtistsPanel from "@/components/panels/artists/ArtistsPanel.vue";
 
 type PanelComponents = {
   [key: string]: ReturnType<typeof defineComponent>;
@@ -33,7 +33,7 @@ const panels: PanelComponents = {
   "controlNow": NowPlayingPanel,
   "controlLast": LastSongsPanel,
   "controlAlbums": AlbumsPanel,
-  "controlArtists": ArtistPanel,
+  "controlArtists": ArtistsPanel,
   "controlGenres": GenresPanel,
   "controlPlaylist": PlaylistsPanel,
   "controlSongs": SongPanel,

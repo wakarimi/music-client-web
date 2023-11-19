@@ -2,9 +2,13 @@ import axios, { AxiosError } from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
-export interface AlbumGetAll {
+export interface AlbumGetAllItem {
   albumId: number
   title: string
+}
+
+export interface AlbumGetAll {
+  albums: AlbumGetAllItem[]
 }
 
 export interface AlbumGet {
@@ -32,7 +36,7 @@ apiClient.interceptors.response.use(
 );
 
 export const AlbumService = {
-  async getAlbums(): Promise<AlbumGetAll[]> {
+  async getAlbums(): Promise<AlbumGetAll> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
