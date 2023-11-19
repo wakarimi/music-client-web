@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <AlbumItem
-      v-for="album in toRaw(albumStore.albums)"
+      v-for="album in toRaw(albumStore.allAlbums)"
       :key="album.albumId"
       :button-text="album.title"
       class="tab-item"
@@ -16,15 +16,14 @@
 <script setup lang="ts">
 import AlbumItem from '@/components/AlbumItem.vue'
 import cover from '@/assets/cover.png'
-import coverAce from '@/assets/cover-ace.png'
-import { nextTick, onMounted, toRaw } from 'vue'
+import { onMounted, toRaw } from 'vue'
 import { useAlbumsStore } from '@/stores/useAlbumsStore'
 import type { AlbumGetAll } from '@/services/AlbumService'
 
 const albumStore = useAlbumsStore()
 
 onMounted(async () => {
-  await albumStore.fetchAlbums()
+  await albumStore.fetchAllAlbums()
 })
 
 const getCover = (album: AlbumGetAll): string => {

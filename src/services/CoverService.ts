@@ -2,9 +2,9 @@ import axios, { AxiosError } from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
 import type { ErrorResponse } from './responses/ErrorResponse'
 
-export interface RegisterRequest {
-  username: string
-  password: string
+export interface AlbumCoverGet {
+  albumId: number
+  covers: number[]
 }
 
 const apiClient = axios.create({
@@ -26,41 +26,20 @@ apiClient.interceptors.response.use(
     }
 );
 
-export const AccountService = {
-  async register(request: RegisterRequest): Promise<void> {
-    try {
-      await apiClient.post('/auth/register', {
-        username: request.username,
-        password: request.password
-      })
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          console.error(data)
-        } else {
-          console.error('Ошибка при регистрации')
-        }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
-  async getMe(): Promise<GetMeResponse> {
+export const CoverService = {
+  async getAlbumCovers(albumId: number): Promise<number[]> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get('/auth/accounts/me', {
+      const response = await apiClient.get(`/metadata/albums/${albumId}/covers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
       })
-      return response.data
+      return response.data.covers
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError
@@ -68,7 +47,7 @@ export const AccountService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе своего аккаунта')
+          console.error('Ошибка при запросе альбома')
         }
       } else {
         console.error('Непредвиденная ошибка')
@@ -78,8 +57,3 @@ export const AccountService = {
   },
 }
 
-export interface GetMeResponse {
-  id: number
-  username: string
-  roles: number[] | null
-}

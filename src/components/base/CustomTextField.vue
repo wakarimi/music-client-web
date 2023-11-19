@@ -64,6 +64,6 @@ function handleInput(event: Event) {
   border-color: #EBE3DB;
 
   transform: scale(1.015);
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 2px #25232344
 }
 </style>

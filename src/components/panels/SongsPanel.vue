@@ -3,8 +3,8 @@
     <BaseHeader
         titleText="Дорожки"
     >
-
     </BaseHeader>
+
     <div class="song-list">
       <SongRow
           class="song-row"
@@ -40,14 +40,14 @@ onMounted(async () => {
 
 <style scoped>
 .songs-panel {
-  display: flex; /* использование Flexbox */
-  flex-direction: column; /* упорядочивание дочерних элементов в колонку */
-  height: 100%; /* высота в 100% от родительского элемента */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .song-list {
-  flex-grow: 1; /* элемент займет все доступное пространство */
-  overflow-y: auto; /* добавление вертикальной прокрутки при необходимости */
+  flex-grow: 1;
+  overflow-y: auto;
   padding: 10px;
 }
 

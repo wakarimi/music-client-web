@@ -10,8 +10,17 @@
       @click="handleClick"
     >
       <div class="content" :class="contentPositionClass">
-        <img class="button-icon" v-if="buttonIcon" :src="buttonIcon" alt="buttonIcon"/>
-        <span class="button-text" v-if="buttonText" :style="[{fontSize: textSize}, {paddingLeft: doubledButtonPadding}]">
+        <img
+            class="button-icon"
+            v-if="buttonIcon"
+            :src="buttonIcon"
+            alt="buttonIcon"
+        />
+        <span
+            class="button-text"
+            v-if="buttonText"
+            :style="[{fontSize: textSize}, {paddingLeft: IncreasedPadding}, {paddingRight: buttonPadding}]"
+        >
           {{ buttonText }}
         </span>
       </div>
@@ -32,7 +41,7 @@ const props = defineProps({
   },
   buttonPadding: {
     type: String,
-    default: "0px",
+    default: '0px',
   },
   contentPosition: {
     type: String,
@@ -40,15 +49,15 @@ const props = defineProps({
   },
   backgroundColor: {
     type: String,
-    default: '#F5F1ED'
+    default: '#FAF8F6'
   },
   backgroundColorHover: {
     type: String,
-    default: '#F0EAE4'
+    default: '#F5F1ED'
   },
   backgroundColorActive: {
     type: String,
-    default: '#F0EAE4'
+    default: '#F5F1ED'
   },
   borderColor: {
     type: String,
@@ -84,7 +93,7 @@ const props = defineProps({
   },
 })
 
-const doubledButtonPadding = computed(() => {
+const IncreasedPadding = computed(() => {
   const paddingValue = parseInt(props.buttonPadding, 10) * 1.5;
   return `${paddingValue}px`;
 });
@@ -121,7 +130,7 @@ const hoverIn = () => {
     borderColor: props.borderColorHover,
     color: props.textColorHover,
     transform: `scale(${scaleUp})`,
-    boxShadow: '1px 1px 4px #25232377'
+    boxShadow: '1px 1px 3px #25232344'
   }
 }
 
@@ -133,7 +142,7 @@ const activeIn = () => {
     borderColor: props.borderColorActive,
     color: props.textColorActive,
     transform: `scale(${scaleDown})`,
-    boxShadow: '1px 1px 2px #25232377'
+    boxShadow: '1px 1px 2px #25232344'
   }
 }
 
@@ -190,8 +199,6 @@ function handleClick() {
 
   user-select: none;
 
-  background-color: #ffffff;
-  border-color: #ebe3db;
   border-radius: 10px;
   border-style: solid;
   border-width: 2px;
@@ -210,7 +217,6 @@ function handleClick() {
 }
 
 .button-text {
-  padding-left: 5px;
 }
 </style>
 

@@ -4,15 +4,15 @@ import type { AlbumGetAll, AlbumGet } from '@/services/AlbumService'
 
 export const useAlbumsStore = defineStore('albums', {
   state: () => ({
-    albums: [] as AlbumGetAll[],
-    albumDetails: null as AlbumGet | null
+    allAlbums: [] as AlbumGetAll[],
+    albumByAlbumId: new Map<number, AlbumGet>(),
   }),
   actions: {
-    async fetchAlbums() {
-      this.albums = await AlbumService.getAlbums()
+    async fetchAllAlbums() {
+      this.allAlbums = await AlbumService.getAlbums()
     },
     async fetchAlbum(albumId: number) {
-      this.albumDetails = await AlbumService.getAlbum(albumId)
-    }
+      this.albumByAlbumId.set(albumId, await AlbumService.getAlbum(albumId))
+    },
   }
 })
