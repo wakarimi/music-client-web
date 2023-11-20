@@ -62,5 +62,7 @@ onMounted(async () => {
   align-items: start;
   grid-gap: 2vh;
   padding: 10px;
+
+  overflow-x: hidden;
 }
 </style>
