@@ -1,9 +1,12 @@
 <template>
   <div class="songs-panel">
-    <BaseHeader
-        titleText="Дорожки"
+    <CustomHeader
+        class="header"
     >
-    </BaseHeader>
+      <template #left>
+        Дорожки
+      </template>
+    </CustomHeader>
 
     <div class="song-list">
       <SongRow
@@ -21,11 +24,11 @@
 </template>
 
 <script setup lang="ts">
-import BaseHeader from "@/components/base/BaseHeader.vue";
 import SongRow from "@/components/panels/songs/SongRow.vue";
 import type {SongGetAllItem} from "@/services/SongService";
 import {onMounted, ref} from "vue";
 import {useSongsStore} from "@/stores/useSongsStore";
+import CustomHeader from "@/components/base/CustomHeader.vue";
 
 const songsStore = useSongsStore()
 
@@ -39,6 +42,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
 .songs-panel {
   display: flex;
   flex-direction: column;

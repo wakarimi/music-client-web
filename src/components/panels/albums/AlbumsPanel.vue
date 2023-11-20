@@ -1,9 +1,12 @@
 <template>
   <div class="albums-panel">
-    <BaseHeader
-        titleText="Альбомы"
+    <CustomHeader
+        class="header"
     >
-    </BaseHeader>
+      <template #left>
+        Альбомы
+      </template>
+    </CustomHeader>
 
     <div class="album-grid">
       <CustomCard
@@ -23,8 +26,8 @@
 <script setup lang="ts">
 import {useAlbumsStore} from "@/stores/useAlbumsStore";
 import {nextTick, onMounted, toRaw} from "vue";
-import BaseHeader from "@/components/base/BaseHeader.vue";
 import CustomCard from "@/components/base/CustomCard.vue";
+import CustomHeader from "@/components/base/CustomHeader.vue";
 
 const albumStore = useAlbumsStore()
 
@@ -37,6 +40,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
 .albums-panel {
   display: flex;
   flex-direction: column;

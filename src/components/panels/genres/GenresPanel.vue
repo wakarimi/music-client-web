@@ -1,9 +1,12 @@
 <template>
   <div class="genres-panel">
-    <BaseHeader
-        titleText="Жанры"
+    <CustomHeader
+        class="header"
     >
-    </BaseHeader>
+      <template #left>
+        Жанры
+      </template>
+    </CustomHeader>
 
     <div class="genre-grid">
       <CustomCard
@@ -23,8 +26,8 @@
 <script setup lang="ts">
 import {useGenresStore} from "@/stores/useGenresStore";
 import {nextTick, onMounted, toRaw} from "vue";
-import BaseHeader from "@/components/base/BaseHeader.vue";
 import CustomCard from "@/components/base/CustomCard.vue";
+import CustomHeader from "@/components/base/CustomHeader.vue";
 
 const genreStore = useGenresStore()
 
@@ -38,6 +41,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
 .genres-panel {
   display: flex;
   flex-direction: column;

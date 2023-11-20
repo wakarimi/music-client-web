@@ -3,9 +3,22 @@
     <button
         class="card-button"
     >
-      <div class="content">
-        <img class="card-image" v-lazy="cardImage" alt="cardImage">
-        <div class="card-text-wrapper">
+      <div
+          ref="containerRef"
+          class="content"
+          :style="[{ height: halfWidth * 2 + 40 + 'px' }]"
+      >
+        <img
+            v-for="(cover, index) in covers"
+            :key="index"
+            :class="[getImageClass(covers.length, index), 'card-image']"
+            :src="cover"
+            alt="cover"
+        >
+        <div
+          class="card-text-wrapper"
+          :style="[{ top: halfWidth * 2 + 'px' }]"
+        >
           <span class="card-text">{{ cardText }}</span>
         </div>
       </div>
@@ -14,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import defaultCardImage from "@/assets/default/cover.svg";
 import {nextTick} from "vue";
 import {useCoversStore} from "@/stores/useCoversStore";
@@ -37,41 +50,96 @@ const props = defineProps({
   },
 })
 
-let cardImage = ref(defaultCardImage)
+let covers = ref<string[]>([]);
 const coversStore = useCoversStore();
+
+const containerRef = ref<HTMLElement | null>(null);
+const containerWidth = ref(0);
+const halfWidth = computed(() => containerWidth.value * 0.5);
+
+const updateContainerWidth = () => {
+  if (containerRef.value) {
+    containerWidth.value = containerRef.value.offsetWidth;
+  }
+};
+
+let resizeObserver: ResizeObserver | null = null;
+
+function getImageClass(length: number, index: number) {
+  if (length === 1) {
+    return 'card-image-full';
+
+  } else if (length === 2) {
+    if (index === 0) {
+      return 'card-image-half-left'
+    } else if (index === 1) {
+      return 'card-image-half-right'
+    }
+
+  } else if (length === 3) {
+    if (index === 0) {
+      return 'card-image-half-left'
+    } else if (index === 1) {
+      return 'card-image-quarter-top-right';
+    } else if (index === 2) {
+      return 'card-image-quarter-bottom-right';
+    }
+
+  } else if (length === 4) {
+    if (index === 0) {
+      return 'card-image-quarter-top-left';
+    } else if (index === 1) {
+      return 'card-image-quarter-top-right';
+    } else if (index === 2) {
+      return 'card-image-quarter-bottom-left';
+    } else if (index === 3) {
+      return 'card-image-quarter-bottom-right';
+    }
+  }
+}
 
 onMounted(async () => {
   await nextTick();
+
+  if (containerRef.value) {
+    resizeObserver = new ResizeObserver(updateContainerWidth);
+    resizeObserver.observe(containerRef.value);
+    updateContainerWidth();
+  }
+
+  if (containerRef.value) {
+    containerWidth.value = containerRef.value.offsetWidth;
+  }
+
+  let fetchedCovers: number[] = [];
   if (props.contentType === 'album') {
     if (!coversStore.coverByAlbumId.has(props.contentId)) {
       await coversStore.fetchAlbumCovers(props.contentId);
     }
-    let covers = coversStore.coverByAlbumId.get(props.contentId)
-    if (covers) {
-      if (covers.length > 0) {
-        cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'
-      }
-    }
+    fetchedCovers = coversStore.coverByAlbumId.get(props.contentId) || [];
   } else if (props.contentType === 'artist') {
     if (!coversStore.coverByArtistId.has(props.contentId)) {
       await coversStore.fetchArtistCovers(props.contentId);
     }
-    let covers = coversStore.coverByArtistId.get(props.contentId)
-    if (covers) {
-      if (covers.length > 0) {
-        cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'
-      }
-    }
+    fetchedCovers = coversStore.coverByArtistId.get(props.contentId) || [];
   } else if (props.contentType === 'genre') {
     if (!coversStore.coverByGenreId.has(props.contentId)) {
       await coversStore.fetchGenreCovers(props.contentId);
     }
-    let covers = coversStore.coverByGenreId.get(props.contentId)
-    if (covers) {
-      if (covers.length > 0) {
-        cardImage.value = 'http://localhost:8022/api/covers/' + covers[0] + '/image'
-      }
-    }
+    fetchedCovers = coversStore.coverByGenreId.get(props.contentId) || [];
+  }
+  if (fetchedCovers.length === 0) {
+    covers.value = [defaultCardImage];
+  } else {
+    const selectedCovers = fetchedCovers.slice(0, 4);
+    covers.value = selectedCovers.map(coverId => `http://localhost:8022/api/covers/${coverId}/image`);
+  }
+});
+
+onUnmounted(() => {
+  if (resizeObserver && containerRef.value) {
+    resizeObserver.unobserve(containerRef.value);
+    resizeObserver = null;
   }
 });
 </script>
@@ -117,11 +185,12 @@ onMounted(async () => {
 
 .content {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .card-image {
@@ -129,12 +198,68 @@ onMounted(async () => {
   height: auto;
   aspect-ratio: 1;
   position: relative;
-  border-radius: 10px;
-  border-width: 0;
 }
 
 .card-image >>> img {
   width: 100%;
+}
+
+.card-image-full {
+  width: 100%;
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.card-image-half-left {
+  border-radius: 10px;
+  width: 100%;
+  position: absolute;
+  left: -25.5%;
+  top: 0;
+  clip-path: inset(0% 25.5% round 10px 0px 0px 10px);
+}
+
+.card-image-half-right {
+  border-radius: 10px;
+  width: 100%;
+  position: absolute;
+  right: -25.5%;
+  top: 0;
+  clip-path: inset(0% 25.5% round 0px 10px 10px 0px);
+}
+
+.card-image-quarter-top-left {
+  width: 49%;
+  border-top-left-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.card-image-quarter-top-right {
+  width: 49%;
+  border-top-right-radius: 10px;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.card-image-quarter-bottom-left {
+  width: 49%;
+  border-bottom-left-radius: 10px;
+  position: absolute;
+  left: 0;
+  bottom: 40px;
+}
+
+.card-image-quarter-bottom-right {
+  width: 49%;
+  border-bottom-right-radius: 10px;
+  position: absolute;
+  right: 0;
+  bottom: 40px;
 }
 
 .card-text-wrapper {
@@ -143,6 +268,7 @@ onMounted(async () => {
   height: 32px;
   padding: 4px;
   overflow: hidden;
+  position: absolute;
 }
 
 .card-text {

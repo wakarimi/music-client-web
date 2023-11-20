@@ -1,9 +1,12 @@
 <template>
   <div class="artists-panel">
-    <BaseHeader
-        titleText="Исполнители"
+    <CustomHeader
+        class="header"
     >
-    </BaseHeader>
+      <template #left>
+        Исполнители
+      </template>
+    </CustomHeader>
 
     <div class="artist-grid">
       <CustomCard
@@ -25,6 +28,7 @@ import {useArtistsStore} from "@/stores/useArtistsStore";
 import {nextTick, onMounted, toRaw} from "vue";
 import BaseHeader from "@/components/base/BaseHeader.vue";
 import CustomCard from "@/components/base/CustomCard.vue";
+import CustomHeader from "@/components/base/CustomHeader.vue";
 
 const artistStore = useArtistsStore()
 
@@ -37,6 +41,12 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
+
 .artists-panel {
   display: flex;
   flex-direction: column;

@@ -1,17 +1,23 @@
 <template>
   <div class="now-playing-panel">
-    <BaseHeader
-        titleText="Текущее"
+    <CustomHeader
+        class="header"
     >
-    </BaseHeader>
+      <template #left>
+        Текущее
+      </template>
+    </CustomHeader>
   </div>
 </template>
 
 <script setup lang="ts">
-
-import BaseHeader from "@/components/base/BaseHeader.vue";
+import CustomHeader from "@/components/base/CustomHeader.vue";
 </script>
 
 <style scoped>
-
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+}
 </style>
