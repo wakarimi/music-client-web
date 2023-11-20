@@ -132,7 +132,7 @@ onMounted(async () => {
     covers.value = [defaultCardImage];
   } else {
     const selectedCovers = fetchedCovers.slice(0, 4);
-    covers.value = selectedCovers.map(coverId => `http://localhost:8022/api/covers/${coverId}/image`);
+    covers.value = selectedCovers.map(coverId => `http://localhost:8021/api/music-files/covers/${coverId}/image`);
   }
 });
 

@@ -34,7 +34,7 @@ export const CoverService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/albums/${albumId}/covers`, {
+      const response = await apiClient.get(`/music-metadata/albums/${albumId}/covers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -62,7 +62,7 @@ export const CoverService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/artists/${artistId}/covers`, {
+      const response = await apiClient.get(`/music-metadata/artists/${artistId}/covers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -90,7 +90,7 @@ export const CoverService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/genres/${genreId}/covers`, {
+      const response = await apiClient.get(`/music-metadata/genres/${genreId}/covers`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

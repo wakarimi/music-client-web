@@ -43,7 +43,7 @@ export const AlbumService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get('/metadata/albums', {
+      const response = await apiClient.get('/music-metadata/albums', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -71,7 +71,7 @@ export const AlbumService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/albums/${albumId}`, {
+      const response = await apiClient.get(`/music-metadata/albums/${albumId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

@@ -52,7 +52,7 @@ const getCover = async (audioFile: number): Promise<void> => {
   if (!cover) {
     currentCover.value = coverIcon
   } else {
-    currentCover.value = 'http://localhost:8022/api/covers/' + cover + '/image'
+    currentCover.value = 'http://localhost:8021/api/music-files/covers/' + cover + '/image'
   }
 };
 </script>

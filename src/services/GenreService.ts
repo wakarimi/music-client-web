@@ -43,7 +43,7 @@ export const GenreService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get('/metadata/genres', {
+      const response = await apiClient.get('/music-metadata/genres', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -71,7 +71,7 @@ export const GenreService = {
     }
     const accessToken = tokenStore.accessToken
     try {
-      const response = await apiClient.get(`/metadata/genres/${genreId}`, {
+      const response = await apiClient.get(`/music-metadata/genres/${genreId}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

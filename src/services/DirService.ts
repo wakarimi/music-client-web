@@ -34,26 +34,26 @@ export interface DirectoryOne {
 }
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8022/api'
+  baseURL: 'http://localhost:8021/api'
 })
 
 export const DirService = {
   async getBestCoverForAudioFile(audioFileId: number): Promise<number> {
-    const response = await apiClient.put('/audio-files/covers-top', {
+    const response = await apiClient.put('/music-files/audio-files/covers-top', {
       audioFiles: [audioFileId]
     })
     return response.data.coversTop[0] as number
   },
   async getDir(dirId: number): Promise<DirectoryOne> {
-    const response = await apiClient.get('/dirs/' + dirId)
+    const response = await apiClient.get('/music-files/dirs/' + dirId)
     return response.data as DirectoryOne
   },
   async getRootDirs(): Promise<RootDirsGetAll> {
-    const response = await apiClient.get('/roots')
+    const response = await apiClient.get('/music-files/roots')
     return response.data as RootDirsGetAll
   },
   async getDirContent(dirId: number): Promise<DirectoryContent> {
-    const response = await apiClient.get('/dirs/' + dirId + '/content')
+    const response = await apiClient.get('/music-files/dirs/' + dirId + '/content')
     return response.data as DirectoryContent
   }
 }
