@@ -4,11 +4,11 @@ import type { SongGetAllItem } from '@/services/SongService'
 
 export const useSongsStore = defineStore('songs', {
   state: () => ({
-    songs: [] as SongGetAllItem[]
+    allSongs: [] as SongGetAllItem[]
   }),
   actions: {
     async fetchSongs() {
-      this.songs = (await SongService.getSongs()).songs
+      this.allSongs = (await SongService.getSongs()).songs
     }
   }
 })

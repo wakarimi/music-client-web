@@ -16,7 +16,7 @@
 import CategoryPanel from "@/components/panels/CategoryPanel.vue";
 import PlaybackPanel from "@/components/panels/current-state/CurrentStatePanel.vue";
 import {defineComponent, ref} from "vue";
-import SongPanel from "@/components/panels/SongsPanel.vue";
+import SongPanel from "@/components/panels/songs/SongsPanel.vue";
 import NowPlayingPanel from "@/components/panels/NowPlayingPanel.vue";
 import LastSongsPanel from "@/components/panels/LastSongsPanel.vue";
 import FilesPanel from "@/components/panels/FilesPanel.vue";
@@ -92,7 +92,8 @@ function changeCategory(panelName: string) {
 }
 
 .column-tabs {
-  width: 12%; /* Ширина для столбца вкладок */
+  min-width: 200px;
+  width: 11%;
 }
 
 .column-content {
@@ -100,7 +101,7 @@ function changeCategory(panelName: string) {
 }
 
 .column-custom {
-  width: 23%; /* Ширина для кастомного столбца */
+  width: 24%; /* Ширина для кастомного столбца */
 }
 
 .grid button {

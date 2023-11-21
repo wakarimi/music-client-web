@@ -11,11 +11,11 @@
     <div class="song-list">
       <SongRow
           class="song-row"
-          v-for="song in songs"
+          v-for="song in songsStore.allSongs"
           :key="song.songId"
           :song-id="song.songId"
           :audio-file-id="song.audioFileId"
-          :row-text="song.title"
+          :row-text="calcRowText(song)"
       >
 
       </SongRow>
@@ -26,19 +26,40 @@
 <script setup lang="ts">
 import SongRow from "@/components/panels/songs/SongRow.vue";
 import type {SongGetAllItem} from "@/services/SongService";
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import {useSongsStore} from "@/stores/useSongsStore";
 import CustomHeader from "@/components/base/CustomHeader.vue";
+import {useArtistsStore} from "@/stores/useArtistsStore";
 
 const songsStore = useSongsStore()
-
-let songs = ref<SongGetAllItem[]>([])
+const artistStore = useArtistsStore()
 
 onMounted(async () => {
   await songsStore.fetchSongs()
-  songs.value = songsStore.songs
 })
 
+function calcRowText(song: SongGetAllItem): string {
+  let text = "";
+  if (song.songNumber) {
+    if (song.discNumber) {
+      text += song.discNumber + "-"
+    }
+    text += song.songNumber + ". "
+  }
+  if (song.title) {
+    text += song.title
+  }
+  if (song.artistId) {
+    if (!artistStore.artistByArtistId.has(song.artistId)) {
+      artistStore.fetchAllArtists(song.artistId)
+    }
+    const artist = artistStore.artistByArtistId.get(song.artistId);
+    if (artist) {
+      text += " - " + artist.name;
+    }
+  }
+  return text
+}
 </script>
 
 <style scoped>
