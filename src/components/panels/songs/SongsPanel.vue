@@ -9,22 +9,12 @@
     </CustomHeader>
 
     <div class="song-list">
-      <SongRow
-          class="song-row"
-          v-for="song in songsStore.allSongs"
-          :key="song.songId"
-          :song-id="song.songId"
-          :audio-file-id="song.audioFileId"
-          :row-text="calcRowText(song)"
-      >
 
-      </SongRow>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import SongRow from "@/components/panels/songs/SongRow.vue";
 import type {SongGetAllItem} from "@/services/SongService";
 import {onMounted} from "vue";
 import {useSongsStore} from "@/stores/useSongsStore";
@@ -51,7 +41,7 @@ function calcRowText(song: SongGetAllItem): string {
   }
   if (song.artistId) {
     if (!artistStore.artistByArtistId.has(song.artistId)) {
-      artistStore.fetchAllArtists(song.artistId)
+      artistStore.fetchAllArtists()
     }
     const artist = artistStore.artistByArtistId.get(song.artistId);
     if (artist) {

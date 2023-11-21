@@ -12,7 +12,7 @@
        text-color="#FAF8F6"
        text-color-hover="#F5F1ED"
        text-color-active="#F5F1ED"
-       size-change-percent=2
+       :size-change-percent=2
        @click="logout"
    >
 

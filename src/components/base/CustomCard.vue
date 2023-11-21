@@ -10,9 +10,9 @@
           :style="[{ height: halfWidth * 2 + 40 + 'px' }]"
       >
         <img
+            :class="[getImageClass(covers.length, index), 'card-image']"
             v-for="(cover, index) in covers"
             :key="index"
-            :class="[getImageClass(covers.length, index), 'card-image']"
             :src="cover"
             alt="cover"
         >
@@ -30,12 +30,15 @@
               :button-icon="addIcon"
               button-padding="4px"
               :size-change-percent="10"
+              :should-animate="cardShouldAnimate"
+              @click="handleAddClick($event)"
           />
           <CustomButton
               class="card-sub-button"
               :button-icon="playIcon"
               button-padding="4px"
               :size-change-percent="10"
+              @click="handlePlayClick($event)"
           />
         </div>
       </div>
@@ -70,12 +73,23 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['card-click']);
+const cardShouldAnimate = ref(true)
+
+const emit = defineEmits(['card-click', 'add-click', 'play-click']);
 
 function handleCardClick() {
   emit('card-click', props.contentType, props.contentId);
 }
 
+function handleAddClick(event: MouseEvent) {
+  event.stopPropagation()
+  emit('add-click', props.contentType, props.contentId);
+}
+
+function handlePlayClick(event: MouseEvent) {
+  event.stopPropagation()
+  emit('play-click', props.contentType, props.contentId);
+}
 
 let covers = ref<string[]>([]);
 const coversStore = useCoversStore();
@@ -140,20 +154,20 @@ onMounted(async () => {
 
   let fetchedCovers: number[] = [];
   if (props.contentType === 'album') {
-    if (!coversStore.coverByAlbumId.has(props.contentId)) {
+    if (!coversStore.getCoverIdsByAlbumId(props.contentId)) {
       await coversStore.fetchAlbumCovers(props.contentId);
     }
-    fetchedCovers = coversStore.coverByAlbumId.get(props.contentId) || [];
+    fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
   } else if (props.contentType === 'artist') {
-    if (!coversStore.coverByArtistId.has(props.contentId)) {
+    if (!coversStore.getCoverIdsByAlbumId(props.contentId)) {
       await coversStore.fetchArtistCovers(props.contentId);
     }
-    fetchedCovers = coversStore.coverByArtistId.get(props.contentId) || [];
+    fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
   } else if (props.contentType === 'genre') {
-    if (!coversStore.coverByGenreId.has(props.contentId)) {
+    if (!coversStore.getCoverIdsByAlbumId(props.contentId)) {
       await coversStore.fetchGenreCovers(props.contentId);
     }
-    fetchedCovers = coversStore.coverByGenreId.get(props.contentId) || [];
+    fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
   }
   if (fetchedCovers.length === 0) {
     covers.value = [defaultCardImage];
@@ -314,6 +328,14 @@ onUnmounted(() => {
   gap: 10px;
   right: 10px;
   bottom: 50px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.card-button:hover .sub-button-wrapper {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .card-sub-button {

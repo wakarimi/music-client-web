@@ -3,19 +3,31 @@ import { CoverService } from '@/services/CoverService'
 
 export const useCoversStore = defineStore('covers', {
     state: () => ({
-        coverByAlbumId:  new Map<number, number[]>(),
-        coverByArtistId:  new Map<number, number[]>(),
-        coverByGenreId:  new Map<number, number[]>(),
+        _coverByAlbumId:  new Map<number, number[]>(),
+        _coverByArtistId:  new Map<number, number[]>(),
+        _coverByGenreId:  new Map<number, number[]>(),
     }),
     actions: {
         async fetchAlbumCovers(albumId: number) {
-            this.coverByAlbumId.set(albumId, await CoverService.getAlbumCovers(albumId))
+            this._coverByAlbumId.set(albumId, await CoverService.getAlbumCovers(albumId))
         },
         async fetchArtistCovers(artistId: number) {
-            this.coverByArtistId.set(artistId, await CoverService.getArtistCovers(artistId))
+            this._coverByArtistId.set(artistId, await CoverService.getArtistCovers(artistId))
         },
         async fetchGenreCovers(genreId: number) {
-            this.coverByGenreId.set(genreId, await CoverService.getGenreCovers(genreId))
+            this._coverByGenreId.set(genreId, await CoverService.getGenreCovers(genreId))
         },
+    },
+    getters: {
+        getCoverIdsByAlbumId: (state) => {
+            return (albumId: number) => {
+                return state._coverByAlbumId.get(albumId) || null
+            }
+        },
+        getCoverByCoverId: (state) => {
+            return (coverId: number) => {
+                return `http://localhost:8021/api/music-files/covers/${coverId}/image`
+            }
+        }
     }
 })

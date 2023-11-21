@@ -15,6 +15,7 @@
             v-if="buttonIcon"
             :src="buttonIcon"
             alt="buttonIcon"
+            :style="[{borderRadius: buttonIconBorderRadius}]"
         />
         <span
             class="button-text"
@@ -38,6 +39,10 @@ const props = defineProps({
   },
   buttonIcon: {
     type: String
+  },
+  buttonIconBorderRadius: {
+    type: String,
+    default: '0px'
   },
   buttonPadding: {
     type: String,
@@ -162,8 +167,8 @@ const contentPositionClass = computed(() => ({
 
 const emit = defineEmits(['click'])
 
-function handleClick() {
-  emit('click')
+function handleClick(event: MouseEvent) {
+  emit('click', event)
 }
 </script>
 

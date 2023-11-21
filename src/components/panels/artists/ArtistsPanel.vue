@@ -26,7 +26,6 @@
 <script setup lang="ts">
 import {useArtistsStore} from "@/stores/useArtistsStore";
 import {nextTick, onMounted, toRaw} from "vue";
-import BaseHeader from "@/components/base/BaseHeader.vue";
 import CustomCard from "@/components/base/CustomCard.vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
 
