@@ -32,6 +32,5 @@ export const useArtistsStore = defineStore('artists', {
             this.allArtistsPromise = null;
           });
     }
-
   }
 })

@@ -2,6 +2,7 @@
   <div class="custom-card">
     <button
         class="card-button"
+        @click="handleCardClick"
     >
       <div
           ref="containerRef"
@@ -21,6 +22,22 @@
         >
           <span class="card-text">{{ cardText }}</span>
         </div>
+        <div
+          class="sub-button-wrapper"
+        >
+          <CustomButton
+              class="card-sub-button"
+              :button-icon="addIcon"
+              button-padding="4px"
+              :size-change-percent="10"
+          />
+          <CustomButton
+              class="card-sub-button"
+              :button-icon="playIcon"
+              button-padding="4px"
+              :size-change-percent="10"
+          />
+        </div>
       </div>
     </button>
   </div>
@@ -31,24 +48,34 @@ import {computed, onMounted, onUnmounted, ref} from "vue";
 import defaultCardImage from "@/assets/default/cover.svg";
 import {nextTick} from "vue";
 import {useCoversStore} from "@/stores/useCoversStore";
+import CustomButton from "@/components/base/CustomButton.vue";
+import playIcon from "@/assets/icons/card-sub-button/play.svg"
+import addIcon from "@/assets/icons/card-sub-button/add.svg"
 
 const props = defineProps({
   contentType: {
     type: String, // album, artist, genre, playlist, directory, audioFile
-    required: true
+    required: true,
   },
   contentId: {
     type: Number,
-    required: true
+    required: true,
   },
   cardText: {
     type: String
   },
   sizeChangePercent: {
     type: Number,
-    default: 2
+    default: 0,
   },
 })
+
+const emit = defineEmits(['card-click']);
+
+function handleCardClick() {
+  emit('card-click', props.contentType, props.contentId);
+}
+
 
 let covers = ref<string[]>([]);
 const coversStore = useCoversStore();
@@ -278,5 +305,19 @@ onUnmounted(() => {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.sub-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  gap: 10px;
+  right: 10px;
+  bottom: 50px;
+}
+
+.card-sub-button {
+  height: 30px;
+  width: 30px;
 }
 </style>

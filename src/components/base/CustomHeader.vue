@@ -29,6 +29,7 @@
   flex-direction: row;
   align-items: center;
   margin-right: auto;
+  gap: 6px;
 }
 
 .header-right {
@@ -36,5 +37,6 @@
   flex-direction: row;
   align-items: center;
   margin-left: auto;
+  gap: 10px;
 }
 </style>

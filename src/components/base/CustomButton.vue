@@ -89,7 +89,7 @@ const props = defineProps({
   },
   sizeChangePercent: {
     type: Number,
-    default: 2
+    default: 0
   },
 })
 
@@ -217,6 +217,7 @@ function handleClick() {
 }
 
 .button-text {
+  white-space: nowrap;
 }
 </style>
 

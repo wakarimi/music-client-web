@@ -40,7 +40,7 @@ const panels: PanelComponents = {
   "controlFiles": FilesPanel,
 };
 
-const currentPanel = ref<ReturnType<typeof defineComponent>>(SongPanel);
+const currentPanel = ref<ReturnType<typeof defineComponent>>(AlbumsPanel);
 
 function changeCategory(panelName: string) {
   if (panelName in panels) {
