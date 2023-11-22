@@ -10,6 +10,9 @@
             class="song-cover"
             :src="getSongCover()"
             alt="song-cover">
+        <span class="song-description">
+          {{ getSongDescription() }}
+        </span>
       </div>
       <div class="song-row-right">
         <CustomButton
@@ -36,14 +39,76 @@
 </template>
 
 <script setup lang="ts">
+import {useSongsStore} from "@/stores/useSongsStore";
 import defaultCover from "@/assets/default/cover.svg"
 import CustomButton from "@/components/base/CustomButton.vue";
 import infoIcon from "@/assets/icons/song-row/info.svg"
 import addIcon from "@/assets/icons/song-row/add.svg"
 import playIcon from "@/assets/icons/song-row/play.svg"
+import type {Song} from "@/services/SongService";
+import {useArtistsStore} from "@/stores/useArtistsStore";
+import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
+
+const props = defineProps({
+  songId: {
+    type: Number,
+    required: true,
+  },
+})
+
+const songStore = useSongsStore()
+const artistStore = useArtistsStore()
+const audioFileStore = useAudioFilesStore()
 
 function getSongCover(): string {
-  return defaultCover
+  return defaultCover;
+}
+
+function getSongDescription(): string {
+  let song: Song | null;
+  song = null;
+  let audioFile: AudioFile | null;
+  audioFile = null;
+  let description = "";
+
+  if (!songStore.getSong(props.songId)) {
+    songStore.fetchAllSongs();
+  }
+  if (songStore.getSong(props.songId)) {
+    song = songStore.getSong(props.songId);
+  }
+  if (!song) {
+    return "Не удалось получить информацию о треке"
+  }
+
+  if (!audioFileStore.getAudioFile(song.audioFileId)) {
+    audioFileStore.fetchAllAudioFiles();
+  }
+  if (audioFileStore.getAudioFile(song.audioFileId)) {
+    audioFile = audioFileStore.getAudioFile(song.audioFileId)
+  }
+
+  if (song.songNumber) {
+    description += song.songNumber + ". "
+  }
+
+  if (song.title) {
+    description += song.title;
+  }
+
+  if (song.artistId) {
+    if (!artistStore.getArtist(song.artistId)) {
+      artistStore.fetchAllArtists()
+    }
+    const artist = artistStore.getArtist(song.artistId)
+    description += " - " + artist?.name;
+  }
+
+  if ((description === "") && (audioFile)) {
+    description = audioFile.fileName
+  }
+
+  return description
 }
 </script>
 
@@ -83,6 +148,7 @@ function getSongCover(): string {
 .song-row-left {
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-right: auto;
   position: relative;
   height: 100%;
@@ -106,6 +172,11 @@ function getSongCover(): string {
 
 .song-cover >>> img {
   height: 100%;
+}
+
+.song-description {
+  padding-left: 10px;
+  font-size: 15px;
 }
 
 .control-button {

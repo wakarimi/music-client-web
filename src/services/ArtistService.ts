@@ -2,18 +2,13 @@ import axios, { AxiosError } from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
-export interface ArtistGetAllItem {
+export interface Artist {
   artistId: number
   name: string
 }
 
 export interface ArtistGetAll {
-  artists: ArtistGetAllItem[]
-}
-
-export interface ArtistGet {
-  artistId: number
-  name: string
+  artists: Artist[]
 }
 
 const apiClient = axios.create({
@@ -36,7 +31,7 @@ apiClient.interceptors.response.use(
 );
 
 export const ArtistService = {
-  async getArtists(): Promise<ArtistGetAll> {
+  async getAllArtists(): Promise<ArtistGetAll> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
@@ -57,34 +52,6 @@ export const ArtistService = {
           console.error(data)
         } else {
           console.error('Ошибка при запросе исполнителей')
-        }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
-  async getArtist(artistId: number): Promise<ArtistGet> {
-    const tokenStore = useTokensStore()
-    if (tokenStore.accessToken == null) {
-      await tokenStore.refresh()
-    }
-    const accessToken = tokenStore.accessToken
-    try {
-      const response = await apiClient.get(`/music-metadata/artists/${artistId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      return response.data
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          console.error(data)
-        } else {
-          console.error('Ошибка при запросе исполнителя')
         }
       } else {
         console.error('Непредвиденная ошибка')

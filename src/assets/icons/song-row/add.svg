@@ -35,11 +35,11 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1" />
   <path
-     d="M 0.6000006,11.999999 H 23.399999 m -11.4,-11.3999984 V 23.399999"
+     d="M 1.2000003,11.999999 H 22.8 M 11.999999,1.2000003 V 22.8"
      stroke="#000000"
      stroke-width="2"
      stroke-linecap="round"
      stroke-linejoin="round"
      id="path1"
-     style="stroke-width:1.2;stroke-dasharray:none" />
+     style="stroke-width:2.4;stroke-dasharray:none" />
 </svg>

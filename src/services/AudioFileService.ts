@@ -2,26 +2,22 @@ import axios, {AxiosError} from "axios";
 import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
-export interface Song {
-    "songId": number,
+export interface AudioFile {
     "audioFileId": number,
-    "title": string,
-    "albumId": number,
-    "artistId": number,
-    "genreId": number,
-    "year": number,
-    "songNumber": number,
-    "discNumber": number,
-    "lyrics": string,
-    "sha256": string
+    "dirId": number,
+    "filename": string,
+    "extension": string,
+    "sizeByte": number,
+    "durationMs": number,
+    "bitrateKbps": number,
+    "sampleRateHz": number,
+    "channelsN": number,
+    "sha256": string,
+    "lastContentUpdate": string,
 }
 
-export interface SongGetAll {
-    songs: Song[];
-}
-
-export interface SongGetByAlbum {
-    songs: Song[];
+export interface AudioFileGetAll {
+    audioFiles: AudioFile[];
 }
 
 const apiClient = axios.create({
@@ -43,15 +39,15 @@ apiClient.interceptors.response.use(
     }
 );
 
-export const SongService = {
-    async getAllSongs(): Promise<SongGetAll> {
+export const AudioFileService = {
+    async getAllAudioFiles(): Promise<AudioFileGetAll> {
         const tokenStore = useTokensStore()
         if (tokenStore.accessToken == null) {
             await tokenStore.refresh()
         }
         const accessToken = tokenStore.accessToken
         try {
-            const response = await apiClient.get('/music-metadata/songs', {
+            const response = await apiClient.get('/music-files/audio-files', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -65,34 +61,6 @@ export const SongService = {
                     console.error(data)
                 } else {
                     console.error('Ошибка при запросе всех песен')
-                }
-            } else {
-                console.error('Непредвиденная ошибка')
-            }
-            throw error
-        }
-    },
-    async getSongsByAlbum(albumId: number): Promise<SongGetByAlbum> {
-        const tokenStore = useTokensStore()
-        if (tokenStore.accessToken == null) {
-            await tokenStore.refresh()
-        }
-        const accessToken = tokenStore.accessToken
-        try {
-            const response = await apiClient.get(`/music-metadata/albums/${albumId}/songs`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            return response.data
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                const axiosError = error as AxiosError
-                if (axiosError.response) {
-                    const data = axiosError.response.data as ErrorResponse
-                    console.error(data)
-                } else {
-                    console.error('Ошибка при запросе песен альбома')
                 }
             } else {
                 console.error('Непредвиденная ошибка')

@@ -54,9 +54,9 @@
     >
       <CustomSongRow
           class="track-list-item"
-          v-for="album in toRaw(albumStore.getAllAlbums)"
-          :key="album.albumId"
-          :song-id="album.albumId"
+          v-for="song in songStore.getSongsByAlbumId(currentAlbumId)"
+          :key="song.songId"
+          :song-id="song.songId"
       >
       </CustomSongRow>
     </div>
@@ -73,9 +73,11 @@ import albumCategoryIcon from "@/assets/icons/category/category-albums.svg"
 import defaultCover from "@/assets/default/cover.svg"
 import {useCoversStore} from "@/stores/useCoversStore";
 import CustomSongRow from "@/components/base/CustomSongRow.vue";
+import {useSongsStore} from "@/stores/useSongsStore";
 
 const albumStore = useAlbumsStore()
 const coverStore = useCoversStore()
+const songStore = useSongsStore()
 
 const currentAlbumId = ref<number | null>(null);
 
@@ -117,6 +119,9 @@ function handleAlbumsClick() {
 
 function handleCardClick(contentType: string, contentId: number) {
   console.log("handleCardClick " + contentType + " " + contentId)
+  if (!songStore.getSongsByAlbumId(contentId)) {
+    songStore.fetchAlbum(contentId)
+  }
   currentAlbumId.value = contentId;
 }
 
