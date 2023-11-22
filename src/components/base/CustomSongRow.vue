@@ -15,24 +15,26 @@
         </span>
       </div>
       <div class="song-row-right">
-        <CustomButton
-            class="control-button right-element"
-          :button-icon="infoIcon"
-          button-padding="4px"
-            :size-change-percent="2"
-        />
-        <CustomButton
-            class="control-button right-element"
-            :button-icon="addIcon"
-            button-padding="4px"
-            :size-change-percent="2"
-        />
-        <CustomButton
-            class="control-button right-element"
-            :button-icon="playIcon"
-            button-padding="4px"
-            :size-change-percent="2"
-        />
+        <div class="control-button-wrapper">
+          <CustomButton
+              class="control-button right-element"
+              :button-icon="infoIcon"
+              button-padding="4px"
+              :size-change-percent="2"
+          />
+          <CustomButton
+              class="control-button right-element"
+              :button-icon="addIcon"
+              button-padding="4px"
+              :size-change-percent="2"
+          />
+          <CustomButton
+              class="control-button right-element"
+              :button-icon="playIcon"
+              button-padding="4px"
+              :size-change-percent="2"
+          />
+        </div>
         <span class="song-duration right-element">
           {{ getSongDuration() }}
         </span>
@@ -51,6 +53,7 @@ import playIcon from "@/assets/icons/song-row/play.svg"
 import type {Song} from "@/services/SongService";
 import {useArtistsStore} from "@/stores/useArtistsStore";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
+import type {AudioFile} from "@/services/AudioFileService";
 
 const props = defineProps({
   songId: {
@@ -97,7 +100,7 @@ function getSongDuration(): string {
   }
 }
 
-function formatDuration(durationMs) {
+function formatDuration(durationMs: number) {
   const seconds = Math.floor((durationMs / 1000) % 60);
   const minutes = Math.floor((durationMs / (1000 * 60)) % 60);
   const hours = Math.floor(durationMs / (1000 * 60 * 60));
@@ -209,6 +212,21 @@ function getSongDescription(): string {
   align-items: center;
   position: relative;
   height: 100%;
+}
+
+.control-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.song-row-button:hover .control-button-wrapper {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .song-cover {
