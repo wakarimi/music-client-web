@@ -6,6 +6,7 @@
     <div class="column column-content">
       <component
           :is="currentPanel"
+          :key="componentKey"
           @infoClick="handleEventInfo"
           @addClick="handleEventAdd"
           @playClick="handleEventPlay"
@@ -46,10 +47,12 @@ const panels: PanelComponents = {
 };
 
 const currentPanel = ref<ReturnType<typeof defineComponent>>(AlbumsPanel);
+const componentKey = ref(0);
 
 function changeCategory(panelName: string) {
   if (panelName in panels) {
     currentPanel.value = panels[panelName];
+    componentKey.value++;
   } else {
     throw new Error(`Panel ${panelName} is not defined`);
   }
