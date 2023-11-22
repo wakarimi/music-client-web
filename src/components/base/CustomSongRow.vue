@@ -21,18 +21,21 @@
               :button-icon="infoIcon"
               button-padding="4px"
               :size-change-percent="2"
+              @click="handleInfoClick($event)"
           />
           <CustomButton
               class="control-button right-element"
               :button-icon="addIcon"
               button-padding="4px"
               :size-change-percent="2"
+              @click="handleAddClick($event)"
           />
           <CustomButton
               class="control-button right-element"
               :button-icon="playIcon"
               button-padding="4px"
               :size-change-percent="2"
+              @click="handlePlayClick($event)"
           />
         </div>
         <span class="song-duration right-element">
@@ -47,9 +50,9 @@
 import {useSongsStore} from "@/stores/useSongsStore";
 import defaultCover from "@/assets/default/cover.svg"
 import CustomButton from "@/components/base/CustomButton.vue";
-import infoIcon from "@/assets/icons/song-row/info.svg"
-import addIcon from "@/assets/icons/song-row/add.svg"
-import playIcon from "@/assets/icons/song-row/play.svg"
+import infoIcon from "@/assets/icons/playback-control/info.svg"
+import addIcon from "@/assets/icons/playback-control/add.svg"
+import playIcon from "@/assets/icons/playback-control/play.svg"
 import type {Song} from "@/services/SongService";
 import {useArtistsStore} from "@/stores/useArtistsStore";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
@@ -184,6 +187,27 @@ function getSongDescription(): string {
   }
 
   return description
+}
+
+const emit = defineEmits([
+  'info-click',
+  'add-click',
+  'play-click',
+]);
+
+function handleInfoClick(event: MouseEvent) {
+  event.stopPropagation()
+  emit('info-click', 'song', props.songId);
+}
+
+function handleAddClick(event: MouseEvent) {
+  event.stopPropagation()
+  emit('add-click', 'song', props.songId);
+}
+
+function handlePlayClick(event: MouseEvent) {
+  event.stopPropagation()
+  emit('play-click', 'song', props.songId);
 }
 </script>
 

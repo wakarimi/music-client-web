@@ -42,8 +42,8 @@
           :content-id="album.albumId"
           :card-text="album.title"
           @cardClick="handleCardClick"
-          @add-click="handleCardAddClick"
-          @play-click="handleCardPlayClick"
+          @addClick="handleAddClick"
+          @playClick="handlePlayClick"
       >
       </CustomCard>
     </div>
@@ -57,6 +57,9 @@
           v-for="song in songStore.getSongsByAlbumId(currentAlbumId)"
           :key="song.songId"
           :song-id="song.songId"
+          @infoClick="handleInfoClick"
+          @addClick="handleAddClick"
+          @playClick="handlePlayClick"
       >
       </CustomSongRow>
     </div>
@@ -118,19 +121,28 @@ function handleAlbumsClick() {
 }
 
 function handleCardClick(contentType: string, contentId: number) {
-  console.log("handleCardClick " + contentType + " " + contentId)
   if (!songStore.getSongsByAlbumId(contentId)) {
     songStore.fetchAlbum(contentId)
   }
   currentAlbumId.value = contentId;
 }
 
-function handleCardAddClick(contentType: string, contentId: number) {
-  console.log("handleAddClick " + contentType + " " + contentId)
+const emit = defineEmits([
+  'info-click',
+  'add-click',
+  'play-click',
+]);
+
+function handleInfoClick(contentType: string, contentId: number) {
+  emit('info-click', contentType, contentId);
 }
 
-function handleCardPlayClick(contentType: string, contentId: number) {
-  console.log("handlePlayClick " + contentType + " " + contentId)
+function handleAddClick(contentType: string, contentId: number) {
+  emit('add-click', contentType, contentId);
+}
+
+function handlePlayClick(contentType: string, contentId: number) {
+  emit('play-click', contentType, contentId);
 }
 </script>
 

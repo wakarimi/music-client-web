@@ -17,20 +17,19 @@
             alt="cover"
         >
         <div
-          class="card-text-wrapper"
-          :style="[{ top: halfWidth * 2 + 'px' }]"
+            class="card-text-wrapper"
+            :style="[{ top: halfWidth * 2 + 'px' }]"
         >
           <span class="card-text">{{ cardText }}</span>
         </div>
         <div
-          class="sub-button-wrapper"
+            class="sub-button-wrapper"
         >
           <CustomButton
               class="card-sub-button"
               :button-icon="addIcon"
               button-padding="4px"
               :size-change-percent="10"
-              :should-animate="cardShouldAnimate"
               @click="handleAddClick($event)"
           />
           <CustomButton
@@ -52,8 +51,8 @@ import defaultCardImage from "@/assets/default/cover.svg";
 import {nextTick} from "vue";
 import {useCoversStore} from "@/stores/useCoversStore";
 import CustomButton from "@/components/base/CustomButton.vue";
-import playIcon from "@/assets/icons/card-sub-button/play.svg"
-import addIcon from "@/assets/icons/card-sub-button/add.svg"
+import playIcon from "@/assets/icons/playback-control/play.svg"
+import addIcon from "@/assets/icons/playback-control/add.svg"
 
 const props = defineProps({
   contentType: {
@@ -72,8 +71,6 @@ const props = defineProps({
     default: 0,
   },
 })
-
-const cardShouldAnimate = ref(true)
 
 const emit = defineEmits(['card-click', 'add-click', 'play-click']);
 
@@ -209,9 +206,8 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
 
-  transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+  transition: transform 0.3s ease,
+  box-shadow 0.3s ease;
 }
 
 .card-button:hover {

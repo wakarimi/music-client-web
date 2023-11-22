@@ -4,7 +4,12 @@
       <CategoryPanel @change-category="changeCategory" />
     </div>
     <div class="column column-content">
-      <component :is="currentPanel" />
+      <component
+          :is="currentPanel"
+          @infoClick="handleEventInfo"
+          @addClick="handleEventAdd"
+          @playClick="handleEventPlay"
+      />
     </div>
     <div class="column column-custom">
       <PlaybackPanel />
@@ -49,6 +54,18 @@ function changeCategory(panelName: string) {
     throw new Error(`Panel ${panelName} is not defined`);
   }
 }
+
+const handleEventInfo = (contentType: string, contentId: number) => {
+  console.log(`HandleEventInfo from ${contentType} with ID ${contentId}`);
+};
+
+const handleEventAdd = (contentType: string, contentId: number) => {
+  console.log(`HandleEventAdd from ${contentType} with ID ${contentId}`);
+};
+
+const handleEventPlay = (contentType: string, contentId: number) => {
+  console.log(`HandleEventPlay from ${contentType} with ID ${contentId}`);
+};
 
 </script>
 
