@@ -5,6 +5,7 @@
         :value="modelValue"
         :type="type"
         :placeholder="placeholderText"
+        :style="[{fontSize: textSize}]"
         @input="handleInput($event)"
     >
   </div>
@@ -21,6 +22,10 @@ defineProps({
   },
   placeholderText: {
     type: String,
+  },
+  textSize: {
+    type: String,
+    default: "18px",
   },
 })
 
@@ -43,7 +48,6 @@ function handleInput(event: Event) {
   padding: 10px;
   box-sizing: border-box;
 
-  font-size: 18px;
   color: #252323;
   user-select: none;
 

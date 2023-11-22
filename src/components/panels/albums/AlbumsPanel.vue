@@ -5,6 +5,7 @@
     >
       <template #left>
         <CustomButton
+            class="header-element"
             button-padding="6px"
             :button-icon="albumCategoryIcon"
             button-text="Альбомы"
@@ -19,6 +20,7 @@
           /
         </span>
         <CustomButton
+            class="header-element"
             v-if="currentAlbumId"
             button-padding="4px"
             :button-icon="getAlbumCover(currentAlbumId)"
@@ -26,6 +28,29 @@
             :button-text="getAlbumName(currentAlbumId)"
             text-size="16px"
             :size-change-percent="5"
+        />
+      </template>
+
+      <template #right>
+        <CustomTextField
+            class="filter-field header-element"
+            placeholder-text="Фильтр"
+            v-model="filterText"
+            text-size="14px"
+        />
+        <CustomButton
+            class="control-button header-element"
+            :button-icon="addIcon"
+            button-padding="4px"
+            :size-change-percent="2"
+            @click="handleAddClick"
+        />
+        <CustomButton
+            class="control-button header-element"
+            :button-icon="playIcon"
+            button-padding="4px"
+            :size-change-percent="2"
+            @click="handlePlayClick"
         />
       </template>
     </CustomHeader>
@@ -36,7 +61,7 @@
     >
       <CustomCard
           class="grid-item"
-          v-for="album in toRaw(albumStore.getAllAlbums)"
+          v-for="album in filteredAlbums"
           :key="album.albumId"
           content-type="album"
           :content-id="album.albumId"
@@ -44,8 +69,7 @@
           @cardClick="handleCardClick"
           @addClick="handleAddClick"
           @playClick="handlePlayClick"
-      >
-      </CustomCard>
+      />
     </div>
 
     <div
@@ -54,7 +78,7 @@
     >
       <CustomSongRow
           class="track-list-item"
-          v-for="song in songStore.getSongsByAlbumId(currentAlbumId)"
+          v-for="song in filteredSongs"
           :key="song.songId"
           :song-id="song.songId"
           @infoClick="handleInfoClick"
@@ -68,7 +92,7 @@
 
 <script setup lang="ts">
 import {useAlbumsStore} from "@/stores/useAlbumsStore";
-import {nextTick, onMounted, ref, toRaw} from "vue";
+import {computed, nextTick, onMounted, ref, toRaw} from "vue";
 import CustomCard from "@/components/base/CustomCard.vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
 import CustomButton from "@/components/base/CustomButton.vue";
@@ -77,12 +101,16 @@ import defaultCover from "@/assets/default/cover.svg"
 import {useCoversStore} from "@/stores/useCoversStore";
 import CustomSongRow from "@/components/base/CustomSongRow.vue";
 import {useSongsStore} from "@/stores/useSongsStore";
+import CustomTextField from "@/components/base/CustomTextField.vue";
+import addIcon from "@/assets/icons/playback-control/add.svg";
+import playIcon from "@/assets/icons/playback-control/play.svg";
 
 const albumStore = useAlbumsStore()
 const coverStore = useCoversStore()
 const songStore = useSongsStore()
 
 const currentAlbumId = ref<number | null>(null);
+const filterText = ref<string>("")
 
 onMounted(async () => {
   await nextTick();
@@ -117,15 +145,52 @@ function getAlbumName(albumId: number): string {
 }
 
 function handleAlbumsClick() {
+  filterText.value = ""
   currentAlbumId.value = null;
 }
 
 function handleCardClick(contentType: string, contentId: number) {
+  filterText.value = ""
   if (!songStore.getSongsByAlbumId(contentId)) {
     songStore.fetchAlbum(contentId)
   }
   currentAlbumId.value = contentId;
 }
+
+const filteredAlbums = computed(() => {
+  if (!filterText.value) {
+    return toRaw(albumStore.getAllAlbums);
+  }
+  if (albumStore.getAllAlbums) {
+    return toRaw(albumStore.getAllAlbums).filter(album =>
+        album.title.toLowerCase().includes(filterText.value.toLowerCase())
+    );
+  } else {
+    return [];
+  }
+});
+
+const filteredSongs = computed(() => {
+  if (!filterText.value) {
+    if (currentAlbumId.value) {
+      return songStore.getSongsByAlbumId(currentAlbumId.value);
+    } else {
+      return []
+    }
+  }
+  if (currentAlbumId.value) {
+    const songs = songStore.getSongsByAlbumId(currentAlbumId.value)
+    if (songs) {
+      return toRaw(songs).filter(song => {
+        return song.title.toLowerCase().includes(filterText.value.toLowerCase())
+      })
+    } else {
+      return []
+    }
+  } else {
+    return []
+  }
+});
 
 const emit = defineEmits([
   'info-click',
@@ -159,13 +224,26 @@ function handlePlayClick(contentType: string, contentId: number) {
   height: 30px;
 }
 
+.header-element {
+  height: 30px;
+}
+
+.control-button {
+  width: 30px;
+}
+
+.filter-field {
+  width: 200px;
+}
+
 .album-grid {
   flex-grow: 1;
   overflow-y: auto;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  align-items: start;
+  align-items: start; /* Выравнивание элементов внутри каждой строки */
+  align-content: start; /* Выравнивание всех строк в контейнере */
   grid-gap: 2vh;
   padding: 10px;
 
