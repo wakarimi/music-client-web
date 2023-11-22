@@ -78,7 +78,7 @@ function getSongDescription(): string {
     song = songStore.getSong(props.songId);
   }
   if (!song) {
-    return "Не удалось получить информацию о треке"
+    return ""
   }
 
   if (!audioFileStore.getAudioFile(song.audioFileId)) {
@@ -105,7 +105,7 @@ function getSongDescription(): string {
   }
 
   if ((description === "") && (audioFile)) {
-    description = audioFile.fileName
+    description = audioFile.filename
   }
 
   return description
