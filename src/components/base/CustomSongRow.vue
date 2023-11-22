@@ -33,6 +33,9 @@
             button-padding="4px"
             :size-change-percent="2"
         />
+        <span class="song-duration right-element">
+          {{ getSongDuration() }}
+        </span>
       </div>
     </button>
   </div>
@@ -62,6 +65,52 @@ const audioFileStore = useAudioFilesStore()
 
 function getSongCover(): string {
   return defaultCover;
+}
+
+function getSongDuration(): string {
+  let song: Song | null;
+  song = null;
+  let audioFile: AudioFile | null;
+  audioFile = null;
+
+  if (!songStore.getSong(props.songId)) {
+    songStore.fetchAllSongs();
+  }
+  if (songStore.getSong(props.songId)) {
+    song = songStore.getSong(props.songId);
+  }
+  if (!song) {
+    return "00:00";
+  }
+
+  if (!audioFileStore.getAudioFile(song.audioFileId)) {
+    audioFileStore.fetchAllAudioFiles();
+  }
+  if (audioFileStore.getAudioFile(song.audioFileId)) {
+    audioFile = audioFileStore.getAudioFile(song.audioFileId);
+  }
+
+  if (audioFile) {
+    return formatDuration(audioFile.durationMs);
+  } else {
+    return "00:00";
+  }
+}
+
+function formatDuration(durationMs) {
+  const seconds = Math.floor((durationMs / 1000) % 60);
+  const minutes = Math.floor((durationMs / (1000 * 60)) % 60);
+  const hours = Math.floor(durationMs / (1000 * 60 * 60));
+
+  const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+  const formattedHours = hours < 10 ? '0' + hours : hours;
+
+  if (hours > 0) {
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  } else {
+    return `${formattedMinutes}:${formattedSeconds}`;
+  }
 }
 
 function getSongDescription(): string {
@@ -184,6 +233,11 @@ function getSongDescription(): string {
 }
 
 .right-element {
-  padding-right: 4px;
+  padding-left: 4px;
+}
+
+.song-duration {
+  padding: 8px;
+  font-size: 15px;
 }
 </style>
