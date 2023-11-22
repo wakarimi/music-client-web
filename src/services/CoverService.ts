@@ -47,7 +47,7 @@ export const CoverService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе обложки альбома')
+          console.error('Ошибка при запросе обложек альбома')
         }
       } else {
         console.error('Непредвиденная ошибка')
@@ -75,7 +75,7 @@ export const CoverService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе обложки альбома')
+          console.error('Ошибка при запросе обложек исполнителя')
         }
       } else {
         console.error('Непредвиденная ошибка')
@@ -103,7 +103,35 @@ export const CoverService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе обложки альбома')
+          console.error('Ошибка при запросе обложек жанра')
+        }
+      } else {
+        console.error('Непредвиденная ошибка')
+      }
+      throw error
+    }
+  },
+  async getAudioFileCover(audioFileId: number): Promise<number> {
+    const tokenStore = useTokensStore()
+    if (tokenStore.accessToken == null) {
+      await tokenStore.refresh()
+    }
+    const accessToken = tokenStore.accessToken
+    try {
+      const response = await apiClient.get(`/music-files/audio-files/${audioFileId}/cover`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      return response.data.coverId
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError
+        if (axiosError.response) {
+          const data = axiosError.response.data as ErrorResponse
+          console.error(data)
+        } else {
+          console.error('Ошибка при запросе обложки аудиофайла')
         }
       } else {
         console.error('Непредвиденная ошибка')

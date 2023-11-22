@@ -54,6 +54,7 @@ import type {Song} from "@/services/SongService";
 import {useArtistsStore} from "@/stores/useArtistsStore";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
 import type {AudioFile} from "@/services/AudioFileService";
+import {useCoversStore} from "@/stores/useCoversStore";
 
 const props = defineProps({
   songId: {
@@ -65,9 +66,31 @@ const props = defineProps({
 const songStore = useSongsStore()
 const artistStore = useArtistsStore()
 const audioFileStore = useAudioFilesStore()
+const coverStore = useCoversStore()
 
 function getSongCover(): string {
-  return defaultCover;
+  let song: Song | null;
+  song = null;
+
+  if (!songStore.getSong(props.songId)) {
+    songStore.fetchAllSongs();
+  }
+  if (songStore.getSong(props.songId)) {
+    song = songStore.getSong(props.songId);
+  }
+  if (!song) {
+    return defaultCover;
+  }
+
+  if (!coverStore.getCoverIdByAudioFileId(song.audioFileId)) {
+    coverStore.fetchAudioFileCover(song.audioFileId)
+  }
+  const coverId = coverStore.getCoverIdByAudioFileId(song.audioFileId)
+  if (coverId) {
+    return coverStore.getCoverByCoverId(coverId);
+  } else {
+    return defaultCover;
+  }
 }
 
 function getSongDuration(): string {
