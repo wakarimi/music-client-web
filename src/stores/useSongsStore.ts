@@ -9,8 +9,6 @@ export const useSongsStore = defineStore('songs', {
     _fetchSongsPromise: null as Promise<void> | null,
 
     _songsByAlbumId: new Map<number, SongGetByAlbum>,
-    _isFetchAlbumSongsActive: false,
-    _fetchAlbumSongsPromise: null as Promise<void> | null,
   }),
   actions: {
     async fetchAllSongs() {
@@ -29,19 +27,12 @@ export const useSongsStore = defineStore('songs', {
       })
     },
     async fetchAlbum(albumId: number) {
-      if (this._isFetchAlbumSongsActive) {
-        return this._fetchAlbumSongsPromise;
-      }
-      this._isFetchAlbumSongsActive = true
-
-      this._fetchAlbumSongsPromise = SongService.getSongsByAlbum(albumId).then(songsByAlbumId => {
+      try {
+        const songsByAlbumId = await SongService.getSongsByAlbum(albumId)
         this._songsByAlbumId.set(albumId, songsByAlbumId)
-      }).catch(error => {
+      } catch (error) {
         console.log(error)
-      }).finally(() => {
-        this._isFetchAlbumSongsActive = false;
-        this._fetchAlbumSongsPromise = null;
-      })
+      }
     }
   },
   getters: {

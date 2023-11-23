@@ -58,16 +58,18 @@ function changeCategory(panelName: string) {
   }
 }
 
-const handleEventInfo = (contentType: string, contentId: number) => {
-  console.log(`HandleEventInfo from ${contentType} with ID ${contentId}`);
+const handleEventInfo = (songId: number) => {
+  console.log(`handleEventInfo. Песня:${songId}`);
 };
 
-const handleEventAdd = (contentType: string, contentId: number) => {
-  console.log(`HandleEventAdd from ${contentType} with ID ${contentId}`);
+const handleEventAdd = (songIds: number[]) => {
+  const number = songIds.length;
+  console.log(`handleEventAdd Количество песен: ${number}, Сами песни: ${songIds}`);
 };
 
-const handleEventPlay = (contentType: string, contentId: number) => {
-  console.log(`HandleEventPlay from ${contentType} with ID ${contentId}`);
+const handleEventPlay = (songIds: number[]) => {
+  const number = songIds.length;
+  console.log(`handleEventPlay Количество песен: ${number}, Сами песни: ${songIds}`);
 };
 
 </script>

@@ -21,21 +21,21 @@
               :button-icon="infoIcon"
               button-padding="4px"
               :size-change-percent="2"
-              @click="handleInfoClick($event)"
+              @click="handleInfoClick($event, songId)"
           />
           <CustomButton
               class="control-button right-element"
               :button-icon="addIcon"
               button-padding="4px"
               :size-change-percent="2"
-              @click="handleAddClick($event)"
+              @click="handleAddClick($event, [songId])"
           />
           <CustomButton
               class="control-button right-element"
               :button-icon="playIcon"
               button-padding="4px"
               :size-change-percent="2"
-              @click="handlePlayClick($event)"
+              @click="handlePlayClick($event, [songId])"
           />
         </div>
         <span class="song-duration right-element">
@@ -195,19 +195,19 @@ const emit = defineEmits([
   'play-click',
 ]);
 
-function handleInfoClick(event: MouseEvent) {
+function handleInfoClick(event: MouseEvent, songId: number) {
   event.stopPropagation()
-  emit('info-click', 'song', props.songId);
+  emit('info-click', songId);
 }
 
-function handleAddClick(event: MouseEvent) {
+function handleAddClick(event: MouseEvent, songIds: number[]) {
   event.stopPropagation()
-  emit('add-click', 'song', props.songId);
+  emit('add-click', songIds);
 }
 
-function handlePlayClick(event: MouseEvent) {
+function handlePlayClick(event: MouseEvent, songIds: number[]) {
   event.stopPropagation()
-  emit('play-click', 'song', props.songId);
+  emit('play-click', songIds);
 }
 </script>
 

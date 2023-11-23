@@ -43,14 +43,14 @@
             :button-icon="addIcon"
             button-padding="4px"
             :size-change-percent="2"
-            @click="handleAddClick"
+            @click="handleAddAllAlbumsClick"
         />
         <CustomButton
             class="control-button header-element"
             :button-icon="playIcon"
             button-padding="4px"
             :size-change-percent="2"
-            @click="handlePlayClick"
+            @click="handlePlayAllAlbumsClick"
         />
       </template>
     </CustomHeader>
@@ -192,22 +192,88 @@ const filteredSongs = computed(() => {
   }
 });
 
+async function getSongIds(albumId: number): Promise<number[]> {
+  if (!songStore.getSongsByAlbumId(albumId)) {
+    await songStore.fetchAlbum(albumId);
+  }
+  if (songStore.getSongsByAlbumId(albumId)) {
+    const songs = songStore.getSongsByAlbumId(albumId)
+    if (songs) {
+      return songs.map(song => {
+        return song.songId
+      })
+    } else {
+      return []
+    }
+  } else {
+    return [];
+  }
+}
+
 const emit = defineEmits([
   'info-click',
   'add-click',
   'play-click',
 ]);
 
-function handleInfoClick(contentType: string, contentId: number) {
-  emit('info-click', contentType, contentId);
+function handleInfoClick(songId: number) {
+  emit('info-click', songId);
 }
 
-function handleAddClick(contentType: string, contentId: number) {
-  emit('add-click', contentType, contentId);
+async function handleAddAllAlbumsClick() {
+  const songIds: number[] = []
+
+  if (currentAlbumId.value) {
+    const songs = filteredSongs.value
+    if (songs) {
+      for (const song of songs) {
+        songIds.push(song.songId)
+      }
+    }
+  } else {
+    const albums = filteredAlbums.value
+    if (albums) {
+      for (const album of albums) {
+        const albumsSongIds = await getSongIds(album.albumId)
+        albumsSongIds.forEach(songId => {
+          songIds.push(songId)
+        })
+      }
+    }
+  }
+  emit('add-click', songIds);
 }
 
-function handlePlayClick(contentType: string, contentId: number) {
-  emit('play-click', contentType, contentId);
+async function handlePlayAllAlbumsClick() {
+  const songIds: number[] = []
+
+  if (currentAlbumId.value) {
+    const songs = filteredSongs.value
+    if (songs) {
+      for (const song of songs) {
+        songIds.push(song.songId)
+      }
+    }
+  } else {
+    const albums = filteredAlbums.value
+    if (albums) {
+      for (const album of albums) {
+        const albumsSongIds = await getSongIds(album.albumId)
+        albumsSongIds.forEach(songId => {
+          songIds.push(songId)
+        })
+      }
+    }
+  }
+  emit('play-click', songIds);
+}
+
+function handleAddClick(songIds: number[]) {
+  emit('add-click', songIds);
+}
+
+function handlePlayClick(songIds: number[]) {
+  emit('play-click', songIds);
 }
 </script>
 
@@ -242,8 +308,8 @@ function handlePlayClick(contentType: string, contentId: number) {
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  align-items: start; /* Выравнивание элементов внутри каждой строки */
-  align-content: start; /* Выравнивание всех строк в контейнере */
+  align-items: start;
+  align-content: start;
   grid-gap: 2vh;
   padding: 10px;
 

@@ -30,14 +30,14 @@
               :button-icon="addIcon"
               button-padding="4px"
               :size-change-percent="10"
-              @click="handleAddClick($event)"
+              @click="handleAddClickWrapper($event, contentType, contentId)"
           />
           <CustomButton
               class="card-sub-button"
               :button-icon="playIcon"
               button-padding="4px"
               :size-change-percent="10"
-              @click="handlePlayClick($event)"
+              @click="handlePlayClickWrapper($event, contentType, contentId)"
           />
         </div>
       </div>
@@ -53,6 +53,10 @@ import {useCoversStore} from "@/stores/useCoversStore";
 import CustomButton from "@/components/base/CustomButton.vue";
 import playIcon from "@/assets/icons/playback-control/play.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
+import type {Song} from "@/services/SongService";
+import {useSongsStore} from "@/stores/useSongsStore";
+
+const songStore = useSongsStore()
 
 const props = defineProps({
   contentType: {
@@ -74,18 +78,54 @@ const props = defineProps({
 
 const emit = defineEmits(['card-click', 'add-click', 'play-click']);
 
+async function getSongIds(contentType: string, contentId: number): Promise<number[]> {
+  if (contentType === "album") {
+    if (!songStore.getSongsByAlbumId(contentId)) {
+      await songStore.fetchAlbum(contentId);
+    }
+    if (songStore.getSongsByAlbumId(contentId)) {
+      const songs = songStore.getSongsByAlbumId(contentId)
+      if (songs) {
+        return songs.map(song => {
+          return song.songId
+        })
+      } else {
+        return []
+      }
+    } else {
+      return [];
+    }
+  } else if (contentType === "artist") {
+    return []
+  } else if (contentType === "genre") {
+    return []
+  } else {
+    return []
+  }
+}
+
 function handleCardClick() {
   emit('card-click', props.contentType, props.contentId);
 }
 
-function handleAddClick(event: MouseEvent) {
+async function handleAddClickWrapper(event: MouseEvent, contentType: string, contentId: number) {
   event.stopPropagation()
-  emit('add-click', props.contentType, props.contentId);
+  const songIds = await getSongIds(contentType, contentId);
+  handleAddClick(songIds)
 }
 
-function handlePlayClick(event: MouseEvent) {
-  event.stopPropagation()
-  emit('play-click', props.contentType, props.contentId);
+function handleAddClick(songIds: number[]) {
+  emit('add-click', songIds);
+}
+
+async function handlePlayClickWrapper(event: MouseEvent, contentType: string, contentId: number) {
+  event.stopPropagation();
+  const songIds = await getSongIds(contentType, contentId);
+  handlePlayClick(songIds)
+}
+
+function handlePlayClick(songIds: number[]) {
+  emit('play-click', songIds);
 }
 
 let covers = ref<string[]>([]);
