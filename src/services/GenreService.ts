@@ -1,19 +1,14 @@
-import axios, { AxiosError } from 'axios'
+import axios, {AxiosError} from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
-export interface GenreGetAllItem {
+export interface Genre {
   genreId: number
   name: string
 }
 
-export interface GenreGetAll {
-  genres: GenreGetAllItem[]
-}
-
-export interface GenreGet {
-  genreId: number
-  name: string
+export interface GenresGetAll {
+  genres: Genre[]
 }
 
 const apiClient = axios.create({
@@ -36,7 +31,7 @@ apiClient.interceptors.response.use(
 );
 
 export const GenreService = {
-  async getGenres(): Promise<GenreGetAll> {
+  async getGenres(): Promise<GenresGetAll> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
@@ -56,35 +51,7 @@ export const GenreService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе жанров')
-        }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
-  async getGenre(genreId: number): Promise<GenreGet> {
-    const tokenStore = useTokensStore()
-    if (tokenStore.accessToken == null) {
-      await tokenStore.refresh()
-    }
-    const accessToken = tokenStore.accessToken
-    try {
-      const response = await apiClient.get(`/music-metadata/genres/${genreId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      return response.data
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          console.error(data)
-        } else {
-          console.error('Ошибка при запросе жанра')
+          console.error('Ошибка при запросе альбомов')
         }
       } else {
         console.error('Непредвиденная ошибка')

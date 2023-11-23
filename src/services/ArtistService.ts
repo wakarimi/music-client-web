@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios, {AxiosError} from 'axios'
 import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
@@ -7,7 +7,7 @@ export interface Artist {
   name: string
 }
 
-export interface ArtistGetAll {
+export interface ArtistsGetAll {
   artists: Artist[]
 }
 
@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(
 );
 
 export const ArtistService = {
-  async getAllArtists(): Promise<ArtistGetAll> {
+  async getArtists(): Promise<ArtistsGetAll> {
     const tokenStore = useTokensStore()
     if (tokenStore.accessToken == null) {
       await tokenStore.refresh()
@@ -51,7 +51,7 @@ export const ArtistService = {
           const data = axiosError.response.data as ErrorResponse
           console.error(data)
         } else {
-          console.error('Ошибка при запросе исполнителей')
+          console.error('Ошибка при запросе альбомов')
         }
       } else {
         console.error('Непредвиденная ошибка')

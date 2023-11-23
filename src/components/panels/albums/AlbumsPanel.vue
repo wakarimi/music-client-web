@@ -9,7 +9,7 @@
             button-padding="6px"
             :button-icon="albumCategoryIcon"
             button-text="Альбомы"
-            text-size="16px"
+            text-size="15px"
             :size-change-percent="5"
             @click="handleAlbumsClick"
         />
@@ -26,7 +26,7 @@
             :button-icon="getAlbumCover(currentAlbumId)"
             button-icon-border-radius="4px"
             :button-text="getAlbumName(currentAlbumId)"
-            text-size="16px"
+            text-size="15px"
             :size-change-percent="5"
         />
       </template>

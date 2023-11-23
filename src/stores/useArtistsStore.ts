@@ -1,22 +1,22 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import {ArtistService} from '@/services/ArtistService'
-import type {ArtistGetAll} from '@/services/ArtistService'
+import type {ArtistsGetAll} from '@/services/ArtistService'
 
 export const useArtistsStore = defineStore('artists', {
     state: () => ({
-        _allArtists: null as ArtistGetAll | null,
+        _allArtists: null as ArtistsGetAll | null,
         _isFetchArtistsActive: false,
-        _fetchArtistsPromise: null as Promise<void> | null,
+        _fetchArtistsPromise: null as Promise<void> | null
     }),
     actions: {
-        async fetchAllArtists() {
+        async fetchArtists() {
             if (this._isFetchArtistsActive) {
                 return this._fetchArtistsPromise;
             }
-            this._isFetchArtistsActive = true
+            this._isFetchArtistsActive = true;
 
-            this._fetchArtistsPromise = ArtistService.getAllArtists().then(allArtists => {
-                this._allArtists = allArtists
+            this._fetchArtistsPromise = ArtistService.getArtists().then(allArtists => {
+                this._allArtists = allArtists;
             }).catch(error => {
                 console.log(error)
             }).finally(() => {
@@ -26,7 +26,14 @@ export const useArtistsStore = defineStore('artists', {
         },
     },
     getters: {
-        getArtist: (state => {
+        getAllArtists: (state) => {
+            if (state._allArtists) {
+                return state._allArtists.artists
+            } else {
+                return null
+            }
+        },
+        getArtistById: (state) => {
             return (artistId: number) => {
                 if (state._allArtists) {
                     return state._allArtists.artists.find(
@@ -36,13 +43,6 @@ export const useArtistsStore = defineStore('artists', {
                     return null
                 }
             }
-        }),
-        getAllArtists: (state => {
-            if (state._allArtists) {
-                return state._allArtists.artists
-            } else {
-                return null
-            }
-        }),
+        },
     }
 })

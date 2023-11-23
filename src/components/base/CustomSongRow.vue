@@ -175,10 +175,10 @@ function getSongDescription(): string {
   }
 
   if (song.artistId) {
-    if (!artistStore.getArtist(song.artistId)) {
-      artistStore.fetchAllArtists()
+    if (!artistStore.getArtistById(song.artistId)) {
+      artistStore.fetchArtists()
     }
-    const artist = artistStore.getArtist(song.artistId)
+    const artist = artistStore.getArtistById(song.artistId)
     description += " - " + artist?.name;
   }
 

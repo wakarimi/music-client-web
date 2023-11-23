@@ -24,6 +24,14 @@ export interface SongGetByAlbum {
     songs: Song[];
 }
 
+export interface SongGetByArtist {
+    songs: Song[];
+}
+
+export interface SongGetByGenre {
+    songs: Song[];
+}
+
 const apiClient = axios.create({
     baseURL: "http://localhost:8021/api",
 });
@@ -93,6 +101,62 @@ export const SongService = {
                     console.error(data)
                 } else {
                     console.error('Ошибка при запросе песен альбома')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
+        }
+    },
+    async getSongsByArtist(artistId: number): Promise<SongGetByArtist> {
+        const tokenStore = useTokensStore()
+        if (tokenStore.accessToken == null) {
+            await tokenStore.refresh()
+        }
+        const accessToken = tokenStore.accessToken
+        try {
+            const response = await apiClient.get(`/music-metadata/artists/${artistId}/songs`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при запросе песен исполнителя')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
+        }
+    },
+    async getSongsByGenre(genreId: number): Promise<SongGetByGenre> {
+        const tokenStore = useTokensStore()
+        if (tokenStore.accessToken == null) {
+            await tokenStore.refresh()
+        }
+        const accessToken = tokenStore.accessToken
+        try {
+            const response = await apiClient.get(`/music-metadata/genres/${genreId}/songs`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при запросе песен жанра')
                 }
             } else {
                 console.error('Непредвиденная ошибка')

@@ -53,7 +53,6 @@ import {useCoversStore} from "@/stores/useCoversStore";
 import CustomButton from "@/components/base/CustomButton.vue";
 import playIcon from "@/assets/icons/playback-control/play.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
-import type {Song} from "@/services/SongService";
 import {useSongsStore} from "@/stores/useSongsStore";
 
 const songStore = useSongsStore()
@@ -96,9 +95,37 @@ async function getSongIds(contentType: string, contentId: number): Promise<numbe
       return [];
     }
   } else if (contentType === "artist") {
-    return []
+    if (!songStore.getSongsByArtistId(contentId)) {
+      await songStore.fetchArtist(contentId);
+    }
+    if (songStore.getSongsByArtistId(contentId)) {
+      const songs = songStore.getSongsByArtistId(contentId)
+      if (songs) {
+        return songs.map(song => {
+          return song.songId
+        })
+      } else {
+        return []
+      }
+    } else {
+      return [];
+    }
   } else if (contentType === "genre") {
-    return []
+    if (!songStore.getSongsByGenreId(contentId)) {
+      await songStore.fetchGenre(contentId);
+    }
+    if (songStore.getSongsByGenreId(contentId)) {
+      const songs = songStore.getSongsByGenreId(contentId)
+      if (songs) {
+        return songs.map(song => {
+          return song.songId
+        })
+      } else {
+        return []
+      }
+    } else {
+      return [];
+    }
   } else {
     return []
   }
@@ -196,15 +223,15 @@ onMounted(async () => {
     }
     fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
   } else if (props.contentType === 'artist') {
-    if (!coversStore.getCoverIdsByAlbumId(props.contentId)) {
+    if (!coversStore.getCoverIdsByArtistId(props.contentId)) {
       await coversStore.fetchArtistCovers(props.contentId);
     }
-    fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
+    fetchedCovers = coversStore.getCoverIdsByArtistId(props.contentId) || [];
   } else if (props.contentType === 'genre') {
-    if (!coversStore.getCoverIdsByAlbumId(props.contentId)) {
+    if (!coversStore.getCoverIdsByGenreId(props.contentId)) {
       await coversStore.fetchGenreCovers(props.contentId);
     }
-    fetchedCovers = coversStore.getCoverIdsByAlbumId(props.contentId) || [];
+    fetchedCovers = coversStore.getCoverIdsByGenreId(props.contentId) || [];
   }
   if (fetchedCovers.length === 0) {
     covers.value = [defaultCardImage];

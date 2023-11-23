@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import {SongService} from '@/services/SongService'
-import type {SongGetAll, SongGetByAlbum} from '@/services/SongService'
+import type {SongGetAll, SongGetByAlbum, SongGetByArtist, SongGetByGenre} from '@/services/SongService'
 
 export const useSongsStore = defineStore('songs', {
   state: () => ({
@@ -9,6 +9,8 @@ export const useSongsStore = defineStore('songs', {
     _fetchSongsPromise: null as Promise<void> | null,
 
     _songsByAlbumId: new Map<number, SongGetByAlbum>,
+    _songsByArtistId: new Map<number, SongGetByArtist>,
+    _songsByGenreId: new Map<number, SongGetByGenre>,
   }),
   actions: {
     async fetchAllSongs() {
@@ -33,7 +35,23 @@ export const useSongsStore = defineStore('songs', {
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+    async fetchArtist(artistId: number) {
+      try {
+        const songsByArtistId = await SongService.getSongsByArtist(artistId)
+        this._songsByArtistId.set(artistId, songsByArtistId)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async fetchGenre(genreId: number) {
+      try {
+        const songsByGenreId = await SongService.getSongsByGenre(genreId)
+        this._songsByGenreId.set(genreId, songsByGenreId)
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
   getters: {
     getSong: (state => {
@@ -59,6 +77,26 @@ export const useSongsStore = defineStore('songs', {
         const albumSongs = state._songsByAlbumId.get(albumId);
         if (albumSongs) {
           return albumSongs.songs;
+        } else {
+          return null;
+        }
+      }
+    }),
+    getSongsByArtistId: (state => {
+      return (artistId: number) => {
+        const artistSongs = state._songsByArtistId.get(artistId);
+        if (artistSongs) {
+          return artistSongs.songs;
+        } else {
+          return null;
+        }
+      }
+    }),
+    getSongsByGenreId: (state => {
+      return (genreId: number) => {
+        const genreSongs = state._songsByGenreId.get(genreId);
+        if (genreSongs) {
+          return genreSongs.songs;
         } else {
           return null;
         }
