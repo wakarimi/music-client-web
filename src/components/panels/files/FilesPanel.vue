@@ -1,27 +1,27 @@
 <template>
   <div class="container">
-    <DirectoryHeader :pathItems="pathItems" @changeDirectory="changeDirectory"> </DirectoryHeader>
+    <DirectoryHeader :pathItems="pathItems" @changeDirectory="changeDirectory"></DirectoryHeader>
 
     <div class="panel">
       <CustomCard
-          class="grid-item"
           v-for="dir in currentDirId == null ? rootDirs : currentDirs"
           :key="dir.dirId"
-          content-type="directory"
-          :content-id="dir.dirId"
           :card-text="currentDirId == null ? getLastPartOfAbsolutePath(dir.name) : dir.name"
-          @cardClick="changeDirectory(dir.dirId)"
+          :content-id="dir.dirId"
+          class="grid-item"
+          content-type="directory"
           @addClick="handleAddClick"
+          @cardClick="changeDirectory(dir.dirId)"
           @playClick="handlePlayClick"
       />
 
       <CustomCard
-          class="grid-item"
           v-for="audioFile in currentAudioFiles"
           :key="audioFile.audioFileId"
-          content-type="audioFile"
-          :content-id="audioFile.audioFileId"
           :card-text="audioFile.filename"
+          :content-id="audioFile.audioFileId"
+          class="grid-item"
+          content-type="audioFile"
           @addClick="handleAddClick"
           @playClick="handlePlayClick"
       />
@@ -29,13 +29,11 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import DirectoryCardDirectory from '@/components/panels/directories/DirectoryCardDirectory.vue'
+<script lang="ts" setup>
 import DirectoryHeader from '@/components/panels/directories/DirectoryHeader.vue'
-import { useDirsStore } from '@/stores/useDirsStore'
-import { onMounted, ref, watch } from 'vue'
-import type { AudioFile, Directory } from '@/services/DirService'
-import DirectoryCardAudioFile from '@/components/panels/directories/DirectoryCardAudioFile.vue'
+import {useDirsStore} from '@/stores/useDirsStore'
+import {onMounted, ref, watch} from 'vue'
+import type {AudioFile, Directory} from '@/services/DirService'
 import CustomCard from "@/components/base/CustomCard.vue";
 
 const dirStore = useDirsStore()
@@ -45,24 +43,24 @@ let rootDirs = ref<Directory[]>([])
 let currentDirs = ref<Directory[]>([])
 let currentAudioFiles = ref<AudioFile[]>([])
 
-const pathItems = ref([{ name: 'Файлы', dirId: 0 }])
+const pathItems = ref([{name: 'Файлы', dirId: 0}])
 
 onMounted(async () => {
   await dirStore.fetchRootDirs()
 })
 
 watch(
-  () => dirStore.getRootDirs,
-  (newDirs) => {
-    if (newDirs) {
-      rootDirs.value = newDirs
-    } else {
-      rootDirs.value = []
+    () => dirStore.getRootDirs,
+    (newDirs) => {
+      if (newDirs) {
+        rootDirs.value = newDirs
+      } else {
+        rootDirs.value = []
+      }
+    },
+    {
+      immediate: true
     }
-  },
-  {
-    immediate: true
-  }
 )
 
 async function changeDirectory(dirId: number) {
@@ -87,12 +85,12 @@ async function changeDirectory(dirId: number) {
     const dir = dirStore.getDir(dirId)
     if (dir) {
       if (currentDirId.value == null) {
-        pathItems.value.push({ name: getLastPartOfAbsolutePath(dir.name), dirId: dirId })
+        pathItems.value.push({name: getLastPartOfAbsolutePath(dir.name), dirId: dirId})
       } else {
-        pathItems.value.push({ name: dir.name, dirId: dirId })
+        pathItems.value.push({name: dir.name, dirId: dirId})
       }
     } else {
-      pathItems.value.push({ name: '???', dirId: dirId })
+      pathItems.value.push({name: '???', dirId: dirId})
     }
   }
 

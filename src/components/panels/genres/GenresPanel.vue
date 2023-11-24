@@ -5,84 +5,84 @@
     >
       <template #left>
         <CustomButton
-            class="header-element"
-            button-padding="6px"
             :button-icon="genreCategoryIcon"
-            button-text="Жанры"
-            text-size="15px"
             :size-change-percent="5"
+            button-padding="6px"
+            button-text="Жанры"
+            class="header-element"
+            text-size="15px"
             @click="handleGenresClick"
         />
         <span
-            class="separator"
             v-if="currentGenreId"
+            class="separator"
         >
           /
         </span>
         <CustomButton
-            class="header-element"
             v-if="currentGenreId"
-            button-padding="4px"
             :button-icon="getGenreCover(currentGenreId)"
-            button-icon-border-radius="4px"
             :button-text="getGenreName(currentGenreId)"
-            text-size="15px"
             :size-change-percent="5"
+            button-icon-border-radius="4px"
+            button-padding="4px"
+            class="header-element"
+            text-size="15px"
         />
       </template>
 
       <template #right>
         <CustomTextField
+            v-model="filterText"
             class="filter-field header-element"
             placeholder-text="Фильтр"
-            v-model="filterText"
             text-size="14px"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="addIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handleAddAllGenresClick"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="playIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handlePlayAllGenresClick"
         />
       </template>
     </CustomHeader>
 
     <div
-        class="genre-grid"
         v-if="currentGenreId == null"
+        class="genre-grid"
     >
       <CustomCard
-          class="grid-item"
           v-for="genre in filteredGenres"
           :key="genre.genreId"
-          content-type="genre"
-          :content-id="genre.genreId"
           :card-text="genre.name"
-          @cardClick="handleCardClick"
+          :content-id="genre.genreId"
+          class="grid-item"
+          content-type="genre"
           @addClick="handleAddClick"
+          @cardClick="handleCardClick"
           @playClick="handlePlayClick"
       />
     </div>
 
     <div
-        class="genre-track-list"
         v-if="currentGenreId != null"
+        class="genre-track-list"
     >
       <CustomSongRow
-          class="track-list-item"
           v-for="song in filteredSongs"
           :key="song.songId"
           :song-id="song.songId"
-          @infoClick="handleInfoClick"
+          class="track-list-item"
           @addClick="handleAddClick"
+          @infoClick="handleInfoClick"
           @playClick="handlePlayClick"
       >
       </CustomSongRow>
@@ -90,7 +90,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useGenresStore} from "@/stores/useGenresStore";
 import {computed, nextTick, onMounted, ref, toRaw} from "vue";
 import CustomCard from "@/components/base/CustomCard.vue";

@@ -2,43 +2,43 @@
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 
 <svg
-   width="800px"
-   height="800px"
-   viewBox="0 0 24 24"
-   fill="none"
-   version="1.1"
-   id="svg1"
-   sodipodi:docname="door.svg"
-   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.59131805"
-     inkscape:cx="367.82236"
-     inkscape:cy="522.56142"
-     inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
-  <path
-     d="M 1.2012609,22.80014 H 22.798739 m -3.599579,0 V 5.0422134 c 0,-1.3439631 0,-2.0159566 -0.26157,-2.5292807 C 18.707577,2.0613894 18.34042,1.6942803 17.888913,1.4642192 17.375613,1.2026617 16.703571,1.2026617 15.359608,1.2026617 H 8.640392 c -1.3439627,0 -2.0159562,0 -2.5292803,0.2615575 C 5.6595684,1.6942803 5.2924593,2.0613894 5.0623981,2.5129327 4.8008407,3.0262568 4.8008407,3.6982503 4.8008407,5.0422134 V 22.80014 M 15.59958,12.001401 h 0.012"
-     stroke="#000000"
-     stroke-width="2.39972"
-     stroke-linecap="round"
-     stroke-linejoin="round"
-     id="path1" />
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        width="800px"
+        height="800px"
+        viewBox="0 0 24 24"
+        fill="none"
+        version="1.1"
+        id="svg1"
+        sodipodi:docname="door.svg"
+        inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+        xmlns="http://www.w3.org/2000/svg"
+>
+    <defs
+            id="defs1"/>
+    <sodipodi:namedview
+            id="namedview1"
+            pagecolor="#ffffff"
+            bordercolor="#000000"
+            borderopacity="0.25"
+            inkscape:showpageshadow="2"
+            inkscape:pageopacity="0.0"
+            inkscape:pagecheckerboard="0"
+            inkscape:deskcolor="#d1d1d1"
+            inkscape:zoom="0.59131805"
+            inkscape:cx="367.82236"
+            inkscape:cy="522.56142"
+            inkscape:window-width="1920"
+            inkscape:window-height="1056"
+            inkscape:window-x="1920"
+            inkscape:window-y="0"
+            inkscape:window-maximized="1"
+            inkscape:current-layer="svg1"/>
+    <path
+            d="M 1.2012609,22.80014 H 22.798739 m -3.599579,0 V 5.0422134 c 0,-1.3439631 0,-2.0159566 -0.26157,-2.5292807 C 18.707577,2.0613894 18.34042,1.6942803 17.888913,1.4642192 17.375613,1.2026617 16.703571,1.2026617 15.359608,1.2026617 H 8.640392 c -1.3439627,0 -2.0159562,0 -2.5292803,0.2615575 C 5.6595684,1.6942803 5.2924593,2.0613894 5.0623981,2.5129327 4.8008407,3.0262568 4.8008407,3.6982503 4.8008407,5.0422134 V 22.80014 M 15.59958,12.001401 h 0.012"
+            stroke="#000000"
+            stroke-width="2.39972"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            id="path1"/>
 </svg>

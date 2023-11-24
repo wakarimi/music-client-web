@@ -5,34 +5,34 @@
     >
       <template #left>
         <CustomButton
-            class="header-element"
-            button-padding="6px"
             :button-icon="songCategoryIcon"
-            button-text="Дорожки"
-            text-size="15px"
             :size-change-percent="5"
+            button-padding="6px"
+            button-text="Дорожки"
+            class="header-element"
+            text-size="15px"
         />
       </template>
 
       <template #right>
         <CustomTextField
+            v-model="filterText"
             class="filter-field header-element"
             placeholder-text="Фильтр"
-            v-model="filterText"
             text-size="14px"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="addIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handleAddAllSongsClick"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="playIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handlePlayAllSongsClick"
         />
       </template>
@@ -42,12 +42,12 @@
         class="track-list"
     >
       <CustomSongRow
-          class="track-list-item"
           v-for="song in filteredSongs"
           :key="song.songId"
           :song-id="song.songId"
-          @infoClick="handleInfoClick"
+          class="track-list-item"
           @addClick="handleAddClick"
+          @infoClick="handleInfoClick"
           @playClick="handlePlayClick"
       >
       </CustomSongRow>
@@ -55,7 +55,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {computed, nextTick, onMounted, ref, toRaw} from "vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
 import CustomButton from "@/components/base/CustomButton.vue";

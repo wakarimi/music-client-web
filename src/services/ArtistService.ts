@@ -3,61 +3,61 @@ import {useTokensStore} from "@/stores/useTokensStore";
 import type {ErrorResponse} from "@/services/responses/ErrorResponse";
 
 export interface Artist {
-  artistId: number
-  name: string
+    artistId: number
+    name: string
 }
 
 export interface ArtistsGetAll {
-  artists: Artist[]
+    artists: Artist[]
 }
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8021/api'
+    baseURL: 'http://localhost:8021/api'
 })
 
 apiClient.interceptors.response.use(
     response => response,
     async (error) => {
-      const originalRequest = error.config;
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        const tokenStore = useTokensStore();
-        await tokenStore.refresh();
-        originalRequest.headers['Authorization'] = `Bearer ${tokenStore.accessToken}`;
-        return apiClient(originalRequest);
-      }
-      return Promise.reject(error);
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const tokenStore = useTokensStore();
+            await tokenStore.refresh();
+            originalRequest.headers['Authorization'] = `Bearer ${tokenStore.accessToken}`;
+            return apiClient(originalRequest);
+        }
+        return Promise.reject(error);
     }
 );
 
 export const ArtistService = {
-  async getArtists(): Promise<ArtistsGetAll> {
-    const tokenStore = useTokensStore()
-    if (tokenStore.accessToken == null) {
-      await tokenStore.refresh()
-    }
-    const accessToken = tokenStore.accessToken
-    try {
-      const response = await apiClient.get('/music-metadata/artists', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
+    async getArtists(): Promise<ArtistsGetAll> {
+        const tokenStore = useTokensStore()
+        if (tokenStore.accessToken == null) {
+            await tokenStore.refresh()
         }
-      })
-      return response.data
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          console.error(data)
-        } else {
-          console.error('Ошибка при запросе альбомов')
+        const accessToken = tokenStore.accessToken
+        try {
+            const response = await apiClient.get('/music-metadata/artists', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при запросе альбомов')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
         }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
+    },
 }
 

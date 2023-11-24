@@ -1,17 +1,17 @@
 <template>
   <div class="custom-text-field">
     <input
-        class="input"
-        :value="modelValue"
-        :type="type"
         :placeholder="placeholderText"
         :style="[{fontSize: textSize}]"
+        :type="type"
+        :value="modelValue"
+        class="input"
         @input="handleInput($event)"
     >
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps({
   type: {
     type: String,

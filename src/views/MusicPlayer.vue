@@ -1,21 +1,21 @@
 <template>
   <div class="player">
     <MusicPlayback
-      class="music-playback"
-      @toggleVisibility="toggleMusicControlVisibility"
-      :isVisible="isMusicControlVisible"
-      :style="{ height: musicPlaybackHeight }"
+        :isVisible="isMusicControlVisible"
+        :style="{ height: musicPlaybackHeight }"
+        class="music-playback"
+        @toggleVisibility="toggleMusicControlVisibility"
     />
 
     <MusicControl
-      class="music-control"
-      :style="{ height: musicControlHeight, opacity: musicControlOpacity }"
+        :style="{ height: musicControlHeight, opacity: musicControlOpacity }"
+        class="music-control"
     />
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
+<script lang="ts" setup>
+import {ref} from 'vue'
 import MusicPlayback from '@/components/MusicPlayback.vue'
 import MusicControl from '@/components/MusicControl.vue'
 
@@ -55,9 +55,8 @@ const toggleMusicControlVisibility = () => {
 .music-playback,
 .music-control {
   /* Анимируем изменения высоты и прозрачности в течение 0.5 секунды */
-  transition:
-    height 0.3s ease,
-    opacity 0.15s ease;
+  transition: height 0.3s ease,
+  opacity 0.15s ease;
 }
 
 .music-playback {

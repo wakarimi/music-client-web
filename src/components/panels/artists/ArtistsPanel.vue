@@ -5,84 +5,84 @@
     >
       <template #left>
         <CustomButton
-            class="header-element"
-            button-padding="6px"
             :button-icon="artistCategoryIcon"
-            button-text="Исполнители"
-            text-size="15px"
             :size-change-percent="5"
+            button-padding="6px"
+            button-text="Исполнители"
+            class="header-element"
+            text-size="15px"
             @click="handleArtistsClick"
         />
         <span
-            class="separator"
             v-if="currentArtistId"
+            class="separator"
         >
           /
         </span>
         <CustomButton
-            class="header-element"
             v-if="currentArtistId"
-            button-padding="4px"
             :button-icon="getArtistCover(currentArtistId)"
-            button-icon-border-radius="4px"
             :button-text="getArtistName(currentArtistId)"
-            text-size="15px"
             :size-change-percent="5"
+            button-icon-border-radius="4px"
+            button-padding="4px"
+            class="header-element"
+            text-size="15px"
         />
       </template>
 
       <template #right>
         <CustomTextField
+            v-model="filterText"
             class="filter-field header-element"
             placeholder-text="Фильтр"
-            v-model="filterText"
             text-size="14px"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="addIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handleAddAllArtistsClick"
         />
         <CustomButton
-            class="control-button header-element"
             :button-icon="playIcon"
-            button-padding="4px"
             :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
             @click="handlePlayAllArtistsClick"
         />
       </template>
     </CustomHeader>
 
     <div
-        class="artist-grid"
         v-if="currentArtistId == null"
+        class="artist-grid"
     >
       <CustomCard
-          class="grid-item"
           v-for="artist in filteredArtists"
           :key="artist.artistId"
-          content-type="artist"
-          :content-id="artist.artistId"
           :card-text="artist.name"
-          @cardClick="handleCardClick"
+          :content-id="artist.artistId"
+          class="grid-item"
+          content-type="artist"
           @addClick="handleAddClick"
+          @cardClick="handleCardClick"
           @playClick="handlePlayClick"
       />
     </div>
 
     <div
-        class="artist-track-list"
         v-if="currentArtistId != null"
+        class="artist-track-list"
     >
       <CustomSongRow
-          class="track-list-item"
           v-for="song in filteredSongs"
           :key="song.songId"
           :song-id="song.songId"
-          @infoClick="handleInfoClick"
+          class="track-list-item"
           @addClick="handleAddClick"
+          @infoClick="handleInfoClick"
           @playClick="handlePlayClick"
       >
       </CustomSongRow>
@@ -90,7 +90,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useArtistsStore} from "@/stores/useArtistsStore";
 import {computed, nextTick, onMounted, ref, toRaw} from "vue";
 import CustomCard from "@/components/base/CustomCard.vue";

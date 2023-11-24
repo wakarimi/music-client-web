@@ -1,11 +1,11 @@
 <template>
-  <div class="playback" ref="playbackContainer">
+  <div ref="playbackContainer" class="playback">
 
     <div class="cover-and-info">
       <div class="album-cover">
         <img :src="coverImage" alt="Обложка">
       </div>
-      <div class="track-info" :style="{ fontSize: computedFontSize + 'px' }">
+      <div :style="{ fontSize: computedFontSize + 'px' }" class="track-info">
         <h2>Ultraviolet Stream</h2>
         <h4>Bobstor</h4>
       </div>
@@ -14,16 +14,16 @@
     <div class="control-panel-background">
       <div class="playback-control-panel">
         <button @click="togglePlay">
-          <img :src="isPlaying ? pauseIcon : playIcon" :alt="isPlaying ? 'Play' : 'Pause'">
+          <img :alt="isPlaying ? 'Play' : 'Pause'" :src="isPlaying ? pauseIcon : playIcon">
         </button>
         <button @click="nextTrack">
           <img :src="nextIcon" alt="nextTrack">
         </button>
 
         <span class="current-time">00:00</span>
-        <input type="range" class="track-slider" min="0" max="100">
+        <input class="track-slider" max="100" min="0" type="range">
         <span class="total-time">04:20</span>
-        <input type="range" class="volume-slider" min="0" max="100">
+        <input class="volume-slider" max="100" min="0" type="range">
         <button @click="togglePlaybackMode">
           <img :src="replayIcon" alt="togglePlaybackMode">
         </button>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {onMounted, onUnmounted, ref} from 'vue';
 import playIcon from "@/assets/play-icon.svg";
 import pauseIcon from "@/assets/pause-icon.svg";

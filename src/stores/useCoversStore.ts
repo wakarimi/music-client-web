@@ -1,13 +1,12 @@
-import { defineStore } from 'pinia'
-import { CoverService } from '@/services/CoverService'
-import {AlbumService} from "@/services/AlbumService";
+import {defineStore} from 'pinia'
+import {CoverService} from '@/services/CoverService'
 
 export const useCoversStore = defineStore('covers', {
     state: () => ({
-        _coverByAlbumId:  new Map<number, number[]>(),
-        _coverByArtistId:  new Map<number, number[]>(),
-        _coverByGenreId:  new Map<number, number[]>(),
-        _coverIdByAudioFileId:  new Map<number, number>(),
+        _coverByAlbumId: new Map<number, number[]>(),
+        _coverByArtistId: new Map<number, number[]>(),
+        _coverByGenreId: new Map<number, number[]>(),
+        _coverIdByAudioFileId: new Map<number, number>(),
     }),
     actions: {
         async fetchAlbumCovers(albumId: number) {

@@ -13,17 +13,17 @@
     </template>
     <div class="control-buttons">
       <button class="control-button">
-        <img :src="addIcon" alt="Add" />
+        <img :src="addIcon" alt="Add"/>
       </button>
       <button class="control-button">
-        <img :src="playIcon" alt="Play" />
+        <img :src="playIcon" alt="Play"/>
       </button>
     </div>
   </div>
 </template>
 
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import DirectoryPanelPathItem from "@/components/panels/directories/DirectoryHeaderPathItem.vue";
 import addIcon from "@/assets/control/add.svg"
 import playIcon from "@/assets/control/play.svg"
@@ -80,12 +80,12 @@ function emitDirectory(dirId: number) {
   border-color: #F0EAE4;
   border-style: solid;
   cursor: pointer;
-  transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease,
-      border-color 0.15s ease,
-      background-color 0.15s ease;
+  transition: transform 0.15s ease,
+  box-shadow 0.15s ease,
+  border-color 0.15s ease,
+  background-color 0.15s ease;
 }
+
 .control-button img {
   height: 100%;
 }

@@ -1,46 +1,46 @@
 <template>
   <div class="current-state-panel">
     <CustomHeader
-      class="header"
+        class="header"
     >
       <template #left>
         <CustomButton
-            class="header-rooms"
-            button-text="Комнаты"
-            text-size="16px"
-            button-padding="5px"
             :button-icon="door"
+            button-padding="5px"
+            button-text="Комнаты"
+            class="header-rooms"
+            text-size="16px"
             @click="openRoomsTab()"
         />
         <CustomButton
+            :button-icon="items"
+            button-padding="5px"
             class="header-queue"
             text-size="16px"
-            button-padding="5px"
-            :button-icon="items"
             @click="openQueueTab()"
         />
       </template>
       <template #right>
         <CustomButton
+            :button-icon="person"
+            :button-text="currentUsername"
+            button-padding="5px"
             class="header-account"
             text-size="16px"
-            button-padding="5px"
-            :button-text="currentUsername"
-            :button-icon="person"
             @click="openAccountTab()"
         />
       </template>
     </CustomHeader>
     <div class="tab-content">
-      <component :is="currentPanel" />
+      <component :is="currentPanel"/>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import CustomHeader from "@/components/base/CustomHeader.vue";
 import CustomButton from "@/components/base/CustomButton.vue";
-import {defineComponent, onMounted, ref, nextTick} from "vue";
+import {defineComponent, nextTick, onMounted, ref} from "vue";
 import QueueTab from "@/components/panels/current-state/queue-tab/QueueTab.vue";
 import RoomsTab from "@/components/panels/current-state/rooms-tab/RoomsTab.vue";
 import AccountTab from "@/components/panels/current-state/account-tab/AccountTab.vue";

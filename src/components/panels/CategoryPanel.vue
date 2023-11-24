@@ -1,27 +1,24 @@
 <template>
   <div class="tab-list">
     <CustomButton
-      class="tab-item"
-      v-for="controlButton in controlButtons"
-      contentPosition="left"
-      text-size="16px"
-      button-padding="10px"
-      :key="controlButton.type"
-      :button-type="controlButton.type"
-      :button-text="controlButton.text"
-      :button-icon="controlButton.icon"
-      @click="emitCategory(controlButton.type)"
+        v-for="controlButton in controlButtons"
+        :key="controlButton.type"
+        :button-icon="controlButton.icon"
+        :button-text="controlButton.text"
+        :button-type="controlButton.type"
+        button-padding="10px"
+        class="tab-item"
+        contentPosition="left"
+        text-size="16px"
+        @click="emitCategory(controlButton.type)"
     />
   </div>
 </template>
 
-<script setup lang="ts">
-import categoryNow from "@/assets/icons/category/category-now.svg"
-import categoryLast from "@/assets/icons/category/category-last.svg"
+<script lang="ts" setup>
 import categoryAlbums from "@/assets/icons/category/category-albums.svg"
 import categoryArtists from "@/assets/icons/category/category-artists.svg"
 import categoryGenres from "@/assets/icons/category/category-genres.svg"
-import categoryPlaylists from "@/assets/icons/category/category-playlists.svg"
 import categorySongs from "@/assets/icons/category/category-songs.svg"
 import categoryDirectories from "@/assets/icons/category/category-directories.svg"
 import CustomButton from "@/components/base/CustomButton.vue";

@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
-import {AlbumService} from '@/services/AlbumService'
 import type {AlbumsGetAll} from '@/services/AlbumService'
+import {AlbumService} from '@/services/AlbumService'
 
 export const useAlbumsStore = defineStore('albums', {
     state: () => ({

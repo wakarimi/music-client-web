@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
-import {ArtistService} from '@/services/ArtistService'
 import type {ArtistsGetAll} from '@/services/ArtistService'
+import {ArtistService} from '@/services/ArtistService'
 
 export const useArtistsStore = defineStore('artists', {
     state: () => ({

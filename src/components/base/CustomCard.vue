@@ -6,19 +6,19 @@
     >
       <div
           ref="containerRef"
-          class="content"
           :style="[{ height: halfWidth * 2 + 40 + 'px' }]"
+          class="content"
       >
         <img
-            :class="[getImageClass(covers.length, index), 'card-image']"
             v-for="(cover, index) in covers"
             :key="index"
+            :class="[getImageClass(covers.length, index), 'card-image']"
             :src="cover"
             alt="cover"
         >
         <div
-            class="card-text-wrapper"
             :style="[{ top: halfWidth * 2 + 'px' }]"
+            class="card-text-wrapper"
         >
           <span class="card-text">{{ cardText }}</span>
         </div>
@@ -26,17 +26,17 @@
             class="sub-button-wrapper"
         >
           <CustomButton
-              class="card-sub-button"
               :button-icon="addIcon"
-              button-padding="4px"
               :size-change-percent="10"
+              button-padding="4px"
+              class="card-sub-button"
               @click="handleAddClickWrapper($event, contentType, contentId)"
           />
           <CustomButton
-              class="card-sub-button"
               :button-icon="playIcon"
-              button-padding="4px"
               :size-change-percent="10"
+              button-padding="4px"
+              class="card-sub-button"
               @click="handlePlayClickWrapper($event, contentType, contentId)"
           />
         </div>
@@ -45,11 +45,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import {computed, onMounted, onUnmounted, ref} from "vue";
+<script lang="ts" setup>
+import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
 import defaultCardImage from "@/assets/default/cover.svg";
 import defaultDirImage from "@/assets/default/directory.svg";
-import {nextTick} from "vue";
 import {useCoversStore} from "@/stores/useCoversStore";
 import CustomButton from "@/components/base/CustomButton.vue";
 import playIcon from "@/assets/icons/playback-control/play.svg"
@@ -237,7 +236,12 @@ onMounted(async () => {
     if (!coversStore.getCoverIdByAudioFileId(props.contentId)) {
       await coversStore.fetchAudioFileCover(props.contentId);
     }
-    fetchedCovers = [coversStore.getCoverIdByAudioFileId(props.contentId)] || [];
+    const coverId = coversStore.getCoverIdByAudioFileId(props.contentId);
+    if (coverId !== null) {
+      fetchedCovers = [coverId];
+    } else {
+      fetchedCovers = [];
+    }
   }
 
   if (fetchedCovers.length === 0) {

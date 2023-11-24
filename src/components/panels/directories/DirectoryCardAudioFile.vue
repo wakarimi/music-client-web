@@ -6,10 +6,10 @@
         <img :src="currentCover" alt="coverIcon">
 
         <button class="extra-button add">
-          <img :src="addIcon" alt="Добавить в плейлист" />
+          <img :src="addIcon" alt="Добавить в плейлист"/>
         </button>
         <button class="extra-button play">
-          <img :src="playIcon" alt="Воспроизвести" />
+          <img :src="playIcon" alt="Воспроизвести"/>
         </button>
       </div>
 
@@ -21,11 +21,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import coverIcon from "@/assets/default/cover.svg";
 import {useDirsStore} from "@/stores/useDirsStore";
-import {ref} from "vue";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import addIcon from "@/assets/control/add.svg";
 import playIcon from "@/assets/control/play.svg";
 

@@ -7,9 +7,9 @@
     >
       <div class="song-row-left">
         <img
-            class="song-cover"
             :src="getSongCover()"
-            alt="song-cover">
+            alt="song-cover"
+            class="song-cover">
         <span class="song-description">
           {{ getSongDescription() }}
         </span>
@@ -17,24 +17,24 @@
       <div class="song-row-right">
         <div class="control-button-wrapper">
           <CustomButton
-              class="control-button right-element"
               :button-icon="infoIcon"
-              button-padding="4px"
               :size-change-percent="2"
+              button-padding="4px"
+              class="control-button right-element"
               @click="handleInfoClick($event, songId)"
           />
           <CustomButton
-              class="control-button right-element"
               :button-icon="addIcon"
-              button-padding="4px"
               :size-change-percent="2"
+              button-padding="4px"
+              class="control-button right-element"
               @click="handleAddClick($event, [songId])"
           />
           <CustomButton
-              class="control-button right-element"
               :button-icon="playIcon"
-              button-padding="4px"
               :size-change-percent="2"
+              button-padding="4px"
+              class="control-button right-element"
               @click="handlePlayClick($event, [songId])"
           />
         </div>
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {useSongsStore} from "@/stores/useSongsStore";
 import defaultCover from "@/assets/default/cover.svg"
 import CustomButton from "@/components/base/CustomButton.vue";

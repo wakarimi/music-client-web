@@ -4,7 +4,7 @@
   </button>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps({
   buttonText: String,
   attachedDirId: {
@@ -30,12 +30,12 @@ function emitDirectory(dirId: number) {
   border-color: #F0EAE4;
   border-style: solid;
   cursor: pointer;
-  transition:
-      transform 0.15s ease,
-      box-shadow 0.15s ease,
-      border-color 0.15s ease,
-      background-color 0.15s ease;
+  transition: transform 0.15s ease,
+  box-shadow 0.15s ease,
+  border-color 0.15s ease,
+  background-color 0.15s ease;
 }
+
 .path-item-button img {
   height: 100%;
 }

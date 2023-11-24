@@ -1,8 +1,8 @@
 <template>
   <div class="empty-form">
     <BaseForm
-        class="base-form"
         :title-text="titleText"
+        class="base-form"
     >
       <slot>
 
@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import BaseForm from "@/components/base/form/BaseForm.vue";
 
 defineProps({

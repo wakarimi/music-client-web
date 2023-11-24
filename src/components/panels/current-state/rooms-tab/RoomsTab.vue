@@ -1,10 +1,10 @@
 <template>
- <div class="rooms-tab">
-   Комнаты
- </div>
+  <div class="rooms-tab">
+    Комнаты
+  </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
 </script>
 

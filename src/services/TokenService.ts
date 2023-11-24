@@ -1,79 +1,79 @@
-import axios, { AxiosError } from 'axios'
-import type { ErrorResponse } from './responses/ErrorResponse'
+import axios, {AxiosError} from 'axios'
+import type {ErrorResponse} from './responses/ErrorResponse'
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
 export interface LoginRequest {
-  username: string
-  password: string
+    username: string
+    password: string
 }
 
 export interface LoginResponse {
-  refreshToken: string
-  accessToken: string
+    refreshToken: string
+    accessToken: string
 }
 
 export interface RefreshRequest {
-  refreshToken: string
+    refreshToken: string
 }
 
 export interface RefreshResponse {
-  refreshToken: string
-  accessToken: string
+    refreshToken: string
+    accessToken: string
 }
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8021/api'
+    baseURL: 'http://localhost:8021/api'
 })
 
 export const TokenService = {
-  async login(request: LoginRequest): Promise<LoginResponse> {
-    try {
-      const fp = await FingerprintJS.load()
-      const result = await fp.get()
-      const fingerprint = result.visitorId
+    async login(request: LoginRequest): Promise<LoginResponse> {
+        try {
+            const fp = await FingerprintJS.load()
+            const result = await fp.get()
+            const fingerprint = result.visitorId
 
-      const response = await apiClient.post('/auth/login', {
-        username: request.username,
-        password: request.password,
-        fingerprint: fingerprint
-      })
-      return response.data
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          alert(data.message)
-          console.error(data)
-        } else {
-          alert('Ошибка при регистрации')
+            const response = await apiClient.post('/auth/login', {
+                username: request.username,
+                password: request.password,
+                fingerprint: fingerprint
+            })
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    alert(data.message)
+                    console.error(data)
+                } else {
+                    alert('Ошибка при регистрации')
+                }
+            } else {
+                alert('Непредвиденная ошибка')
+            }
+            throw error
         }
-      } else {
-        alert('Непредвиденная ошибка')
-      }
-      throw error
-    }
-  },
-  async refresh(request: RefreshRequest): Promise<RefreshResponse> {
-    try {
-      const response = await apiClient.post('/auth/tokens/refresh', {
-        refreshToken: request.refreshToken
-      })
-      return response.data
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError
-        if (axiosError.response) {
-          const data = axiosError.response.data as ErrorResponse
-          alert(data.message)
-          console.error(data)
-        } else {
-          console.error('Ошибка при обновлении логина')
+    },
+    async refresh(request: RefreshRequest): Promise<RefreshResponse> {
+        try {
+            const response = await apiClient.post('/auth/tokens/refresh', {
+                refreshToken: request.refreshToken
+            })
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    alert(data.message)
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при обновлении логина')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
         }
-      } else {
-        console.error('Непредвиденная ошибка')
-      }
-      throw error
     }
-  }
 }

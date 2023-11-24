@@ -1,26 +1,26 @@
 <template>
   <div class="custom-button">
     <button
-      class="button"
-      :style="[buttonStyle, { padding: buttonPadding }]"
-      @mouseover="hoverIn"
-      @mouseleave="defaultState"
-      @mousedown="activeIn"
-      @mouseup="mouseUpHandler"
-      @click="handleClick"
+        :style="[buttonStyle, { padding: buttonPadding }]"
+        class="button"
+        @click="handleClick"
+        @mousedown="activeIn"
+        @mouseleave="defaultState"
+        @mouseover="hoverIn"
+        @mouseup="mouseUpHandler"
     >
-      <div class="content" :class="contentPositionClass">
+      <div :class="contentPositionClass" class="content">
         <img
-            class="button-icon"
             v-if="buttonIcon"
             :src="buttonIcon"
-            alt="buttonIcon"
             :style="[{borderRadius: buttonIconBorderRadius}]"
+            alt="buttonIcon"
+            class="button-icon"
         />
         <span
-            class="button-text"
             v-if="buttonText"
             :style="[{fontSize: textSize}, {paddingLeft: IncreasedPadding}, {paddingRight: buttonPadding}]"
+            class="button-text"
         >
           {{ buttonText }}
         </span>
@@ -29,9 +29,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
-import { ref } from 'vue'
+<script lang="ts" setup>
+import {computed, ref} from 'vue'
 
 const props = defineProps({
   buttonText: {
@@ -211,9 +210,8 @@ function handleClick(event: MouseEvent) {
   outline: none;
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.1s ease;
+  transition: transform 0.1s ease,
+  box-shadow 0.1s ease;
 }
 
 .button-icon {

@@ -1,24 +1,24 @@
 <template>
   <div class="container">
     <div class="column column-tabs">
-      <CategoryPanel @change-category="changeCategory" />
+      <CategoryPanel @change-category="changeCategory"/>
     </div>
     <div class="column column-content">
       <component
           :is="currentPanel"
           :key="componentKey"
-          @infoClick="handleEventInfo"
           @addClick="handleEventAdd"
+          @infoClick="handleEventInfo"
           @playClick="handleEventPlay"
       />
     </div>
     <div class="column column-custom">
-      <PlaybackPanel />
+      <PlaybackPanel/>
     </div>
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import CategoryPanel from "@/components/panels/CategoryPanel.vue";
 import PlaybackPanel from "@/components/panels/current-state/CurrentStatePanel.vue";
 import {defineComponent, ref} from "vue";

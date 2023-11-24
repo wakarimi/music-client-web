@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import playButton from "@/assets/queue/play.svg"
 import removeButton from "@/assets/queue/remove.svg"
 
