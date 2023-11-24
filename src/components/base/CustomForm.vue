@@ -1,30 +1,35 @@
 <template>
-  <div class="empty-form">
-    <BaseForm
-        :title-text="titleText"
-        class="base-form"
-    >
-      <slot>
+  <div class="custom-form">
+    <div class="title">
+      {{ titleText }}
+    </div>
+    <slot>
 
-      </slot>
-    </BaseForm>
+    </slot>
   </div>
 </template>
 
 <script lang="ts" setup>
-import BaseForm from "@/components/base/form/BaseForm.vue";
-
 defineProps({
   titleText: String
 });
 </script>
 
 <style scoped>
-.empty-form {
-
+.custom-form {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #EBE3DB;
+  background-color: #FAF8F6;
+  padding: 10px;
 }
 
-.base-form {
-
+.title {
+  text-align: center;
+  font-size: 24px;
+  padding-bottom: 10px;
 }
 </style>

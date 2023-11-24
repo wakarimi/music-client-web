@@ -1,8 +1,56 @@
 <template>
-  <div class="container">
-    <DirectoryHeader :pathItems="pathItems" @changeDirectory="changeDirectory"></DirectoryHeader>
+  <div class="files-panel">
+    <CustomHeader
+        class="header"
+    >
 
-    <div class="panel">
+      <template #left>
+        <div
+            class="header-path header-element"
+            v-for="(pathItem, index) in pathItems"
+            :key="index"
+        >
+          <CustomButton
+              class="header-path-element"
+              text-size="14px"
+              :button-text="pathItem.name"
+              :size-change-percent="2"
+              button-padding="3px"
+              @click="changeDirectory(pathItem.dirId)"
+          />
+          <span
+              class="path-item-separator"
+              v-if="index < pathItems.length - 1">
+            /
+          </span>
+        </div>
+      </template>
+
+      <template #right>
+        <CustomTextField
+            v-model="filterText"
+            class="filter-field header-element"
+            placeholder-text="Фильтр"
+            text-size="14px"
+        />
+        <CustomButton
+            :button-icon="addIcon"
+            :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
+            @click="handleAddAllFilesClick"
+        />
+        <CustomButton
+            :button-icon="playIcon"
+            :size-change-percent="2"
+            button-padding="4px"
+            class="control-button header-element"
+            @click="handlePlayAllFilesClick"
+        />
+      </template>
+    </CustomHeader>
+
+    <div class="file-grid">
       <CustomCard
           v-for="dir in currentDirId == null ? rootDirs : currentDirs"
           :key="dir.dirId"
@@ -30,11 +78,15 @@
 </template>
 
 <script lang="ts" setup>
-import DirectoryHeader from '@/components/panels/directories/DirectoryHeader.vue'
 import {useDirsStore} from '@/stores/useDirsStore'
 import {onMounted, ref, watch} from 'vue'
 import type {AudioFile, Directory} from '@/services/DirService'
 import CustomCard from "@/components/base/CustomCard.vue";
+import CustomHeader from "@/components/base/CustomHeader.vue";
+import addIcon from "@/assets/icons/playback-control/add.svg";
+import playIcon from "@/assets/icons/playback-control/play.svg";
+import CustomButton from "@/components/base/CustomButton.vue";
+import CustomTextField from "@/components/base/CustomTextField.vue";
 
 const dirStore = useDirsStore()
 
@@ -137,27 +189,50 @@ function handlePlayClick(songIds: number[]) {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
 
-.container {
+.files-panel {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .header {
   display: flex;
-  flex-direction: row;
-  background-color: #412e45;
+  flex-shrink: 0;
+  height: 30px;
 }
 
-.panel {
-  padding: 10px;
+.header-path {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
+
+.header-element {
+  height: 30px;
+}
+
+.control-button {
+  width: 30px;
+}
+
+.filter-field {
+  width: 200px;
+}
+
+.file-grid {
+  flex-grow: 1;
+  overflow-y: auto;
+
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  align-items: start;
+  align-content: start;
+  grid-gap: 2vh;
+  padding: 10px;
+
+  overflow-x: hidden;
 }
 </style>
 
