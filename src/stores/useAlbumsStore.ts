@@ -6,7 +6,7 @@ export const useAlbumsStore = defineStore('albums', {
     state: () => ({
         _allAlbums: null as AlbumsGetAll | null,
         _isFetchAlbumsActive: false,
-        _fetchAlbumsPromise: null as Promise<void> | null
+        _fetchAlbumsPromise: null as Promise<void> | null,
     }),
     actions: {
         async fetchAlbums() {

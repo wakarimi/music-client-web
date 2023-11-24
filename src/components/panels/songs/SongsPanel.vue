@@ -73,7 +73,6 @@ const filterText = ref<string>("")
 onMounted(async () => {
   await nextTick();
   if (songStore.getAllSongs() === null) {
-    console.log("Жопа")
     await songStore.fetchAllSongs();
   }
 })

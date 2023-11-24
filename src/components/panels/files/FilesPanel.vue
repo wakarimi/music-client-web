@@ -44,7 +44,7 @@ onMounted(async () => {
 })
 
 watch(
-  () => dirStore.rootDirs,
+  () => dirStore.getRootDirs,
   (newDirs) => {
     if (newDirs) {
       rootDirs.value = newDirs
@@ -72,11 +72,11 @@ async function changeDirectory(dirId: number) {
       }
     }
   } else {
-    if (!dirStore.dir.has(dirId)) {
+    if (!dirStore.getDir(dirId)) {
       await dirStore.fetchDir(dirId)
     }
 
-    const dir = dirStore.dir.get(dirId)
+    const dir = dirStore.getDir(dirId)
     if (dir) {
       if (currentDirId.value == null) {
         pathItems.value.push({ name: getLastPartOfAbsolutePath(dir.name), dirId: dirId })
@@ -88,10 +88,10 @@ async function changeDirectory(dirId: number) {
     }
   }
 
-  if (!dirStore.dirContent.has(dirId)) {
+  if (!dirStore.getDirContent(dirId)) {
     await dirStore.fetchDirContent(dirId)
   }
-  const dirContent = dirStore.dirContent.get(dirId)
+  const dirContent = dirStore.getDirContent(dirId)
   if (dirContent) {
     currentDirs.value = dirContent.dirs
     currentAudioFiles.value = dirContent.audioFiles

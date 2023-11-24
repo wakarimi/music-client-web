@@ -25,7 +25,7 @@ import {defineComponent, ref} from "vue";
 import SongPanel from "@/components/panels/songs/SongsPanel.vue";
 import NowPlayingPanel from "@/components/panels/NowPlayingPanel.vue";
 import LastSongsPanel from "@/components/panels/LastSongsPanel.vue";
-import FilesPanel from "@/components/panels/FilesPanel.vue";
+import FilesPanel from "@/components/panels/files/FilesPanel.vue";
 import PlaylistsPanel from "@/components/panels/PlaylistsPanel.vue";
 import AlbumsPanel from "@/components/panels/albums/AlbumsPanel.vue";
 import GenresPanel from "@/components/panels/genres/GenresPanel.vue";
