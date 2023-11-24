@@ -55,9 +55,11 @@ import playIcon from "@/assets/icons/playback-control/play.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
 import {useSongsStore} from "@/stores/useSongsStore";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
+import {useDirsStore} from "@/stores/useDirsStore";
 
 const songStore = useSongsStore()
 const audioFileStore = useAudioFilesStore()
+const dirStore = useDirsStore()
 
 const props = defineProps({
   contentType: {
@@ -128,33 +130,69 @@ async function getSongIds(contentType: string, contentId: number): Promise<numbe
     } else {
       return [];
     }
-  } else if (contentType === "audioFile") {
-    let audioFile = audioFileStore.getAudioFile(contentId);
+  } else if (contentType === "directory") {
+    let dirContent = dirStore.getDirContent(contentId)
+    if (!dirContent) {
+      await dirStore.fetchDirContent(contentId)
+      dirContent = dirStore.getDirContent(contentId)
+    }
+    if (!dirContent) {
+      return []
+    }
 
-    if (!audioFile) {
-      await audioFileStore.fetchAllAudioFiles();
-      audioFile = audioFileStore.getAudioFile(contentId);
-      if (!audioFile) {
-        return [];
+    let songIds: number[] = [];
+
+    for (const audioFile of dirContent.audioFiles) {
+      const songId = await getSongIdByAudioFileId(audioFile.audioFileId)
+      if (songId) {
+        songIds.push(songId)
       }
     }
-    if (!audioFile) {
-      return [];
+
+    for (const subDir of dirContent.dirs) {
+      const dirsSongIds = await getSongIds("directory", subDir.dirId)
+      for (const dirsSongId of dirsSongIds) {
+        songIds.push(dirsSongId)
+      }
     }
 
-    let song = songStore.getBySha256(audioFile.sha256);
-    if (!song) {
-      await songStore.fetchAllSongs();
-      song = songStore.getBySha256(audioFile.sha256);
-    }
-    if (!song) {
-      return [];
-    }
+    return songIds;
 
-    return [song.songId];
+  } else if (contentType === "audioFile") {
+    const songId = await getSongIdByAudioFileId(contentId)
+    if (songId) {
+      return [songId]
+    } else {
+      return []
+    }
   } else {
     return []
   }
+}
+
+async function getSongIdByAudioFileId(audioFileId: number): Promise<number | null> {
+  let audioFile = audioFileStore.getAudioFile(audioFileId);
+  if (!audioFile) {
+    await audioFileStore.fetchAllAudioFiles();
+    audioFile = audioFileStore.getAudioFile(audioFileId);
+    if (!audioFile) {
+      return null;
+    }
+  }
+  if (!audioFile) {
+    return null;
+  }
+
+  let song = songStore.getBySha256(audioFile.sha256);
+  if (!song) {
+    await songStore.fetchAllSongs();
+    song = songStore.getBySha256(audioFile.sha256);
+  }
+  if (!song) {
+    return null;
+  }
+
+  return song.songId
 }
 
 function handleCardClick() {
