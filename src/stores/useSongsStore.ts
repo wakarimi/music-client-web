@@ -26,6 +26,7 @@ export const useSongsStore = defineStore('songs', {
                 this._isFetchSongsActive = false;
                 this._fetchSongsPromise = null;
             })
+            return this._fetchSongsPromise
         },
         async fetchAlbum(albumId: number) {
             try {
@@ -58,6 +59,17 @@ export const useSongsStore = defineStore('songs', {
                 if (state._allSongs) {
                     return state._allSongs.songs.find(
                         song => song.songId === songId
+                    ) || null
+                } else {
+                    return null
+                }
+            }
+        }),
+        getBySha256: (state => {
+            return (sha256: string) => {
+                if (state._allSongs) {
+                    return state._allSongs.songs.find(
+                        song => song.sha256 === sha256
                     ) || null
                 } else {
                     return null

@@ -26,6 +26,7 @@ export const useDirsStore = defineStore('dirs', {
                 this._isFetchRootDirsActive = false;
                 this._fetchRootDirsPromise = null;
             })
+            return this._fetchRootDirsPromise
         },
         async fetchDirContent(dirId: number) {
             this._dirContent.set(dirId, await DirService.getDirContent(dirId))

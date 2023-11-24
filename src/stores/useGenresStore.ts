@@ -23,6 +23,7 @@ export const useGenresStore = defineStore('genres', {
                 this._isFetchGenresActive = false;
                 this._fetchGenresPromise = null;
             })
+            return this._fetchGenresPromise
         },
     },
     getters: {

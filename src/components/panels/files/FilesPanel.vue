@@ -52,7 +52,7 @@
 
     <div class="file-grid">
       <CustomCard
-          v-for="dir in currentDirId == null ? rootDirs : currentDirs"
+          v-for="dir in filteredDirs"
           :key="dir.dirId"
           :card-text="currentDirId == null ? getLastPartOfAbsolutePath(dir.name) : dir.name"
           :content-id="dir.dirId"
@@ -64,7 +64,7 @@
       />
 
       <CustomCard
-          v-for="audioFile in currentAudioFiles"
+          v-for="audioFile in filteredAudioFiles"
           :key="audioFile.audioFileId"
           :card-text="audioFile.filename"
           :content-id="audioFile.audioFileId"
@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import {useDirsStore} from '@/stores/useDirsStore'
-import {onMounted, ref, watch} from 'vue'
+import {computed, onMounted, ref, toRaw, watch} from 'vue'
 import type {AudioFile, Directory} from '@/services/DirService'
 import CustomCard from "@/components/base/CustomCard.vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
@@ -96,6 +96,8 @@ let currentDirs = ref<Directory[]>([])
 let currentAudioFiles = ref<AudioFile[]>([])
 
 const pathItems = ref([{name: 'Файлы', dirId: 0}])
+
+const filterText = ref<string>("")
 
 onMounted(async () => {
   await dirStore.fetchRootDirs()
@@ -114,6 +116,44 @@ watch(
       immediate: true
     }
 )
+
+const filteredDirs = computed(() => {
+  const dirs = currentDirId.value  == null ? rootDirs : currentDirs
+  if (!filterText.value) {
+    if (dirs.value) {
+      return dirs.value
+    } else {
+      return []
+    }
+  } else {
+    if (dirs.value) {
+      return toRaw(dirs.value).filter(dir => {
+        return dir.name.toLowerCase().includes(filterText.value.toLowerCase())
+      })
+    } else {
+      return []
+    }
+  }
+});
+
+const filteredAudioFiles = computed(() => {
+  const audioFiles = currentAudioFiles
+  if (!filterText.value) {
+    if (audioFiles.value) {
+      return audioFiles.value
+    } else {
+      return []
+    }
+  } else {
+    if (audioFiles.value) {
+      return toRaw(audioFiles.value).filter(audioFile => {
+        return audioFile.filename.toLowerCase().includes(filterText.value.toLowerCase())
+      })
+    } else {
+      return []
+    }
+  }
+});
 
 async function changeDirectory(dirId: number) {
   if (dirId == 0) {

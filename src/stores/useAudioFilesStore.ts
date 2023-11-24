@@ -13,16 +13,21 @@ export const useAudioFilesStore = defineStore('audioFiles', {
             if (this._isFetchAudioFilesActive) {
                 return this._fetchAudioFilesPromise;
             }
-            this._isFetchAudioFilesActive = true
+            this._isFetchAudioFilesActive = true;
 
-            this._fetchAudioFilesPromise = AudioFileService.getAllAudioFiles().then(allAudioFiles => {
-                this._allAudioFiles = allAudioFiles
-            }).catch(error => {
-                console.log(error)
-            }).finally(() => {
-                this._isFetchAudioFilesActive = false;
-                this._fetchAudioFilesPromise = null;
-            })
+            this._fetchAudioFilesPromise = AudioFileService.getAllAudioFiles()
+                .then(allAudioFiles => {
+                    this._allAudioFiles = allAudioFiles;
+                    console.log('Updated _allAudioFiles', this._allAudioFiles); // Добавьте это логирование здесь
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this._isFetchAudioFilesActive = false;
+                    this._fetchAudioFilesPromise = null;
+                });
+            return this._fetchAudioFilesPromise
         },
     },
     getters: {
@@ -38,8 +43,9 @@ export const useAudioFilesStore = defineStore('audioFiles', {
             }
         }),
         getAllAudioFiles: (state => {
-            if (state._allAudioFiles) {
-                return state._allAudioFiles.audioFiles
+            const allAudioFiles = state._allAudioFiles;
+            if (allAudioFiles) {
+                return allAudioFiles.audioFiles
             } else {
                 return null
             }

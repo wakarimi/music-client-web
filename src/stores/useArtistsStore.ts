@@ -23,6 +23,7 @@ export const useArtistsStore = defineStore('artists', {
                 this._isFetchArtistsActive = false;
                 this._fetchArtistsPromise = null;
             })
+            return this._fetchArtistsPromise
         },
     },
     getters: {

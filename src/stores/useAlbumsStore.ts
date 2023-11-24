@@ -23,6 +23,7 @@ export const useAlbumsStore = defineStore('albums', {
                 this._isFetchAlbumsActive = false;
                 this._fetchAlbumsPromise = null;
             })
+            return this._fetchAlbumsPromise
         },
     },
     getters: {

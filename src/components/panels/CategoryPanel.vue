@@ -6,6 +6,7 @@
         :button-icon="controlButton.icon"
         :button-text="controlButton.text"
         :button-type="controlButton.type"
+        :size-change-percent="2"
         button-padding="10px"
         class="tab-item"
         contentPosition="left"

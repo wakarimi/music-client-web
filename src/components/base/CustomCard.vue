@@ -54,8 +54,10 @@ import CustomButton from "@/components/base/CustomButton.vue";
 import playIcon from "@/assets/icons/playback-control/play.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
 import {useSongsStore} from "@/stores/useSongsStore";
+import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
 
 const songStore = useSongsStore()
+const audioFileStore = useAudioFilesStore()
 
 const props = defineProps({
   contentType: {
@@ -126,6 +128,30 @@ async function getSongIds(contentType: string, contentId: number): Promise<numbe
     } else {
       return [];
     }
+  } else if (contentType === "audioFile") {
+    let audioFile = audioFileStore.getAudioFile(contentId);
+
+    if (!audioFile) {
+      await audioFileStore.fetchAllAudioFiles();
+      audioFile = audioFileStore.getAudioFile(contentId);
+      if (!audioFile) {
+        return [];
+      }
+    }
+    if (!audioFile) {
+      return [];
+    }
+
+    let song = songStore.getBySha256(audioFile.sha256);
+    if (!song) {
+      await songStore.fetchAllSongs();
+      song = songStore.getBySha256(audioFile.sha256);
+    }
+    if (!song) {
+      return [];
+    }
+
+    return [song.songId];
   } else {
     return []
   }
