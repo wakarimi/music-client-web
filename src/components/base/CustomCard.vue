@@ -48,6 +48,7 @@
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted, ref} from "vue";
 import defaultCardImage from "@/assets/default/cover.svg";
+import defaultDirImage from "@/assets/default/directory.svg";
 import {nextTick} from "vue";
 import {useCoversStore} from "@/stores/useCoversStore";
 import CustomButton from "@/components/base/CustomButton.vue";
@@ -232,9 +233,19 @@ onMounted(async () => {
       await coversStore.fetchGenreCovers(props.contentId);
     }
     fetchedCovers = coversStore.getCoverIdsByGenreId(props.contentId) || [];
+  } else if (props.contentType === 'audioFile') {
+    if (!coversStore.getCoverIdByAudioFileId(props.contentId)) {
+      await coversStore.fetchAudioFileCover(props.contentId);
+    }
+    fetchedCovers = [coversStore.getCoverIdByAudioFileId(props.contentId)] || [];
   }
+
   if (fetchedCovers.length === 0) {
-    covers.value = [defaultCardImage];
+    if (props.contentType === 'directory') {
+      covers.value = [defaultDirImage];
+    } else {
+      covers.value = [defaultCardImage];
+    }
   } else {
     const selectedCovers = fetchedCovers.slice(0, 4);
     covers.value = selectedCovers.map(coverId => `http://localhost:8021/api/music-files/covers/${coverId}/image`);
