@@ -18,7 +18,6 @@ export const useSongsStore = defineStore('songs', {
         return this._fetchSongsPromise;
       }
       this._isFetchSongsActive = true
-
       this._fetchSongsPromise = SongService.getAllSongs().then(allSongs => {
         this._allSongs = allSongs
       }).catch(error => {
@@ -66,10 +65,13 @@ export const useSongsStore = defineStore('songs', {
       }
     }),
     getAllSongs: (state => {
-      if (state._allSongs) {
-        return state._allSongs.songs
-      } else {
-        return null
+      return () => {
+        const allSongs = state._allSongs;
+        if (allSongs) {
+          return allSongs.songs;
+        } else {
+          return null;
+        }
       }
     }),
     getSongsByAlbumId: (state => {

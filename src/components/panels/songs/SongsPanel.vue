@@ -4,74 +4,173 @@
         class="header"
     >
       <template #left>
-        Дорожки
+        <CustomButton
+            class="header-element"
+            button-padding="6px"
+            :button-icon="songCategoryIcon"
+            button-text="Дорожки"
+            text-size="15px"
+            :size-change-percent="5"
+        />
+      </template>
+
+      <template #right>
+        <CustomTextField
+            class="filter-field header-element"
+            placeholder-text="Фильтр"
+            v-model="filterText"
+            text-size="14px"
+        />
+        <CustomButton
+            class="control-button header-element"
+            :button-icon="addIcon"
+            button-padding="4px"
+            :size-change-percent="2"
+            @click="handleAddAllSongsClick"
+        />
+        <CustomButton
+            class="control-button header-element"
+            :button-icon="playIcon"
+            button-padding="4px"
+            :size-change-percent="2"
+            @click="handlePlayAllSongsClick"
+        />
       </template>
     </CustomHeader>
 
-    <div class="song-list">
-
+    <div
+        class="track-list"
+    >
+      <CustomSongRow
+          class="track-list-item"
+          v-for="song in filteredSongs"
+          :key="song.songId"
+          :song-id="song.songId"
+          @infoClick="handleInfoClick"
+          @addClick="handleAddClick"
+          @playClick="handlePlayClick"
+      >
+      </CustomSongRow>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type {SongGetAllItem} from "@/services/SongService";
-import {onMounted} from "vue";
-import {useSongsStore} from "@/stores/useSongsStore";
+import {computed, nextTick, onMounted, ref, toRaw} from "vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
-import {useArtistsStore} from "@/stores/useArtistsStore";
+import CustomButton from "@/components/base/CustomButton.vue";
+import songCategoryIcon from "@/assets/icons/category/category-songs.svg"
+import CustomSongRow from "@/components/base/CustomSongRow.vue";
+import {useSongsStore} from "@/stores/useSongsStore";
+import CustomTextField from "@/components/base/CustomTextField.vue";
+import addIcon from "@/assets/icons/playback-control/add.svg";
+import playIcon from "@/assets/icons/playback-control/play.svg";
 
-const songsStore = useSongsStore()
-const artistStore = useArtistsStore()
+const songStore = useSongsStore()
+
+const filterText = ref<string>("")
 
 onMounted(async () => {
-  await songsStore.fetchSongs()
+  await nextTick();
+  if (songStore.getAllSongs() === null) {
+    console.log("Жопа")
+    await songStore.fetchAllSongs();
+  }
 })
 
-function calcRowText(song: SongGetAllItem): string {
-  let text = "";
-  if (song.songNumber) {
-    if (song.discNumber) {
-      text += song.discNumber + "-"
+const filteredSongs = computed(() => {
+  const songs = songStore.getAllSongs()
+  if (!filterText.value) {
+    if (songs) {
+      return songs
+    } else {
+      return []
     }
-    text += song.songNumber + ". "
-  }
-  if (song.title) {
-    text += song.title
-  }
-  if (song.artistId) {
-    if (!artistStore.artistByArtistId.has(song.artistId)) {
-      artistStore.fetchAllArtists()
-    }
-    const artist = artistStore.artistByArtistId.get(song.artistId);
-    if (artist) {
-      text += " - " + artist.name;
+  } else {
+    if (songs) {
+      return toRaw(songs).filter(song => {
+        return song.title.toLowerCase().includes(filterText.value.toLowerCase())
+      })
+    } else {
+      return []
     }
   }
-  return text
+});
+
+const emit = defineEmits([
+  'info-click',
+  'add-click',
+  'play-click',
+]);
+
+function handleInfoClick(songId: number) {
+  emit('info-click', songId);
+}
+
+async function handleAddAllSongsClick() {
+  const songIds: number[] = []
+  const songs = filteredSongs.value
+  if (songs) {
+    for (const song of songs) {
+      songIds.push(song.songId)
+    }
+  }
+  emit('add-click', songIds);
+}
+
+async function handlePlayAllSongsClick() {
+  const songIds: number[] = []
+  const songs = filteredSongs.value
+  if (songs) {
+    for (const song of songs) {
+      songIds.push(song.songId)
+    }
+  }
+  emit('play-click', songIds);
+}
+
+function handleAddClick(songIds: number[]) {
+  emit('add-click', songIds);
+}
+
+function handlePlayClick(songIds: number[]) {
+  emit('play-click', songIds);
 }
 </script>
 
 <style scoped>
-.header {
-  height: 30px;
-  display: flex;
-  flex-direction: row;
-}
-
 .songs-panel {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.song-list {
+.header {
+  display: flex;
+  flex-shrink: 0;
+  height: 30px;
+}
+
+.header-element {
+  height: 30px;
+}
+
+.control-button {
+  width: 30px;
+}
+
+.filter-field {
+  width: 200px;
+}
+
+.track-list {
   flex-grow: 1;
   overflow-y: auto;
   padding: 10px;
+  overflow-x: hidden;
 }
 
-.song-row {
+.track-list-item {
   height: 40px;
   margin-bottom: 6px;
 }
