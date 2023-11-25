@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import {useDirsStore} from '@/stores/useDirsStore'
-import {computed, onMounted, ref, toRaw, watch} from 'vue'
+import {computed, onMounted, ref, toRaw} from 'vue'
 import type {AudioFile, Directory} from '@/services/DirService'
 import CustomCard from "@/components/base/CustomCard.vue";
 import CustomHeader from "@/components/base/CustomHeader.vue";
@@ -87,35 +87,29 @@ import addIcon from "@/assets/icons/playback-control/add.svg";
 import playIcon from "@/assets/icons/playback-control/play.svg";
 import CustomButton from "@/components/base/CustomButton.vue";
 import CustomTextField from "@/components/base/CustomTextField.vue";
+import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
+import {useSongsStore} from "@/stores/useSongsStore";
 
 const dirStore = useDirsStore()
+const audioFileStore = useAudioFilesStore()
+const songStore = useSongsStore()
 
 let currentDirId = ref<number | null>(null)
-let rootDirs = ref<Directory[]>([])
-let currentDirs = ref<Directory[]>([])
-let currentAudioFiles = ref<AudioFile[]>([])
+let rootDirs = ref<Directory[] | null>(null)
+let currentDirs = ref<Directory[] | null>(null)
+let currentAudioFiles = ref<AudioFile[] | null>(null)
 
 const pathItems = ref([{name: 'Файлы', dirId: 0}])
 
 const filterText = ref<string>("")
 
 onMounted(async () => {
-  await dirStore.fetchRootDirs()
+  rootDirs.value = dirStore.getRootDirs()
+  if (!rootDirs.value) {
+    await dirStore.fetchRootDirs()
+    rootDirs.value = dirStore.getRootDirs()
+  }
 })
-
-watch(
-    () => dirStore.getRootDirs,
-    (newDirs) => {
-      if (newDirs) {
-        rootDirs.value = newDirs
-      } else {
-        rootDirs.value = []
-      }
-    },
-    {
-      immediate: true
-    }
-)
 
 const filteredDirs = computed(() => {
   const dirs = currentDirId.value  == null ? rootDirs : currentDirs
@@ -218,6 +212,81 @@ const emit = defineEmits([
   'add-click',
   'play-click',
 ]);
+
+async function getSongIdByAudioFileId(audioFileId: number): Promise<number | null> {
+  let audioFile = audioFileStore.getAudioFile(audioFileId);
+  if (!audioFile) {
+    await audioFileStore.fetchAllAudioFiles();
+    audioFile = audioFileStore.getAudioFile(audioFileId);
+    if (!audioFile) {
+      return null;
+    }
+  }
+  if (!audioFile) {
+    return null;
+  }
+
+  let song = songStore.getBySha256(audioFile.sha256);
+  if (!song) {
+    await songStore.fetchAllSongs();
+    song = songStore.getBySha256(audioFile.sha256);
+  }
+  if (!song) {
+    return null;
+  }
+
+  return song.songId
+}
+
+async function getDirSongIds(dirId: number | null): Promise<number[]> {
+  let songIds: number[] = [];
+  if (dirId) {
+    let dirContent = dirStore.getDirContent(dirId)
+    if (!dirContent) {
+      await dirStore.fetchDirContent(dirId)
+      dirContent = dirStore.getDirContent(dirId)
+    }
+    if (dirContent) {
+      for (const audioFile of dirContent.audioFiles) {
+        const songId = await getSongIdByAudioFileId(audioFile.audioFileId)
+        if (songId) {
+          songIds.push(songId)
+        }
+      }
+      for (const subDir of dirContent.dirs) {
+        const dirsSongIds = await getDirSongIds(subDir.dirId)
+        for (const dirsSongId of dirsSongIds) {
+          songIds.push(dirsSongId)
+        }
+      }
+    }
+  } else {
+    let rootDirs = dirStore.getRootDirs();
+    if (!rootDirs) {
+      await dirStore.fetchRootDirs();
+      rootDirs = dirStore.getRootDirs();
+    }
+    if (rootDirs) {
+      for (const rootDir of rootDirs) {
+        const dirsSongIds = await getDirSongIds(rootDir.dirId)
+        for (const dirsSongId of dirsSongIds) {
+          songIds.push(dirsSongId)
+        }
+      }
+    }
+  }
+  return songIds;
+}
+
+async function handleAddAllFilesClick() {
+  const songIds = await getDirSongIds(currentDirId.value);
+  handleAddClick(songIds)
+}
+
+async function handlePlayAllFilesClick() {
+  const songIds = await getDirSongIds(currentDirId.value);
+  handlePlayClick(songIds)
+}
 
 function handleAddClick(songIds: number[]) {
   emit('add-click', songIds);

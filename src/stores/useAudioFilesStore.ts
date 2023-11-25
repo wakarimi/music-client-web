@@ -18,7 +18,6 @@ export const useAudioFilesStore = defineStore('audioFiles', {
             this._fetchAudioFilesPromise = AudioFileService.getAllAudioFiles()
                 .then(allAudioFiles => {
                     this._allAudioFiles = allAudioFiles;
-                    console.log('Updated _allAudioFiles', this._allAudioFiles); // Добавьте это логирование здесь
                 })
                 .catch(error => {
                     console.log(error);

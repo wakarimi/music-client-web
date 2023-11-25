@@ -57,9 +57,9 @@ import {useSongsStore} from "@/stores/useSongsStore";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
 import {useDirsStore} from "@/stores/useDirsStore";
 
-const songStore = useSongsStore()
-const audioFileStore = useAudioFilesStore()
 const dirStore = useDirsStore()
+const audioFileStore = useAudioFilesStore()
+const songStore = useSongsStore()
 
 const props = defineProps({
   contentType: {

@@ -37,10 +37,12 @@ export const useDirsStore = defineStore('dirs', {
     },
     getters: {
         getRootDirs: (state) => {
-            if (state._rootDirs) {
-                return state._rootDirs.dirs
-            } else {
-                return null
+            return () => {
+                if (state._rootDirs) {
+                    return state._rootDirs.dirs
+                } else {
+                    return null
+                }
             }
         },
         getDirContent: (state) => {
