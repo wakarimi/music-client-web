@@ -164,7 +164,7 @@ function handlePlayClick(songIds: number[]) {
 
 .track-list {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 10px;
   overflow-x: hidden;
 }

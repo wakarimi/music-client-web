@@ -332,7 +332,7 @@ function handlePlayClick(songIds: number[]) {
 
 .file-grid {
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

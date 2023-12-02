@@ -78,10 +78,16 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.header {
-  height: 30px;
+.current-state-panel {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  flex-shrink: 0;
+  height: 30px;
 }
 
 .header-rooms {
@@ -102,6 +108,7 @@ onMounted(async () => {
 
 .tab-content {
   padding: 10px;
+  height: calc(100% - 113px);
 }
 </style>
 

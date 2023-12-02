@@ -77,40 +77,40 @@ const handleEventPlay = (songIds: number[]) => {
 <style scoped>
 .container {
   display: flex;
-  height: 100%; /* Задаем высоту */
+  height: 100%;
 }
 
 .column {
-  overflow: auto; /* Прокрутка при переполнении */
+  overflow: auto;
 }
 
 .column-tabs,
 .column-custom {
   display: flex;
-  flex-direction: column; /* Для вертикального списка кнопок */
+  flex-direction: column;
 }
 
 .tabs-list,
 .custom-list {
-  list-style: none; /* Убираем маркеры списка */
-  padding: 0; /* Убираем внутренние отступы */
+  list-style: none;
+  padding: 0;
 }
 
 .tabs-list li,
 .custom-list li {
-  margin-bottom: 5px; /* Отступ между кнопками */
+  margin-bottom: 5px;
 }
 
 .button {
-  text-align: center; /* Выравнивание текста внутри кнопки */
-  padding: 5px; /* Отступ внутри кнопки */
-  border: 1px solid #ccc; /* Рамка вокруг кнопки */
-  background-color: #f8f8f8; /* Фон кнопки */
-  cursor: pointer; /* Курсор в виде руки при наведении */
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #e8e8e8; /* Фон кнопки при наведении */
+  background-color: #e8e8e8;
 }
 
 .column-tabs {
@@ -119,24 +119,25 @@ const handleEventPlay = (songIds: number[]) => {
 }
 
 .column-content {
-  width: 65%; /* Ширина для столбца с контентом */
+  width: 65%;
 }
 
 .column-custom {
-  width: 24%; /* Ширина для кастомного столбца */
+  min-width: 200px;
+  width: 24%;
 }
 
 .grid button {
-  position: relative; /* Для позиционирования псевдоэлемента */
-  width: calc(300% / 3); /* 2 раза шире, делённое на количество кнопок в ряду */
-  padding: 0; /* Убираем стандартные отступы кнопки */
-  overflow: hidden; /* Обрезаем содержимое, если выйдет за рамки */
+  position: relative;
+  width: calc(300% / 3);
+  padding: 0;
+  overflow: hidden;
 }
 
 .grid button::before {
   content: '';
   display: block;
-  padding-top: 100%; /* Соотношение сторон 1:1 для высоты */
+  padding-top: 100%;
 }
 
 .grid button > span {
@@ -144,10 +145,9 @@ const handleEventPlay = (songIds: number[]) => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* Ваш текст или содержимое будет здесь */
 }
 
 .column:not(:last-child) {
-  border-right: 2px solid #F5F1ED; /* Добавляет линию справа от каждого столбца, кроме последнего */
+  border-right: 2px solid #F5F1ED;
 }
 </style>
