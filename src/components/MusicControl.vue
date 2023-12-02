@@ -115,16 +115,15 @@ const handleEventPlay = (songIds: number[]) => {
 
 .column-tabs {
   min-width: 200px;
-  width: 11%;
 }
 
 .column-content {
-  width: 65%;
+  width: 80%;
 }
 
 .column-custom {
-  min-width: 200px;
-  width: 24%;
+  width: 25%;
+  min-width: 280px;
 }
 
 .grid button {

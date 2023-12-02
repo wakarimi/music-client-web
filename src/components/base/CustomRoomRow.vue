@@ -7,39 +7,32 @@
     >
       <div class="song-row-left">
         <img
-            :src="getSongCover()"
+            :src="getIcon()"
             alt="song-cover"
             class="song-cover">
         <span class="song-description">
-          {{ getSongDescription() }}
+          {{ roomName }}
         </span>
       </div>
       <div class="song-row-right">
         <div class="control-button-wrapper">
           <CustomButton
-              :button-icon="infoIcon"
+              :button-icon="shareIcon"
               :size-change-percent="2"
-              button-padding="4px"
+              button-padding="5px"
               class="control-button right-element"
-              @click="handleInfoClick($event, roomId)"
+              @click="handleShareClick($event, roomId)"
           />
           <CustomButton
-              :button-icon="addIcon"
+              :button-icon="leaveIcon"
               :size-change-percent="2"
               button-padding="4px"
               class="control-button right-element"
-              @click="handleAddClick($event, [roomId])"
-          />
-          <CustomButton
-              :button-icon="playIcon"
-              :size-change-percent="2"
-              button-padding="4px"
-              class="control-button right-element"
-              @click="handlePlayClick($event, [roomId])"
+              @click="handleLeaveClick($event, roomId)"
           />
         </div>
         <span class="song-duration right-element">
-          {{ getSongDuration() }}
+          В комнате: {{ roomOnline }}
         </span>
       </div>
     </button>
@@ -50,13 +43,8 @@
 import {useSongsStore} from "@/stores/useSongsStore";
 import defaultCover from "@/assets/default/cover.svg"
 import CustomButton from "@/components/base/CustomButton.vue";
-import infoIcon from "@/assets/icons/playback-control/info.svg"
-import addIcon from "@/assets/icons/playback-control/add.svg"
-import playIcon from "@/assets/icons/playback-control/play.svg"
-import type {Song} from "@/services/SongService";
-import {useArtistsStore} from "@/stores/useArtistsStore";
-import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
-import type {AudioFile} from "@/services/AudioFileService";
+import shareIcon from "@/assets/icons/room-control/share.svg"
+import leaveIcon from "@/assets/icons/room-control/leave.svg"
 import {useCoversStore} from "@/stores/useCoversStore";
 
 const props = defineProps({
@@ -64,150 +52,36 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  roomName: {
+    type: String,
+    required: true,
+  },
+  roomOnline: {
+    type: Number,
+    default: 0,
+  },
 })
 
 const songStore = useSongsStore()
-const artistStore = useArtistsStore()
-const audioFileStore = useAudioFilesStore()
 const coverStore = useCoversStore()
 
-function getSongCover(): string {
-  let song: Song | null;
-  song = null;
-
-  if (!songStore.getSong(props.roomId)) {
-    songStore.fetchAllSongs();
-  }
-  if (songStore.getSong(props.roomId)) {
-    song = songStore.getSong(props.roomId);
-  }
-  if (!song) {
-    return defaultCover;
-  }
-
-  if (!coverStore.getCoverIdByAudioFileId(song.audioFileId)) {
-    coverStore.fetchAudioFileCover(song.audioFileId)
-  }
-  const coverId = coverStore.getCoverIdByAudioFileId(song.audioFileId)
-  if (coverId) {
-    return coverStore.getCoverByCoverId(coverId);
-  } else {
-    return defaultCover;
-  }
-}
-
-function getSongDuration(): string {
-  let song: Song | null;
-  song = null;
-  let audioFile: AudioFile | null;
-  audioFile = null;
-
-  if (!songStore.getSong(props.roomId)) {
-    songStore.fetchAllSongs();
-  }
-  if (songStore.getSong(props.roomId)) {
-    song = songStore.getSong(props.roomId);
-  }
-  if (!song) {
-    return "00:00";
-  }
-
-  if (!audioFileStore.getAudioFile(song.audioFileId)) {
-    audioFileStore.fetchAllAudioFiles();
-  }
-  if (audioFileStore.getAudioFile(song.audioFileId)) {
-    audioFile = audioFileStore.getAudioFile(song.audioFileId);
-  }
-
-  if (audioFile) {
-    return formatDuration(audioFile.durationMs);
-  } else {
-    return "00:00";
-  }
-}
-
-function formatDuration(durationMs: number) {
-  const seconds = Math.floor((durationMs / 1000) % 60);
-  const minutes = Math.floor((durationMs / (1000 * 60)) % 60);
-  const hours = Math.floor(durationMs / (1000 * 60 * 60));
-
-  const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
-  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-  const formattedHours = hours < 10 ? '0' + hours : hours;
-
-  if (hours > 0) {
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  } else {
-    return `${formattedMinutes}:${formattedSeconds}`;
-  }
-}
-
-function getSongDescription(): string {
-  let song: Song | null;
-  song = null;
-  let audioFile: AudioFile | null;
-  audioFile = null;
-  let description = "";
-
-  if (!songStore.getSong(props.roomId)) {
-    songStore.fetchAllSongs();
-  }
-  if (songStore.getSong(props.roomId)) {
-    song = songStore.getSong(props.roomId);
-  }
-  if (!song) {
-    return ""
-  }
-
-  if (!audioFileStore.getAudioFile(song.audioFileId)) {
-    audioFileStore.fetchAllAudioFiles();
-  }
-  if (audioFileStore.getAudioFile(song.audioFileId)) {
-    audioFile = audioFileStore.getAudioFile(song.audioFileId)
-  }
-
-  if (song.songNumber) {
-    description += song.songNumber + ". "
-  }
-
-  if (song.title) {
-    description += song.title;
-  }
-
-  if (song.artistId) {
-    if (!artistStore.getArtistById(song.artistId)) {
-      artistStore.fetchArtists()
-    }
-    const artist = artistStore.getArtistById(song.artistId)
-    description += " - " + artist?.name;
-  }
-
-  if ((description === "") && (audioFile)) {
-    description = audioFile.filename
-  }
-
-  return description
+function getIcon(): string {
+  return defaultCover;
 }
 
 const emit = defineEmits([
-  'info-click',
-  'add-click',
-  'play-click',
+  'share-click',
+  'leave-click',
 ]);
 
-function handleInfoClick(event: MouseEvent, songId: number) {
+function handleShareClick(event: MouseEvent, roomId: number) {
   event.stopPropagation()
-  emit('info-click', songId);
+  emit('share-click', roomId);
 }
 
-function handleAddClick(event: MouseEvent, songIds: number[]) {
+function handleLeaveClick(event: MouseEvent, roomId: number) {
   event.stopPropagation()
-  emit('add-click', songIds);
-}
-
-function handlePlayClick(event: MouseEvent, songIds: number[]) {
-  event.stopPropagation()
-  emit('play-click', songIds);
+  emit('leave-click', roomId);
 }
 </script>
 

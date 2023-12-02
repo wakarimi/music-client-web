@@ -23,28 +23,11 @@
         </span>
         <div class="room-list">
           <CustomRoomRow
+              v-for="room in myRooms"
+              :key="room.id"
+              :room-id="room.id"
+              :room-name="room.name"
               class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
           />
         </div>
       </div>
@@ -53,30 +36,6 @@
           Участники комнаты
         </span>
         <div class="room-list">
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
-          <CustomRoomRow
-              class="room-item"
-              :room-id="1"
-          />
         </div>
       </div>
     </div>
@@ -85,11 +44,24 @@
 
 <script lang="ts" setup>
 import CustomButton from "@/components/base/CustomButton.vue";
-
-import joinIcon from "@/assets/icons/room-control/join.svg"
-import createIcon from "@/assets/icons/room-control/create.svg"
+import joinIcon from "@/assets/icons/room-control/join.svg";
+import createIcon from "@/assets/icons/room-control/create.svg";
 import CustomRoomRow from "@/components/base/CustomRoomRow.vue";
+import { onMounted, ref } from "vue";
+import { useRoomsStore } from "@/stores/useRoomsStore";
+import type {Room} from "@/services/RoomService";
 
+const roomStore = useRoomsStore();
+
+const myRooms = ref<Room[]>([]);
+
+onMounted(async () => {
+  if (!roomStore.getMyRooms) {
+    await roomStore.fetchMyRooms();
+  }
+  myRooms.value = roomStore.getMyRooms || [];
+  roomStore.resetMyRooms();
+});
 </script>
 
 <style scoped>
