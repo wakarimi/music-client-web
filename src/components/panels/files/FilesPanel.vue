@@ -6,21 +6,21 @@
 
       <template #left>
         <div
-            class="header-path header-element"
             v-for="(pathItem, index) in pathItems"
             :key="index"
+            class="header-path header-element"
         >
           <CustomButton
-              class="header-path-element"
-              text-size="14px"
               :button-text="pathItem.name"
               :size-change-percent="2"
               button-padding="3px"
+              class="header-path-element"
+              text-size="14px"
               @click="changeDirectory(pathItem.dirId)"
           />
           <span
-              class="path-item-separator"
-              v-if="index < pathItems.length - 1">
+              v-if="index < pathItems.length - 1"
+              class="path-item-separator">
             /
           </span>
         </div>
@@ -112,7 +112,7 @@ onMounted(async () => {
 })
 
 const filteredDirs = computed(() => {
-  const dirs = currentDirId.value  == null ? rootDirs : currentDirs
+  const dirs = currentDirId.value == null ? rootDirs : currentDirs
   if (!filterText.value) {
     if (dirs.value) {
       return dirs.value

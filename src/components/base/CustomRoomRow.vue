@@ -17,9 +17,9 @@
       <div class="room-row-right">
         <div class="control-button-wrapper">
           <CustomButton
-              :button-icon="shareIcon"
-              :size-change-percent="2"
               v-if="isOwner"
+              :button-icon="settingsIcon"
+              :size-change-percent="2"
               button-padding="5px"
               class="control-button right-element"
               @click="handleShareClick($event, roomId)"
@@ -32,8 +32,8 @@
               @click="handleLeaveClick($event, roomId)"
           />
         </div>
-        <span class="room-duration right-element">
-          В комнате: {{ roomOnline }}
+        <span class="right-element">
+          {{ roomOnline }} онлайн
         </span>
       </div>
     </button>
@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import CustomButton from "@/components/base/CustomButton.vue";
-import shareIcon from "@/assets/icons/room-control/share.svg"
+import settingsIcon from "@/assets/icons/room-control/settings.svg"
 import leaveIcon from "@/assets/icons/room-control/leave.svg"
 import ownerIcon from "@/assets/icons/room-control/owner.svg"
 import memberIcon from "@/assets/icons/room-control/member.svg"
@@ -168,6 +168,7 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
 }
 
 .room-description {
+  white-space: nowrap;
   padding-left: 10px;
   font-size: 15px;
 }
@@ -177,11 +178,7 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
 }
 
 .right-element {
-  padding-left: 4px;
-}
-
-.room-duration {
-  padding: 8px;
-  font-size: 15px;
+  white-space: nowrap;
+  padding-right: 6px;
 }
 </style>

@@ -46,7 +46,6 @@ const toggleMusicControlVisibility = () => {
   max-width: 100%; /* Предотвращает выход за пределы вьюпорта */
   height: 100vh; /* Точная высота вьюпорта */
   box-sizing: border-box; /* Учитывает padding и border в общей ширине элемента */
-  position: relative;
   overflow: hidden; /* Предотвратит прокрутку если дочерние элементы выйдут за пределы */
   padding: 0; /* Убедитесь, что внешние отступы не влияют на высоту */
   margin: 0; /* Убедитесь, что внешние отступы не влияют на высоту */
@@ -60,11 +59,9 @@ const toggleMusicControlVisibility = () => {
 }
 
 .music-playback {
-  z-index: 1; /* Убедитесь, что music-current-state всегда сверху, когда активен */
 }
 
 .music-control {
-  z-index: 0; /* MusicControl должен быть над MusicPlayback */
 }
 
 * {

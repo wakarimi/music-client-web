@@ -67,4 +67,34 @@ export const RoomService = {
             throw error
         }
     },
+    async create(roomName: string): Promise<void> {
+        const tokenStore = useTokensStore()
+        if (tokenStore.accessToken == null) {
+            await tokenStore.refresh()
+        }
+        const accessToken = tokenStore.accessToken
+        try {
+            const response = await apiClient.post('/music-playback/rooms', {
+                name: roomName,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при создании комнаты')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
+        }
+    },
 }

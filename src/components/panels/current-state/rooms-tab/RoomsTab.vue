@@ -1,19 +1,27 @@
 <template>
+  <CreateRoomWindow
+      v-if="isCreateRoomWindowVisible"
+      @closeWindowClick="handleCloseCreateRoomWindow"
+  />
+
+
   <div class="rooms-tab">
     <div class="control">
       <CustomButton
-          :size-change-percent="2"
           :button-icon="joinIcon"
+          :size-change-percent="2"
           button-padding="5px"
-          text-size="16px"
           button-text="Войти"
+          text-size="16px"
+          @click="handleOpenJoinWindow"
       />
       <CustomButton
-          :size-change-percent="2"
           :button-icon="createIcon"
+          :size-change-percent="2"
           button-padding="5px"
-          text-size="16px"
           button-text="Создать"
+          text-size="16px"
+          @click="handleOpenCreateWindow"
       />
     </div>
     <div class="rooms-content">
@@ -26,9 +34,9 @@
             <CustomRoomRow
                 v-for="room in myRooms"
                 :key="room.id"
+                :is-owner="currentUserId === room.ownerId"
                 :room-id="room.id"
                 :room-name="room.name"
-                :is-owner="currentUserId === room.ownerId"
                 class="room-item"
             />
           </div>
@@ -53,11 +61,11 @@ import CustomButton from "@/components/base/CustomButton.vue";
 import joinIcon from "@/assets/icons/room-control/join.svg";
 import createIcon from "@/assets/icons/room-control/create.svg";
 import CustomRoomRow from "@/components/base/CustomRoomRow.vue";
-import { onMounted, ref } from "vue";
-import { useRoomsStore } from "@/stores/useRoomsStore";
+import {nextTick, onMounted, ref} from "vue";
+import {useRoomsStore} from "@/stores/useRoomsStore";
 import type {Room} from "@/services/RoomService";
-import {nextTick} from "vue";
 import {useAccountsStore} from "@/stores/useAccountsStore";
+import CreateRoomWindow from "@/components/base/windows/CreateRoomWindow.vue";
 
 const roomStore = useRoomsStore();
 const accountStore = useAccountsStore();
@@ -65,14 +73,33 @@ const accountStore = useAccountsStore();
 const currentUserId = ref<number | null>(null);
 const myRooms = ref<Room[]>([]);
 
-onMounted(async () => {
-  await nextTick();
+const isCreateRoomWindowVisible = ref<boolean>(false);
 
+function handleOpenCreateWindow() {
+  isCreateRoomWindowVisible.value = true;
+}
+
+function handleCloseCreateRoomWindow() {
+  isCreateRoomWindowVisible.value = false;
+  fetchRooms();
+}
+
+async function fetchRooms() {
   if (!roomStore.getMyRooms) {
     await roomStore.fetchMyRooms();
   }
   myRooms.value = roomStore.getMyRooms || [];
   roomStore.resetMyRooms();
+}
+
+function handleOpenJoinWindow() {
+  console.log("Implement handleOpenJoinWindow")
+}
+
+onMounted(async () => {
+  await nextTick();
+
+  fetchRooms()
 
   if (!accountStore.myAccount) {
     await accountStore.fetchMe()
@@ -82,6 +109,7 @@ onMounted(async () => {
     currentUserId.value = currentUser.id
   }
 });
+
 </script>
 
 <style scoped>

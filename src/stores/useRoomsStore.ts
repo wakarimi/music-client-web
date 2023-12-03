@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia'
-import {RoomService} from "@/services/RoomService";
 import type {GetMyRooms} from "@/services/RoomService";
+import {RoomService} from "@/services/RoomService";
 
 export const useRoomsStore = defineStore('rooms', {
     state: () => ({
@@ -28,6 +28,9 @@ export const useRoomsStore = defineStore('rooms', {
         resetMyRooms() {
             this._myRooms = null;
         },
+        async create(roomName: string) {
+            await RoomService.create(roomName)
+        }
     },
     getters: {
         getMyRooms: (state) => {
