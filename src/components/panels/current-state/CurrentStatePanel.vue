@@ -82,6 +82,8 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .header {
@@ -108,7 +110,7 @@ onMounted(async () => {
 
 .tab-content {
   padding: 10px;
-  height: calc(100% - 113px);
+  height: calc(100% - 71px);
 }
 </style>
 

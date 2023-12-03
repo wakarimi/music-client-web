@@ -21,21 +21,27 @@
         <span>
           Мои комнаты
         </span>
-        <div class="room-list">
-          <CustomRoomRow
-              v-for="room in myRooms"
-              :key="room.id"
-              :room-id="room.id"
-              :room-name="room.name"
-              class="room-item"
-          />
+        <div class="room-list-wrapper">
+          <div class="room-list">
+            <CustomRoomRow
+                v-for="room in myRooms"
+                :key="room.id"
+                :room-id="room.id"
+                :room-name="room.name"
+                :is-owner="currentUserId === room.ownerId"
+                class="room-item"
+            />
+          </div>
         </div>
       </div>
       <div class="sub-menu">
         <span>
           Участники комнаты
         </span>
-        <div class="room-list">
+        <div class="room-list-wrapper">
+          <div class="room-list">
+
+          </div>
         </div>
       </div>
     </div>
@@ -50,17 +56,31 @@ import CustomRoomRow from "@/components/base/CustomRoomRow.vue";
 import { onMounted, ref } from "vue";
 import { useRoomsStore } from "@/stores/useRoomsStore";
 import type {Room} from "@/services/RoomService";
+import {nextTick} from "vue";
+import {useAccountsStore} from "@/stores/useAccountsStore";
 
 const roomStore = useRoomsStore();
+const accountStore = useAccountsStore();
 
+const currentUserId = ref<number | null>(null);
 const myRooms = ref<Room[]>([]);
 
 onMounted(async () => {
+  await nextTick();
+
   if (!roomStore.getMyRooms) {
     await roomStore.fetchMyRooms();
   }
   myRooms.value = roomStore.getMyRooms || [];
   roomStore.resetMyRooms();
+
+  if (!accountStore.myAccount) {
+    await accountStore.fetchMe()
+  }
+  const currentUser = accountStore.myAccount
+  if (currentUser) {
+    currentUserId.value = currentUser.id
+  }
 });
 </script>
 
@@ -82,7 +102,7 @@ onMounted(async () => {
 .rooms-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: calc(100% - 54px);
   gap: 10px;
 }
 
@@ -93,12 +113,16 @@ onMounted(async () => {
   gap: 10px;
 }
 
+.room-list-wrapper {
+  overflow-y: scroll;
+  height: 100%;
+}
+
 .room-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding-right: 10px;
-  overflow-y: scroll;
 }
 
 .room-item {

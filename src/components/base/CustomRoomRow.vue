@@ -1,24 +1,25 @@
 <template>
   <div
-      class="custom-song-row"
+      class="custom-room-row"
   >
     <button
-        class="song-row-button"
+        class="room-row-button"
     >
-      <div class="song-row-left">
+      <div class="room-row-left">
         <img
             :src="getIcon()"
-            alt="song-cover"
-            class="song-cover">
-        <span class="song-description">
+            alt="room-cover"
+            class="room-cover">
+        <span class="room-description">
           {{ roomName }}
         </span>
       </div>
-      <div class="song-row-right">
+      <div class="room-row-right">
         <div class="control-button-wrapper">
           <CustomButton
               :button-icon="shareIcon"
               :size-change-percent="2"
+              v-if="isOwner"
               button-padding="5px"
               class="control-button right-element"
               @click="handleShareClick($event, roomId)"
@@ -31,7 +32,7 @@
               @click="handleLeaveClick($event, roomId)"
           />
         </div>
-        <span class="song-duration right-element">
+        <span class="room-duration right-element">
           В комнате: {{ roomOnline }}
         </span>
       </div>
@@ -40,12 +41,11 @@
 </template>
 
 <script lang="ts" setup>
-import {useSongsStore} from "@/stores/useSongsStore";
-import defaultCover from "@/assets/default/cover.svg"
 import CustomButton from "@/components/base/CustomButton.vue";
 import shareIcon from "@/assets/icons/room-control/share.svg"
 import leaveIcon from "@/assets/icons/room-control/leave.svg"
-import {useCoversStore} from "@/stores/useCoversStore";
+import ownerIcon from "@/assets/icons/room-control/owner.svg"
+import memberIcon from "@/assets/icons/room-control/member.svg"
 
 const props = defineProps({
   roomId: {
@@ -60,13 +60,18 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  isOwner: {
+    type: Boolean,
+    required: true,
+  },
 })
 
-const songStore = useSongsStore()
-const coverStore = useCoversStore()
-
 function getIcon(): string {
-  return defaultCover;
+  if (props.isOwner) {
+    return ownerIcon;
+  } else {
+    return memberIcon;
+  }
 }
 
 const emit = defineEmits([
@@ -86,7 +91,7 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
 </script>
 
 <style scoped>
-.song-row-button {
+.room-row-button {
   width: 100%;
   height: 100%;
 
@@ -108,17 +113,17 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
   box-shadow 0.2s ease;
 }
 
-.song-row-button:hover {
+.room-row-button:hover {
   transform: scale(1.005);
   box-shadow: 1px 1px 3px #25232344;
 }
 
-.song-row-button:active {
+.room-row-button:active {
   transform: scale(0.995);
   box-shadow: 1px 1px 2px #25232344;
 }
 
-.song-row-left {
+.room-row-left {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -127,7 +132,7 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
   height: 100%;
 }
 
-.song-row-right {
+.room-row-right {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -145,24 +150,24 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
   transition: opacity 0.2s ease;
 }
 
-.song-row-button:hover .control-button-wrapper {
+.room-row-button:hover .control-button-wrapper {
   opacity: 1;
   pointer-events: auto;
 }
 
-.song-cover {
-  height: 100%;
+.room-cover {
+  height: 60%;
   width: auto;
   aspect-ratio: 1;
   position: relative;
-  border-radius: 10px;
+  padding-left: 6px;
 }
 
-.song-cover >>> img {
+.room-cover >>> img {
   height: 100%;
 }
 
-.song-description {
+.room-description {
   padding-left: 10px;
   font-size: 15px;
 }
@@ -175,7 +180,7 @@ function handleLeaveClick(event: MouseEvent, roomId: number) {
   padding-left: 4px;
 }
 
-.song-duration {
+.room-duration {
   padding: 8px;
   font-size: 15px;
 }
