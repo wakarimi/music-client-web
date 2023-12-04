@@ -5,6 +5,7 @@
         :style="[{fontSize: textSize}]"
         :type="type"
         :value="modelValue"
+        :readonly="isReadonly"
         class="input"
         @input="handleInput($event)"
     >
@@ -27,6 +28,10 @@ defineProps({
     type: String,
     default: "18px",
   },
+  isReadonly: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue']);
@@ -38,8 +43,9 @@ function handleInput(event: Event) {
 </script>
 
 <style scoped>
-.base-text-field {
-
+.custom-text-field {
+  width: 100%;
+  height: 100%;
 }
 
 .input {

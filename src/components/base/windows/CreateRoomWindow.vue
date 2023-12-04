@@ -55,7 +55,6 @@ const emit = defineEmits([
 
 async function handleCreateRoom() {
   try {
-    console.log("name: \"" + roomName.value + "\"")
     await roomStore.create(roomName.value)
     handleCloseCreateRoomWindow()
   } catch (error) {

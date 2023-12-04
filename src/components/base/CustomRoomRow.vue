@@ -22,7 +22,7 @@
               :size-change-percent="2"
               button-padding="5px"
               class="control-button right-element"
-              @click="handleShareClick($event, roomId)"
+              @click="handleSettingsClick($event, roomId)"
           />
           <CustomButton
               :button-icon="leaveIcon"
@@ -75,13 +75,13 @@ function getIcon(): string {
 }
 
 const emit = defineEmits([
-  'share-click',
+  'settings-click',
   'leave-click',
 ]);
 
-function handleShareClick(event: MouseEvent, roomId: number) {
+function handleSettingsClick(event: MouseEvent, roomId: number) {
   event.stopPropagation()
-  emit('share-click', roomId);
+  emit('settings-click', roomId);
 }
 
 function handleLeaveClick(event: MouseEvent, roomId: number) {

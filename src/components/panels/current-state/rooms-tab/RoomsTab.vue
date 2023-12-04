@@ -4,6 +4,11 @@
       @closeWindowClick="handleCloseCreateRoomWindow"
   />
 
+  <RoomSettingsWindow
+      v-if="isRoomSettingsWindowVisible"
+      :room-id="settingsRoomId"
+      @closeWindowClick="handleCloseRoomSettingsWindow"
+  />
 
   <div class="rooms-tab">
     <div class="control">
@@ -38,6 +43,7 @@
                 :room-id="room.id"
                 :room-name="room.name"
                 class="room-item"
+                @settingsClick="handleOpenRoomSettings"
             />
           </div>
         </div>
@@ -66,6 +72,7 @@ import {useRoomsStore} from "@/stores/useRoomsStore";
 import type {Room} from "@/services/RoomService";
 import {useAccountsStore} from "@/stores/useAccountsStore";
 import CreateRoomWindow from "@/components/base/windows/CreateRoomWindow.vue";
+import RoomSettingsWindow from "@/components/base/windows/RoomSettingsWindow.vue";
 
 const roomStore = useRoomsStore();
 const accountStore = useAccountsStore();
@@ -73,7 +80,9 @@ const accountStore = useAccountsStore();
 const currentUserId = ref<number | null>(null);
 const myRooms = ref<Room[]>([]);
 
+const settingsRoomId = ref<number | null>(null);
 const isCreateRoomWindowVisible = ref<boolean>(false);
+const isRoomSettingsWindowVisible = ref<boolean>(false);
 
 function handleOpenCreateWindow() {
   isCreateRoomWindowVisible.value = true;
@@ -81,6 +90,17 @@ function handleOpenCreateWindow() {
 
 function handleCloseCreateRoomWindow() {
   isCreateRoomWindowVisible.value = false;
+  fetchRooms();
+}
+
+function handleOpenRoomSettings(roomId: number) {
+  settingsRoomId.value = roomId;
+  isRoomSettingsWindowVisible.value = true;
+}
+
+function handleCloseRoomSettingsWindow() {
+  isRoomSettingsWindowVisible.value = false;
+  settingsRoomId.value = null;
   fetchRooms();
 }
 

@@ -40,5 +40,16 @@ export const useRoomsStore = defineStore('rooms', {
                 return null
             }
         },
+        getById: (state) => {
+            return (roomId: number) => {
+                if (state._myRooms) {
+                    return state._myRooms.rooms.find(
+                        room => room.id === roomId
+                    ) || null
+                } else {
+                    return null
+                }
+            }
+        },
     }
 })
