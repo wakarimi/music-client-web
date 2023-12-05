@@ -3,15 +3,25 @@
       @backgroundClick="handleClose"
   >
     <div class="form">
-      <CustomTextField
-          class="row-element"
-          :is-readonly="true"
-          v-model="roomName"
-      />
-      <div class="row-element share-code-row">
+      <div class="row">
+        <CustomTextField
+            class="row-element"
+            placeholder-text="Тут должно быть имя комнаты"
+            v-model="roomName"
+        />
+        <CustomButton
+            class="square-row-element"
+            :button-icon="saveIcon"
+            button-padding="8px"
+            :size-change-percent="2"
+            @click="handleRename"
+        />
+      </div>
+      <div class="row">
         <CustomTextField
             class="row-element"
             :is-readonly="true"
+            placeholder-text="Тут будет код комнаты"
             v-model="shareCode"
         />
         <CustomButton
@@ -19,7 +29,7 @@
             :button-icon="generateIcon"
             button-padding="8px"
             :size-change-percent="2"
-            @click="handleGenerateShareCore"
+            @click="handleGenerateShareCode"
         />
         <CustomButton
             class="square-row-element"
@@ -38,27 +48,15 @@
       </div>
       <div class="control-buttons row-element">
         <CustomButton
-            button-text="Ок"
+            button-text="Закрыть"
             class="row-element"
             :size-change-percent="2"
-            border-color="#CCE8B0"
-            background-color="#E5F4D7"
-            border-color-hover="#A5D773"
-            background-color-hover="#CCE8B0"
-            border-color-active="#A5D773"
-            background-color-active="#CCE8B0"
-            @click="handleClose"
-        />
-        <CustomButton
-            button-text="Отмена"
-            class="row-element"
-            :size-change-percent="2"
-            border-color="#F8A0A0"
-            background-color="#FBD0D0"
-            border-color-hover="#F25757"
-            background-color-hover="#F8A0A0"
-            border-color-active="#F25757"
-            background-color-active="#F8A0A0"
+            border-color="#A9CCEF"
+            background-color="#D4E5F7"
+            border-color-hover="#69A6E3"
+            background-color-hover="#A9CCEF"
+            border-color-active="#69A6E3"
+            background-color-active="#A9CCEF"
             @click="handleClose"
         />
       </div>
@@ -74,6 +72,7 @@ import {nextTick, onMounted, ref} from "vue";
 import {useRoomsStore} from "@/stores/useRoomsStore";
 import {useShareCodesStore} from "@/stores/useShareCodesStore";
 import generateIcon from "@/assets/icons/60/generate.svg"
+import saveIcon from "@/assets/icons/60/save.svg"
 import copyIcon from "@/assets/icons/60/copy.svg"
 import removeIcon from "@/assets/icons/60/remove.svg"
 
@@ -91,10 +90,20 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'close-window-click'
+  'room-updated',
+  'close-window-click',
 ]);
 
-async function handleGenerateShareCore() {
+async function handleRename() {
+  try {
+    await roomStore.rename(props.roomId, roomName.value);
+    handleUpdated();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function handleGenerateShareCode() {
   try {
     await shareCodeStore.generate(props.roomId);
     await fetchShareCode();
@@ -108,8 +117,10 @@ async function handleCopyShareCore() {
   try {
     if (navigator.clipboard && shareCode.value) {
       await navigator.clipboard.writeText(shareCode.value);
-    } else {
-      console.error("Clipboard API not available or share code is empty");
+    } else if (!navigator.clipboard) {
+      console.error("Clipboard API not available");
+    } else if (!shareCode.value) {
+      console.error("Share code is empty");
     }
   } catch (error) {
     console.error("Error copying to clipboard: ", error);
@@ -131,6 +142,7 @@ async function fetchRoomName() {
   if (!roomLocal) {
     await roomStore.fetchMyRooms()
     roomLocal = roomStore.getById(props.roomId)
+    roomStore.resetMyRooms()
   }
   if (roomLocal) {
     roomName.value = roomLocal.name
@@ -153,6 +165,10 @@ onMounted(async () => {
   await fetchRoomName();
   await fetchShareCode();
 });
+
+function handleUpdated() {
+  emit('room-updated');
+}
 
 function handleClose() {
   emit('close-window-click');
@@ -182,9 +198,10 @@ function handleClose() {
   width: 40px;
 }
 
-.share-code-row {
+.row {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  height: 40px;
 }
 </style>

@@ -6,7 +6,8 @@
 
   <RoomSettingsWindow
       v-if="isRoomSettingsWindowVisible"
-      :room-id="settingsRoomId"
+      :room-id="settingsRoomId ? settingsRoomId : 0"
+      @roomUpdated="handleRoomUpdated"
       @closeWindowClick="handleCloseRoomSettingsWindow"
   />
 
@@ -90,6 +91,10 @@ function handleOpenCreateWindow() {
 
 function handleCloseCreateRoomWindow() {
   isCreateRoomWindowVisible.value = false;
+  fetchRooms();
+}
+
+function handleRoomUpdated() {
   fetchRooms();
 }
 

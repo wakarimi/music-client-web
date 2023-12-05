@@ -30,7 +30,10 @@ export const useRoomsStore = defineStore('rooms', {
         },
         async create(roomName: string) {
             await RoomService.create(roomName)
-        }
+        },
+        async rename(roomId: number, roomName: string) {
+            await RoomService.rename(roomId, roomName)
+        },
     },
     getters: {
         getMyRooms: (state) => {
