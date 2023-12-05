@@ -34,6 +34,9 @@ export const useRoomsStore = defineStore('rooms', {
         async join(shareCode: string) {
             await RoomService.join(shareCode)
         },
+        async leave(roomId: number) {
+            await RoomService.leave(roomId)
+        },
         async rename(roomId: number, roomName: string) {
             await RoomService.rename(roomId, roomName)
         },

@@ -51,6 +51,7 @@
                 :room-name="room.name"
                 class="room-item"
                 @settingsClick="handleOpenRoomSettings"
+                @leaveClick="handleLeaveRoom"
             />
           </div>
         </div>
@@ -103,6 +104,11 @@ function handleCloseCreateRoomWindow() {
 }
 
 function handleRoomUpdated() {
+  fetchRooms();
+}
+
+async function handleLeaveRoom(roomId: number) {
+  await roomStore.leave(roomId);
   fetchRooms();
 }
 
