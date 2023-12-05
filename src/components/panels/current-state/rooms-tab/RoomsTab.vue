@@ -1,4 +1,10 @@
 <template>
+  <JoinRoomWindow
+      v-if="isJoinRoomWindowVisible"
+      @roomUpdated="handleRoomUpdated"
+      @closeWindowClick="handleCloseJoinWindow"
+  />
+
   <CreateRoomWindow
       v-if="isCreateRoomWindowVisible"
       @closeWindowClick="handleCloseCreateRoomWindow"
@@ -74,6 +80,7 @@ import type {Room} from "@/services/RoomService";
 import {useAccountsStore} from "@/stores/useAccountsStore";
 import CreateRoomWindow from "@/components/base/windows/CreateRoomWindow.vue";
 import RoomSettingsWindow from "@/components/base/windows/RoomSettingsWindow.vue";
+import JoinRoomWindow from "@/components/base/windows/JoinRoomWindow.vue";
 
 const roomStore = useRoomsStore();
 const accountStore = useAccountsStore();
@@ -82,6 +89,7 @@ const currentUserId = ref<number | null>(null);
 const myRooms = ref<Room[]>([]);
 
 const settingsRoomId = ref<number | null>(null);
+const isJoinRoomWindowVisible = ref<boolean>(false);
 const isCreateRoomWindowVisible = ref<boolean>(false);
 const isRoomSettingsWindowVisible = ref<boolean>(false);
 
@@ -118,7 +126,11 @@ async function fetchRooms() {
 }
 
 function handleOpenJoinWindow() {
-  console.log("Implement handleOpenJoinWindow")
+  isJoinRoomWindowVisible.value = true;
+}
+
+function handleCloseJoinWindow() {
+  isJoinRoomWindowVisible.value = false;
 }
 
 onMounted(async () => {

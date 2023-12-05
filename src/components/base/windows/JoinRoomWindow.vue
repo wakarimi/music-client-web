@@ -1,16 +1,26 @@
 <template>
   <CustomWindow
-      @backgroundClick="handleCloseCreateRoomWindow"
+      @backgroundClick="handleCloseJoinRoomWindow"
   >
     <div class="form">
-      <CustomTextField
-          class="row"
-          placeholder-text="Название комнаты"
-          v-model="roomName"
-      />
+
+      <div class="row">
+        <CustomTextField
+            class="row"
+            placeholder-text="Вставьте код подключения"
+            v-model="shareCode"
+        />
+        <CustomButton
+            class="square-row-element"
+            :button-icon="pasteIcon"
+            button-padding="8px"
+            :size-change-percent="2"
+            @click="handlePasteShareCode"
+        />
+      </div>
       <div class="control-buttons row">
         <CustomButton
-            button-text="Создать"
+            button-text="Войти"
             class="row"
             :size-change-percent="2"
             border-color="#CCE8B0"
@@ -19,7 +29,7 @@
             background-color-hover="#CCE8B0"
             border-color-active="#A5D773"
             background-color-active="#CCE8B0"
-            @click="handleCreateRoom"
+            @click="handleJoinRoom"
         />
         <CustomButton
             button-text="Отмена"
@@ -31,7 +41,7 @@
             background-color-hover="#F8A0A0"
             border-color-active="#F25757"
             background-color-active="#F8A0A0"
-            @click="handleCloseCreateRoomWindow"
+            @click="handleCloseJoinRoomWindow"
         />
       </div>
     </div>
@@ -44,25 +54,40 @@ import CustomWindow from "@/components/base/CustomWindow.vue";
 import CustomButton from "@/components/base/CustomButton.vue";
 import {ref} from "vue";
 import {useRoomsStore} from "@/stores/useRoomsStore";
+import pasteIcon from "@/assets/icons/60/paste.svg";
 
 const roomStore = useRoomsStore();
 
-const roomName = ref<string>("")
+const shareCode = ref<string>("")
 
 const emit = defineEmits([
-  'close-window-click'
+  'close-window-click',
+  'room-updated'
 ]);
 
-async function handleCreateRoom() {
+async function handlePasteShareCode() {
   try {
-    await roomStore.create(roomName.value)
-    handleCloseCreateRoomWindow()
+    shareCode.value = await navigator.clipboard.readText();
+  } catch (error) {
+    console.error('Ошибка при вставке из буфера обмена:', error);
+  }
+}
+
+async function handleJoinRoom() {
+  try {
+    await roomStore.join(shareCode.value)
+    handleUpdated()
+    handleCloseJoinRoomWindow()
   } catch (error) {
     console.log(error)
   }
 }
 
-function handleCloseCreateRoomWindow() {
+function handleUpdated() {
+  emit('room-updated');
+}
+
+function handleCloseJoinRoomWindow() {
   emit('close-window-click');
 }
 </script>
@@ -81,7 +106,19 @@ function handleCloseCreateRoomWindow() {
   gap: 10px;
 }
 
+.row-element {
+  height: 40px;
+}
+
+.square-row-element {
+  height: 40px;
+  width: 40px;
+}
+
 .row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
   height: 40px;
 }
 </style>

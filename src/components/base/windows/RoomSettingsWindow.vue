@@ -36,14 +36,14 @@
             :button-icon="copyIcon"
             button-padding="8px"
             :size-change-percent="2"
-            @click="handleCopyShareCore"
+            @click="handleCopyShareCode"
         />
         <CustomButton
             class="square-row-element"
             :button-icon="removeIcon"
             button-padding="8px"
             :size-change-percent="2"
-            @click="handleDeleteShareCore"
+            @click="handleDeleteShareCode"
         />
       </div>
       <div class="control-buttons row-element">
@@ -113,7 +113,7 @@ async function handleGenerateShareCode() {
 }
 
 
-async function handleCopyShareCore() {
+async function handleCopyShareCode() {
   try {
     if (navigator.clipboard && shareCode.value) {
       await navigator.clipboard.writeText(shareCode.value);
@@ -128,7 +128,7 @@ async function handleCopyShareCore() {
 }
 
 
-async function handleDeleteShareCore() {
+async function handleDeleteShareCode() {
   try {
     await shareCodeStore.delete(props.roomId);
     shareCode.value = ""

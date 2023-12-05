@@ -97,6 +97,36 @@ export const RoomService = {
             throw error
         }
     },
+    async join(shareCode: string): Promise<void> {
+        const tokenStore = useTokensStore()
+        if (tokenStore.accessToken == null) {
+            await tokenStore.refresh()
+        }
+        const accessToken = tokenStore.accessToken
+        try {
+            const response = await apiClient.post(`/music-playback/rooms/join`, {
+                shareCode: shareCode,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            return response.data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError
+                if (axiosError.response) {
+                    const data = axiosError.response.data as ErrorResponse
+                    console.error(data)
+                } else {
+                    console.error('Ошибка при подключении к комнате')
+                }
+            } else {
+                console.error('Непредвиденная ошибка')
+            }
+            throw error
+        }
+    },
     async rename(roomId: number, roomName: string): Promise<void> {
         const tokenStore = useTokensStore()
         if (tokenStore.accessToken == null) {
