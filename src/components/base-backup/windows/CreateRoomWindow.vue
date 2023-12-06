@@ -4,33 +4,33 @@
   >
     <div class="form">
       <CustomTextField
+          v-model="roomName"
           class="row"
           placeholder-text="Название комнаты"
-          v-model="roomName"
       />
       <div class="control-buttons row">
         <CustomButton
+            :size-change-percent="2"
+            background-color="#E5F4D7"
+            background-color-active="#CCE8B0"
+            background-color-hover="#CCE8B0"
+            border-color="#CCE8B0"
+            border-color-active="#A5D773"
+            border-color-hover="#A5D773"
             button-text="Создать"
             class="row"
-            :size-change-percent="2"
-            border-color="#CCE8B0"
-            background-color="#E5F4D7"
-            border-color-hover="#A5D773"
-            background-color-hover="#CCE8B0"
-            border-color-active="#A5D773"
-            background-color-active="#CCE8B0"
             @click="handleCreateRoom"
         />
         <CustomButton
+            :size-change-percent="2"
+            background-color="#FBD0D0"
+            background-color-active="#F8A0A0"
+            background-color-hover="#F8A0A0"
+            border-color="#F8A0A0"
+            border-color-active="#F25757"
+            border-color-hover="#F25757"
             button-text="Отмена"
             class="row"
-            :size-change-percent="2"
-            border-color="#F8A0A0"
-            background-color="#FBD0D0"
-            border-color-hover="#F25757"
-            background-color-hover="#F8A0A0"
-            border-color-active="#F25757"
-            background-color-active="#F8A0A0"
             @click="handleCloseCreateRoomWindow"
         />
       </div>

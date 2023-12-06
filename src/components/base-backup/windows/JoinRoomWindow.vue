@@ -6,41 +6,41 @@
 
       <div class="row">
         <CustomTextField
+            v-model="shareCode"
             class="row"
             placeholder-text="Вставьте код подключения"
-            v-model="shareCode"
         />
         <CustomButton
-            class="square-row-element"
             :button-icon="pasteIcon"
-            button-padding="8px"
             :size-change-percent="2"
+            button-padding="8px"
+            class="square-row-element"
             @click="handlePasteShareCode"
         />
       </div>
       <div class="control-buttons row">
         <CustomButton
+            :size-change-percent="2"
+            background-color="#E5F4D7"
+            background-color-active="#CCE8B0"
+            background-color-hover="#CCE8B0"
+            border-color="#CCE8B0"
+            border-color-active="#A5D773"
+            border-color-hover="#A5D773"
             button-text="Войти"
             class="row"
-            :size-change-percent="2"
-            border-color="#CCE8B0"
-            background-color="#E5F4D7"
-            border-color-hover="#A5D773"
-            background-color-hover="#CCE8B0"
-            border-color-active="#A5D773"
-            background-color-active="#CCE8B0"
             @click="handleJoinRoom"
         />
         <CustomButton
+            :size-change-percent="2"
+            background-color="#FBD0D0"
+            background-color-active="#F8A0A0"
+            background-color-hover="#F8A0A0"
+            border-color="#F8A0A0"
+            border-color-active="#F25757"
+            border-color-hover="#F25757"
             button-text="Отмена"
             class="row"
-            :size-change-percent="2"
-            border-color="#F8A0A0"
-            background-color="#FBD0D0"
-            border-color-hover="#F25757"
-            background-color-hover="#F8A0A0"
-            border-color-active="#F25757"
-            background-color-active="#F8A0A0"
             @click="handleCloseJoinRoomWindow"
         />
       </div>

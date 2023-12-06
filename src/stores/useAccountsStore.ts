@@ -13,5 +13,14 @@ export const useAccountsStore = defineStore('accounts', {
         async logout() {
             this.myAccount = null
         },
+    },
+    getters: {
+        getMyAccount: (state) => {
+            if (state.myAccount) {
+                return state.myAccount
+            } else {
+                return null
+            }
+        },
     }
 })

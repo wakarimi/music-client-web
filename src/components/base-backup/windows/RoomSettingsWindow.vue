@@ -5,58 +5,58 @@
     <div class="form">
       <div class="row">
         <CustomTextField
+            v-model="roomName"
             class="row-element"
             placeholder-text="Тут должно быть имя комнаты"
-            v-model="roomName"
         />
         <CustomButton
-            class="square-row-element"
             :button-icon="saveIcon"
-            button-padding="8px"
             :size-change-percent="2"
+            button-padding="8px"
+            class="square-row-element"
             @click="handleRename"
         />
       </div>
       <div class="row">
         <CustomTextField
-            class="row-element"
-            :is-readonly="true"
-            placeholder-text="Тут будет код комнаты"
             v-model="shareCode"
+            :is-readonly="true"
+            class="row-element"
+            placeholder-text="Тут будет код комнаты"
         />
         <CustomButton
-            class="square-row-element"
             :button-icon="generateIcon"
-            button-padding="8px"
             :size-change-percent="2"
+            button-padding="8px"
+            class="square-row-element"
             @click="handleGenerateShareCode"
         />
         <CustomButton
-            class="square-row-element"
             :button-icon="copyIcon"
-            button-padding="8px"
             :size-change-percent="2"
+            button-padding="8px"
+            class="square-row-element"
             @click="handleCopyShareCode"
         />
         <CustomButton
-            class="square-row-element"
             :button-icon="removeIcon"
-            button-padding="8px"
             :size-change-percent="2"
+            button-padding="8px"
+            class="square-row-element"
             @click="handleDeleteShareCode"
         />
       </div>
       <div class="control-buttons row-element">
         <CustomButton
+            :size-change-percent="2"
+            background-color="#D4E5F7"
+            background-color-active="#A9CCEF"
+            background-color-hover="#A9CCEF"
+            border-color="#A9CCEF"
+            border-color-active="#69A6E3"
+            border-color-hover="#69A6E3"
             button-text="Закрыть"
             class="row-element"
-            :size-change-percent="2"
-            border-color="#A9CCEF"
-            background-color="#D4E5F7"
-            border-color-hover="#69A6E3"
-            background-color-hover="#A9CCEF"
-            border-color-active="#69A6E3"
-            background-color-active="#A9CCEF"
             @click="handleClose"
         />
       </div>

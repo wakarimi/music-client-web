@@ -59,10 +59,10 @@ const props = defineProps({
     type: String,
     default: '#25232344',
   },
-  
+
   sizeChangePercent: {
     type: Number,
-    default: 1,
+    default: 0,
   },
 })
 
@@ -124,9 +124,6 @@ function handleClick(event: MouseEvent) {
 
 <style scoped>
 .base-interactive {
-  width: 100%;
-  height: 100%;
-
   cursor: pointer;
   outline: none;
 

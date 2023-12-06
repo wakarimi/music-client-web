@@ -19,17 +19,17 @@
 </template>
 
 <script lang="ts" setup>
-import CategoryPanel from "@/components/panels/CategoryPanel.vue";
+import CategoryPanel from "@/components/panels/categories/CategoryPanel.vue";
 import PlaybackPanel from "@/components/panels/current-state/CurrentStatePanel.vue";
 import {defineComponent, ref} from "vue";
-import SongPanel from "@/components/panels/songs/SongsPanel.vue";
-import NowPlayingPanel from "@/components/panels/NowPlayingPanel.vue";
-import LastSongsPanel from "@/components/panels/LastSongsPanel.vue";
-import FilesPanel from "@/components/panels/files/FilesPanel.vue";
-import PlaylistsPanel from "@/components/panels/PlaylistsPanel.vue";
-import AlbumsPanel from "@/components/panels/albums/AlbumsPanel.vue";
-import GenresPanel from "@/components/panels/genres/GenresPanel.vue";
-import ArtistsPanel from "@/components/panels/artists/ArtistsPanel.vue";
+import SongPanel from "@/components/panels/static/songs/SongsPanel.vue";
+import NowPlayingPanel from "@/components/panels/static/NowPlayingPanel.vue";
+import LastSongsPanel from "@/components/panels/static/LastSongsPanel.vue";
+import FilesPanel from "@/components/panels/static/files/FilesPanel.vue";
+import PlaylistsPanel from "@/components/panels/static/PlaylistsPanel.vue";
+import AlbumsPanel from "@/components/panels/static/albums/AlbumsPanel.vue";
+import GenresPanel from "@/components/panels/static/genres/GenresPanel.vue";
+import ArtistsPanel from "@/components/panels/static/artists/ArtistsPanel.vue";
 
 type PanelComponents = {
   [key: string]: ReturnType<typeof defineComponent>;
@@ -114,16 +114,15 @@ const handleEventPlay = (songIds: number[]) => {
 }
 
 .column-tabs {
-  min-width: 200px;
+  width: 20%;
 }
 
 .column-content {
-  width: 80%;
+  width: 60%;
 }
 
 .column-custom {
-  width: 25%;
-  min-width: 280px;
+  width: 20%;
 }
 
 .grid button {

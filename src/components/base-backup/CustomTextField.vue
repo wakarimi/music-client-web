@@ -2,10 +2,10 @@
   <div class="custom-text-field">
     <input
         :placeholder="placeholderText"
+        :readonly="isReadonly"
         :style="[{fontSize: textSize}]"
         :type="type"
         :value="modelValue"
-        :readonly="isReadonly"
         class="input"
         @input="handleInput($event)"
     >
