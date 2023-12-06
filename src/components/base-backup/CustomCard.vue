@@ -50,7 +50,7 @@ import {computed, nextTick, onMounted, onUnmounted, ref} from "vue";
 import defaultCardImage from "@/assets/default/cover.svg";
 import defaultDirImage from "@/assets/default/directory.svg";
 import {useCoversStore} from "@/stores/useCoversStore";
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import playIcon from "@/assets/icons/playback-control/play.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
 import {useSongsStore} from "@/stores/useSongsStore";

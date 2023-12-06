@@ -49,7 +49,7 @@
 <script lang="ts" setup>
 import {useSongsStore} from "@/stores/useSongsStore";
 import defaultCover from "@/assets/default/cover.svg"
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import infoIcon from "@/assets/icons/playback-control/info.svg"
 import addIcon from "@/assets/icons/playback-control/add.svg"
 import playIcon from "@/assets/icons/playback-control/play.svg"

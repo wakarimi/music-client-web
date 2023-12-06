@@ -39,9 +39,9 @@
 </template>
 
 <script lang="ts" setup>
-import CustomTextField from "@/components/base/CustomTextField.vue";
-import CustomWindow from "@/components/base/CustomWindow.vue";
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomTextField from "@/components/base-backup/CustomTextField.vue";
+import CustomWindow from "@/components/base-backup/CustomWindow.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import {ref} from "vue";
 import {useRoomsStore} from "@/stores/useRoomsStore";
 

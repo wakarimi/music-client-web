@@ -36,6 +36,9 @@
           @click="handleOpenCreateWindow"
       />
     </div>
+    <BaseInteractive
+        style="height: 50px"
+    />
     <div class="rooms-content">
       <div class="sub-menu">
         <span>
@@ -50,6 +53,7 @@
                 :room-id="room.id"
                 :room-name="room.name"
                 class="room-item"
+                @joinClick="handleShowRoomContent(room.id)"
                 @settingsClick="handleOpenRoomSettings"
                 @leaveClick="handleLeaveRoom"
             />
@@ -60,9 +64,17 @@
         <span>
           Участники комнаты
         </span>
-        <div class="room-list-wrapper">
-          <div class="room-list">
-
+        <div class="roommate-list-wrapper">
+          <div class="roommate-list">
+            <CustomRoommateRow
+                v-for="account in []"
+                :key="account.id"
+                :is-owner="currentUserId === account.id"
+                :is-online="true"
+                :username="account.username"
+                class="roommate-item"
+                @deleteClick="handleDeleteAccountFromCurrentRoomTab(account.id)"
+            />
           </div>
         </div>
       </div>
@@ -71,28 +83,41 @@
 </template>
 
 <script lang="ts" setup>
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import joinIcon from "@/assets/icons/room-control/join.svg";
 import createIcon from "@/assets/icons/room-control/create.svg";
-import CustomRoomRow from "@/components/base/CustomRoomRow.vue";
+import CustomRoomRow from "@/components/base-backup/CustomRoomRow.vue";
 import {nextTick, onMounted, ref} from "vue";
 import {useRoomsStore} from "@/stores/useRoomsStore";
 import type {Room} from "@/services/RoomService";
 import {useAccountsStore} from "@/stores/useAccountsStore";
-import CreateRoomWindow from "@/components/base/windows/CreateRoomWindow.vue";
-import RoomSettingsWindow from "@/components/base/windows/RoomSettingsWindow.vue";
-import JoinRoomWindow from "@/components/base/windows/JoinRoomWindow.vue";
+import CreateRoomWindow from "@/components/base-backup/windows/CreateRoomWindow.vue";
+import RoomSettingsWindow from "@/components/base-backup/windows/RoomSettingsWindow.vue";
+import JoinRoomWindow from "@/components/base-backup/windows/JoinRoomWindow.vue";
+import CustomRoommateRow from "@/components/base-backup/CustomRoommateRow.vue";
+import BaseInteractive from "@/components/base/BaseInteractive.vue";
 
 const roomStore = useRoomsStore();
 const accountStore = useAccountsStore();
 
 const currentUserId = ref<number | null>(null);
+const currentRoomTabId = ref<number | null>(null)
 const myRooms = ref<Room[]>([]);
 
 const settingsRoomId = ref<number | null>(null);
 const isJoinRoomWindowVisible = ref<boolean>(false);
 const isCreateRoomWindowVisible = ref<boolean>(false);
 const isRoomSettingsWindowVisible = ref<boolean>(false);
+
+function handleShowRoomContent(roomId: number) {
+  currentRoomTabId.value = roomId;
+}
+
+function handleDeleteAccountFromCurrentRoomTab(accountId: number) {
+  if (currentRoomTabId.value) {
+    roomStore.deleteAccountFromRoom(accountId, currentRoomTabId.value)
+  }
+}
 
 function handleOpenCreateWindow() {
   isCreateRoomWindowVisible.value = true;
@@ -109,7 +134,7 @@ function handleRoomUpdated() {
 
 async function handleLeaveRoom(roomId: number) {
   await roomStore.leave(roomId);
-  fetchRooms();
+  await fetchRooms();
 }
 
 function handleOpenRoomSettings(roomId: number) {
@@ -142,7 +167,7 @@ function handleCloseJoinWindow() {
 onMounted(async () => {
   await nextTick();
 
-  fetchRooms()
+  await fetchRooms()
 
   if (!accountStore.myAccount) {
     await accountStore.fetchMe()
@@ -197,6 +222,22 @@ onMounted(async () => {
 }
 
 .room-item {
+  height: 40px;
+}
+
+.roommate-list-wrapper {
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.roommate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 10px;
+}
+
+.roommate-item {
   height: 40px;
 }
 </style>

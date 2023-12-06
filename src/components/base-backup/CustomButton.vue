@@ -102,7 +102,6 @@ const IncreasedPadding = computed(() => {
   return `${paddingValue}px`;
 });
 
-
 const isHovering = ref(false)
 
 const buttonStyle = ref({

@@ -38,8 +38,8 @@
 </template>
 
 <script lang="ts" setup>
-import CustomHeader from "@/components/base/CustomHeader.vue";
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomHeader from "@/components/base-backup/CustomHeader.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import {defineComponent, nextTick, onMounted, ref} from "vue";
 import QueueTab from "@/components/panels/current-state/queue-tab/QueueTab.vue";
 import RoomsTab from "@/components/panels/current-state/rooms-tab/RoomsTab.vue";

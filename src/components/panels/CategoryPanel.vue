@@ -22,7 +22,7 @@ import categoryArtists from "@/assets/icons/category/category-artists.svg"
 import categoryGenres from "@/assets/icons/category/category-genres.svg"
 import categorySongs from "@/assets/icons/category/category-songs.svg"
 import categoryDirectories from "@/assets/icons/category/category-directories.svg"
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 
 const controlButtons = [
   // {text: "Текущее", type: "controlNow", icon: categoryNow},

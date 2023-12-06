@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import {useAccountsStore} from '@/stores/useAccountsStore'
 import {useTokensStore} from '@/stores/useTokensStore'
 import {useRouter} from 'vue-router'

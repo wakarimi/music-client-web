@@ -93,15 +93,15 @@
 <script lang="ts" setup>
 import {useAlbumsStore} from "@/stores/useAlbumsStore";
 import {computed, nextTick, onMounted, ref, toRaw} from "vue";
-import CustomCard from "@/components/base/CustomCard.vue";
-import CustomHeader from "@/components/base/CustomHeader.vue";
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomCard from "@/components/base-backup/CustomCard.vue";
+import CustomHeader from "@/components/base-backup/CustomHeader.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import albumCategoryIcon from "@/assets/icons/category/category-albums.svg"
 import defaultCover from "@/assets/default/cover.svg"
 import {useCoversStore} from "@/stores/useCoversStore";
-import CustomSongRow from "@/components/base/CustomSongRow.vue";
+import CustomSongRow from "@/components/base-backup/CustomSongRow.vue";
 import {useSongsStore} from "@/stores/useSongsStore";
-import CustomTextField from "@/components/base/CustomTextField.vue";
+import CustomTextField from "@/components/base-backup/CustomTextField.vue";
 import addIcon from "@/assets/icons/playback-control/add.svg";
 import playIcon from "@/assets/icons/playback-control/play.svg";
 

@@ -81,12 +81,12 @@
 import {useDirsStore} from '@/stores/useDirsStore'
 import {computed, onMounted, ref, toRaw} from 'vue'
 import type {AudioFile, Directory} from '@/services/DirService'
-import CustomCard from "@/components/base/CustomCard.vue";
-import CustomHeader from "@/components/base/CustomHeader.vue";
+import CustomCard from "@/components/base-backup/CustomCard.vue";
+import CustomHeader from "@/components/base-backup/CustomHeader.vue";
 import addIcon from "@/assets/icons/playback-control/add.svg";
 import playIcon from "@/assets/icons/playback-control/play.svg";
-import CustomButton from "@/components/base/CustomButton.vue";
-import CustomTextField from "@/components/base/CustomTextField.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
+import CustomTextField from "@/components/base-backup/CustomTextField.vue";
 import {useAudioFilesStore} from "@/stores/useAudioFilesStore";
 import {useSongsStore} from "@/stores/useSongsStore";
 

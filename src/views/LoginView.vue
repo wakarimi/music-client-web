@@ -36,9 +36,9 @@
 
 <script lang="ts" setup>
 import {ref} from 'vue'
-import CustomForm from '@/components/base/CustomForm.vue'
-import CustomTextField from '@/components/base/CustomTextField.vue'
-import CustomButton from '@/components/base/CustomButton.vue'
+import CustomForm from '@/components/base-backup/CustomForm.vue'
+import CustomTextField from '@/components/base-backup/CustomTextField.vue'
+import CustomButton from '@/components/base-backup/CustomButton.vue'
 import {useTokensStore} from '@/stores/useTokensStore'
 import {useRouter} from 'vue-router'
 

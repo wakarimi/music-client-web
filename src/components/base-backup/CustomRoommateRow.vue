@@ -11,29 +11,22 @@
             alt="room-cover"
             class="room-cover">
         <span class="room-description">
-          {{ roomName }}
+          {{ username }}
         </span>
       </div>
       <div class="room-row-right">
         <div class="control-button-wrapper">
           <CustomButton
               v-if="isOwner"
-              :button-icon="settingsIcon"
-              :size-change-percent="2"
-              button-padding="5px"
-              class="control-button right-element"
-              @click="handleSettingsClick($event, roomId)"
-          />
-          <CustomButton
               :button-icon="leaveIcon"
               :size-change-percent="2"
               button-padding="4px"
               class="control-button right-element"
-              @click="handleLeaveClick($event, roomId)"
+              @click="handleDeleteClick($event)"
           />
         </div>
         <span class="right-element">
-          {{ roomOnline }} онлайн
+<!--          {{ online ? "Онлайн" : "Оффлайн" }} онлайн-->
         </span>
       </div>
     </button>
@@ -41,24 +34,19 @@
 </template>
 
 <script lang="ts" setup>
-import CustomButton from "@/components/base/CustomButton.vue";
-import settingsIcon from "@/assets/icons/room-control/settings.svg"
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import leaveIcon from "@/assets/icons/room-control/leave.svg"
 import ownerIcon from "@/assets/icons/room-control/owner.svg"
 import memberIcon from "@/assets/icons/room-control/member.svg"
 
 const props = defineProps({
-  roomId: {
-    type: Number,
-    required: true,
-  },
-  roomName: {
+  username: {
     type: String,
     required: true,
   },
-  roomOnline: {
-    type: Number,
-    default: 0,
+  isOnline: {
+    type: Boolean,
+    required: true,
   },
   isOwner: {
     type: Boolean,
@@ -75,18 +63,12 @@ function getIcon(): string {
 }
 
 const emit = defineEmits([
-  'settings-click',
-  'leave-click',
+  'delete-click',
 ]);
 
-function handleSettingsClick(event: MouseEvent, roomId: number) {
+function handleDeleteClick(event: MouseEvent) {
   event.stopPropagation()
-  emit('settings-click', roomId);
-}
-
-function handleLeaveClick(event: MouseEvent, roomId: number) {
-  event.stopPropagation()
-  emit('leave-click', roomId);
+  emit('delete-click');
 }
 </script>
 

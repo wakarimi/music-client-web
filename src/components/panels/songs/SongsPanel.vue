@@ -57,12 +57,12 @@
 
 <script lang="ts" setup>
 import {computed, nextTick, onMounted, ref, toRaw} from "vue";
-import CustomHeader from "@/components/base/CustomHeader.vue";
-import CustomButton from "@/components/base/CustomButton.vue";
+import CustomHeader from "@/components/base-backup/CustomHeader.vue";
+import CustomButton from "@/components/base-backup/CustomButton.vue";
 import songCategoryIcon from "@/assets/icons/category/category-songs.svg"
-import CustomSongRow from "@/components/base/CustomSongRow.vue";
+import CustomSongRow from "@/components/base-backup/CustomSongRow.vue";
 import {useSongsStore} from "@/stores/useSongsStore";
-import CustomTextField from "@/components/base/CustomTextField.vue";
+import CustomTextField from "@/components/base-backup/CustomTextField.vue";
 import addIcon from "@/assets/icons/playback-control/add.svg";
 import playIcon from "@/assets/icons/playback-control/play.svg";
 
